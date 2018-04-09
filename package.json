@@ -1,5 +1,5 @@
 {
-  "name": "nanogen",
+  "name": "dmatoso.com",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -14,12 +14,12 @@
   "dependencies": {},
   "devDependencies": {
     "cross-env": "^5.1.4",
-    "ejs": "^2.5.7",
+    "ejs": "^2.5.8",
     "front-matter": "^2.3.0",
     "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
-    "marked": "^0.3.17",
+    "marked": "^0.3.19",
     "prettier": "^1.11.1",
-    "serve": "^6.5.3"
+    "serve": "^6.5.4"
   }
 }
