@@ -1,6 +1,5 @@
 ---
 title: Another Page
-layout: minimal
 ---
 ## Welcome to another page
 
