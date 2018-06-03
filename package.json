@@ -5,14 +5,17 @@
   "main": "index.js",
   "scripts": {
     "start": "nanogen -w",
-    "build": "nanogen"
+    "build:site": "nanogen",
+    "build:css": "node-sass src/sass -o src/assets/css",
+    "build": "run-s build:css build:site"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "cross-env": "^5.1.5",
     "nanogen": "^0.2.1",
+    "node-sass": "^4.9.0",
+    "npm-run-all": "^4.1.3",
     "prettier": "^1.12.1"
   }
 }
