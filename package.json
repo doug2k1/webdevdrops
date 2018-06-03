@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nanogen -w",
+    "start:site": "nanogen -w",
+    "start:css": "npm run build:css -- -w",
+    "start": "run-p start:*",
     "build:site": "nanogen",
-    "build:css": "node-sass src/sass -o src/assets/css",
+    "build:css":
+      "node-sass src/sass -o src/assets/css --output-style compressed",
     "build": "run-s build:css build:site"
   },
   "keywords": [],
