@@ -7,6 +7,12 @@ class Layout extends React.Component {
   render() {
     const { location, title, children } = this.props
     const rootPath = `${__PATH_PREFIX__}/`
+    const isRootPath = location.pathname === rootPath
+    const pageNumber = location.pathname
+      .split('/')
+      .filter(Boolean)
+      .pop()
+    const isPaginatedPath = pageNumber && Boolean(pageNumber.match(/^[0-9]+$/))
     let header
 
     if (location.pathname === rootPath) {
