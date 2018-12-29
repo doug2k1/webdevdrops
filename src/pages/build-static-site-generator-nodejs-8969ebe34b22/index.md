@@ -2,7 +2,7 @@
 title: "Build a static site generator in 40 lines with Node.js"
 date: "2017-09-14T21:34:36.069Z"
 ---
-> [Leia em Português](./construindo-gerador-site-estatico-40-linhas-nodejs-f1902dd41adb)
+> [Leia em Português](../construindo-gerador-site-estatico-40-linhas-nodejs-f1902dd41adb)
 
 There are excellent **static site generators** out there, in different languages, with lots of features, but actually building your own is easier than you might think, and we learn some things in the process.
 
@@ -27,6 +27,7 @@ The requirements this generator must satisfy are:
 
 ## Folder structure
 
+```
 public/  
 src/  
   assets/  
@@ -35,6 +36,7 @@ src/
   partials/  
   layout.ejs  
 site.config.js
+```
 
 *   **public:** where the generated site will be.
 *   **src:** the source of the site contents.  
@@ -50,10 +52,57 @@ site.config.js
 
 The generator code is inside a single file, _scripts/build.js_, that we can run with `npm run build`, every time we want to rebuild the site, by adding the following script to our _package.json_ `scripts` block:
 
+```json
 "build": "node ./scripts/build"
+```
 
 This is the complete generator:   
 (Below I explain each part of the code.)
+
+```js
+
+const fse = require('fs-extra')
+const path = require('path')
+const { promisify } = require('util')
+const ejsRenderFile = promisify(require('ejs').renderFile)
+const globP = promisify(require('glob'))
+const config = require('../site.config')
+
+const srcPath = './src'
+const distPath = './public'
+
+// clear destination folder
+fse.emptyDirSync(distPath)
+
+// copy assets folder
+fse.copy(`${srcPath}/assets`, `${distPath}/assets`)
+
+// read page templates
+globP('**/*.ejs', { cwd: `${srcPath}/pages` })
+  .then((files) => {
+    files.forEach((file) => {
+      const fileData = path.parse(file)
+      const destPath = path.join(distPath, fileData.dir)
+
+      // create destination directory
+      fse.mkdirs(destPath)
+        .then(() => {
+          // render page
+          return ejsRenderFile(`${srcPath}/pages/${file}`, Object.assign({}, config))
+        })
+        .then((pageContents) => {
+          // render layout with page contents
+          return ejsRenderFile(`${srcPath}/layout.ejs`, Object.assign({}, config, { body: pageContents }))
+        })
+        .then((layoutContent) => {
+          // save the html file
+          fse.writeFile(`${destPath}/${fileData.name}.html`, layoutContent)
+        })
+        .catch((err) => { console.error(err) })
+    })
+  })
+  .catch((err) => { console.error(err) })
+```
 
 ### Dependencies
 
@@ -70,82 +119,104 @@ For this basic feature set we only need three dependencies:
 
 One thing to note in our code is that we use Node’s [_util.promisify_](https://nodejs.org/api/util.html#util_util_promisify_original) function to convert all callback-based functions to promise-based. It makes our code shorter, cleaner and easier to read.
 
-**const** { promisify } = **require**('util')  
-**const** ejsRenderFile = promisify(**require**('ejs').renderFile)  
-**const** globP = promisify(**require**('glob'))
+```js
+const { promisify } = require('util')  
+const ejsRenderFile = promisify(require('ejs').renderFile)  
+const globP = promisify(require('glob'))
+```
 
 ### Load the config
 
 At the top we load the site config file, to later inject it in the templates rendering.
 
-**const** config = **require**('../site.config')
+```js
+const config = require('../site.config')
+```
 
 The site config file itself load the additional JSON data, for example:
 
-**const** projects = **require**('./src/data/projects')
+```js
+const projects = require('./src/data/projects')
 
-**module.exports** = {  
+module.exports = {  
   site: {  
     title: 'NanoGen',  
     description: 'Micro Static Site Generator in Node.js',  
     projects  
   }  
 }
+```
 
 ### Empty the public folder
 
 We use _emptyDirSync_ from **fs-extra** to empty the public folder.
 
+```js
 fse.emptyDirSync(distPath)
+```
 
 ### Copy assets
 
 Here we use the _copy_ method from **fs-extra**, that recursively copy a folder with contents.
 
-fse.copy(\`${srcPath}/assets\`, \`${distPath}/assets\`)
+```js
+fse.copy(`${srcPath}/assets`, `${distPath}/assets`)
+```
 
 ### Compile the pages templates
 
 First we use **glob** (our _promisified_ version) to recursively read the _src/pages_ folder looking for .ejs files. It will return an array with the paths of found files.
 
-globP('\*\*/\*.ejs', { cwd: \`${srcPath}/pages\` })  
-  .**then**((files) => {
+```js
+globP('**/*.ejs', { cwd: `${srcPath}/pages` })  
+  .then((files) => {
+```
 
 For each template file found we use the Node’s [**path**](https://nodejs.org/api/path.html).parse function to separate the components of the file path (like dir, name and extension). Then we create a corresponding folder in the public directory with **fs-extra** _mkdirs_.
 
-files.**forEach**((file) => {  
-  **const** fileData = path.parse(file)  
-  **const** destPath = path.join(distPath, fileData.dir)
+```js
+files.forEach((file) => {  
+  const fileData = path.parse(file)  
+  const destPath = path.join(distPath, fileData.dir)
 
- _// create destination directory_  
+ // create destination directory  
   fse.mkdirs(destPath)
+```
 
 We then use **EJS** to compile the file, passing the config data. Since we are using a _promisified_ version of _ejs.renderFile_, we can return the call and handle the result in the next promise chain.
 
-.**then**(() => {  
-  _// render page_  
-  **return** ejsRenderFile(\`${srcPath}/pages/${file}\`, **Object**.assign({}, config))  
+```js
+.then(() => {  
+  // render page  
+  return ejsRenderFile(`${srcPath}/pages/${file}`, Object.assign({}, config))  
 })
+```
 
 In the next _then_ block we have the compiled page template. Now we compile the layout file, passing the page contents as a `body` attribute.
 
-.**then**((pageContents) => {  
-  _// render layout with page contents_  
-  **return** ejsRenderFile(\`${srcPath}/layout.ejs\`, **Object**.assign({}, config, { body: pageContents }))  
+```js
+.then((pageContents) => {  
+  // render layout with page contents  
+  return ejsRenderFile(`${srcPath}/layout.ejs`, Object.assign({}, config, { body: pageContents }))  
 })
+```
 
 Finally we take the resulting compiled string (HTML of layout + page contents) and save to an HTML file, with the same path and name of the template.
 
-.**then**((layoutContent) => {  
-  _// save the html file_  
-  fse.writeFile(\`${destPath}/${fileData.name}.html\`, layoutContent)  
+```js
+.then((layoutContent) => {  
+  // save the html file  
+  fse.writeFile(`${destPath}/${fileData.name}.html`, layoutContent)  
 })
+```
 
 ## Development server
 
 To make it easier to view the results, we add a simple development server, like the [serve](https://www.npmjs.com/package/serve) module and the the following to our _package.json_ `scripts` block:
 
+```json
 "serve": "serve ./public"
+```
 
 Then run `npm run serve` and go to [http://localhost:5000](http://localhost:5000)
 
@@ -153,16 +224,18 @@ Then run `npm run serve` and go to [http://localhost:5000](http://localhost:5000
 
 The complete example at this stage can be found here: [https://github.com/doug2k1/nanogen/tree/legacy](https://github.com/doug2k1/nanogen/tree/legacy)
 
-**_Edit:_** _after some time I decided to turn the project into a CLI module, to make it easier to use, which is in the_ `_master_` _branch of the repository. The original code created at the end of this post is in the_ `_legacy_` _branch (link above)._
+**_Edit:_** _after some time I decided to turn the project into a CLI module, to make it easier to use, which is in the_ `master` _branch of the repository. The original code created at the end of this post is in the_ `legacy` _branch (link above)._
 
 ## Bonus Feature 1: Markdown and front matter
 
 Most static site generators allow writing content in [Markdown](https://en.wikipedia.org/wiki/Markdown) format. Also, most of them allow adding some metadata on top of each page (aka **front matter**) in the [YAML](http://yaml.org/) format, like this:
 
-\---  
+```yml
+---  
 title: Hello World  
 date: 2013/7/13 20:46:25  
-\---
+---
+```
 
 With a few changes we could add the same features to our micro generator.
 
@@ -179,52 +252,64 @@ We must add two more dependencies:
 
 We change the **glob** pattern to include .md files. We leave .ejs, to allow for more complex pages that could not be possible with Markdown, and we also include .html, in case we want to include some pure HTML pages.
 
-globP('\*\*/\*.@(md|ejs|html)', { cwd: \`${srcPath}/pages\` })
+```js
+globP('**/*.@(md|ejs|html)', { cwd: `${srcPath}/pages` })
+```
 
 ### Extract front matter
 
 Then, for each file path we have to actually load the file contents, so **front-matter** can extract the meta data at the top.
 
-.**then**(() => {  
-  _// read page file_  
-  **return** fse.readFile(\`${srcPath}/pages/${file}\`, 'utf-8')  
+```js
+.then(() => {  
+  // read page file  
+  return fse.readFile(`${srcPath}/pages/${file}`, 'utf-8')  
 })
+```
 
 We pass the loaded contents to **front-matter**. It will return and object with the meta data in the `attributes` property and the rest of the content in the `body` property. We then augment the site config with this data.
 
-.**then**((data) => {  
-  _// extract front matter_  
-  **const** pageData = frontMatter(data)  
-  **const** templateConfig = **Object**.assign({}, config, { page: pageData.attributes })
+```js
+.then((data) => {  
+  // extract front matter  
+  const pageData = frontMatter(data)  
+  const templateConfig = Object.assign({}, config, { page: pageData.attributes })
+```
 
 ### Compile files to HTML
 
 Now we compile the page content to HTML depending on the file extension. If is .md, we send to **marked**, if .ejs we continue to use **EJS**, else (is .html) there is no need to compile.
 
-**let** pageContent  
+```js
+let pageContent  
 
-**switch** (fileData.ext) {  
-  **case** '.md':  
+switch (fileData.ext) {  
+  case '.md':  
     pageContent = marked(pageData.body)  
-    **break**  
-  **case** '.ejs':  
+    break  
+  case '.ejs':  
     pageContent = ejs.render(pageData.body, templateConfig)  
-    **break**  
-  **default**:  
+    break  
+  default:  
     pageContent = pageData.body  
 }
+```
 
 Finally, we render the layout, as before, sending the compiled page contents as `body`.
 
 One nice thing with front matter is that now we can set individual titles for each page, like this:
 
-\---  
+```yml
+---  
 title: Another Page  
-\---
+---
+```
 
 And have the layout dynamically render them like this:
 
-**<title>**<%= page.title ? \`${page.title} | \` : '' %><%= site.title %>**</title>**
+```html
+<title><%= page.title ? `${page.title} | ` : '' %><%= site.title %></title>
+```
 
 Each page will have a unique `<title>` tag.
 
@@ -232,25 +317,31 @@ Each page will have a unique `<title>` tag.
 
 Another interesting feature is the ability to use a different layout in specific pages. Since our pages now can have front matter, we may use it to set a different layout than the default:
 
-\---  
+```yml
+---  
 layout: minimal  
-\---
+---
+```
 
 ### Separate the layout files
 
 We need to have separate layout files. I’ve put them in the _src/layouts_ folder:
 
+```
 src/layouts/  
   default.ejs  
   mininal.ejs
+```
 
 ### Render the correct layout
 
 If the front matter `layout` attribute is present, we render the layout file with the same name in the _layouts_ folder. If it is not set, we render the _default_.
 
-**const** layout = pageData.attributes.layout **||** 'default'
+```js
+const layout = pageData.attributes.layout || 'default'
 
-**return** ejsRenderFile(\`${srcPath}/layouts/${layout}.ejs\`, Object.assign({}, templateConfig, { body: pageContent }))
+return ejsRenderFile(`${srcPath}/layouts/${layout}.ejs`, Object.assign({}, templateConfig, { body: pageContent }))
+```
 
 ### Result
 
@@ -276,4 +367,4 @@ Feedback? Suggestions? Feel free to comment or contact me!
 ## Course Recommendation
 
 [**The Complete Node.js Developer Course (2nd Edition)**  
-_Learn Node.js by building real-world applications with Node, Express, MongoDB, Mocha, and more!_click.linksynergy.com](https://click.linksynergy.com/deeplink?id=2tWLz9iuLxQ&mid=39197&murl=https%3A%2F%2Fwww.udemy.com%2Fthe-complete-nodejs-developer-course-2%2F "https://click.linksynergy.com/deeplink?id=2tWLz9iuLxQ&mid=39197&murl=https%3A%2F%2Fwww.udemy.com%2Fthe-complete-nodejs-developer-course-2%2F")[](https://click.linksynergy.com/deeplink?id=2tWLz9iuLxQ&mid=39197&murl=https%3A%2F%2Fwww.udemy.com%2Fthe-complete-nodejs-developer-course-2%2F)
+_Learn Node.js by building real-world applications with Node, Express, MongoDB, Mocha, and more!](https://click.linksynergy.com/deeplink?id=2tWLz9iuLxQ&mid=39197&murl=https%3A%2F%2Fwww.udemy.com%2Fthe-complete-nodejs-developer-course-2%2F)

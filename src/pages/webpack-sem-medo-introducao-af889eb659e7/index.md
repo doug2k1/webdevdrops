@@ -15,8 +15,8 @@ Esta série tem o objetivo de apresentar as funcionalidades do [**webpack**](htt
 Mapa da série:
 
 *   **1: Introdução** (você está aqui)
-*   [2: Loaders](./webpack-sem-medo-parte-2-loaders-1d1239df3945)
-*   [3: Plugins e Dev Server](./webpack-sem-medo-parte-3-plugins-e-dev-server-86b6e003657c)
+*   [2: Loaders](../webpack-sem-medo-parte-2-loaders-1d1239df3945)
+*   [3: Plugins e Dev Server](../webpack-sem-medo-parte-3-plugins-e-dev-server-86b6e003657c)
 
 ## Mas o que é webpack?
 
@@ -46,14 +46,19 @@ Partindo de um arquivo inicial (entrada), ele verifica quais outros arquivos sã
 
 Para indicar que um arquivo JS depende de outro, ele precisa importá-lo. Ex.:
 
-**import** React **from** 'react'**import** utils **from** './utils'
+```js
+import React from 'react'
+import utils from './utils'
+```
 
 No exemplo acima ele importa uma dependência externa (**React**) e uma interna (o caminho começa com `./`). Note também que não é necessário informar a extensão do arquivo se for JS.
 
 O arquivo que vai ser importado, em contrapartida, precisa indicar o que ele exporta. Ex.:
 
-**const** utils = { ... }  
-**export default** utils
+```js
+const utils = { ... }  
+export default utils
+```
 
 Cada arquivo desses, que exporta algum dado ou funcionalidade, é chamado de **módulo**.
 
@@ -66,10 +71,12 @@ Dividir sua aplicação em módulos é uma boa prática, pelos seguintes benefí
 
 A forma de fazer _import/export_ mostrada acima usa o padrão **ES Modules**, que é o adotado a partir do ES6 nos navegadores. O Node.js atualmente usa o padrão **CommonJS**, que muda um pouco a sintaxe:
 
-**const** express = **require**('express')  
-**const** utils = **require**('./utils')
+```js
+const express = require('express')  
+const utils = require('./utils')
 
-**module.exports** = ...
+module.exports = ...
+```
 
 Ambas as sintaxes são suportadas pelo webpack, mas aqui vamos usar **ES Modules**, que é o padrão no navegador, e está caminhando para se tornar o padrão no Node.js (veja referência \[8\]).
 
@@ -95,3 +102,247 @@ Veremos que toda configuração de webpack possui pelo menos um _entry point_. P
 ### Output (saída)
 
 Uma vez montado o grafo de dependências, o webpack precisa saber onde ele vai salvar o arquivo unificado, ou vários arquivos, dependendo da configuração.
+
+---
+
+## Exemplo 1: Minificação de JS
+
+Vamos ver na prática o exemplo mais básico de um setup de webpack, com apenas uma entrada e uma saída. Vamos pegar uma aplicação divida em arquivos JS (módulos) e gerar um arquivo único.
+
+Este exemplo completo pode ser encontrado aqui: [https://github.com/doug2k1/webpack-scenarios/tree/master/1-basic](https://github.com/doug2k1/webpack-scenarios/tree/master/1-basic)
+
+### Pré-requisitos
+
+*   Possuir [Node.js](https://nodejs.org) instalado (de preferência uma versão recente)
+*   Conhecimento básico de terminal/linha de comando (saber navegar entre pastas e executar comandos simples)
+
+### Instalação
+
+Inicializar o arquivo _package.json_ para gerenciar dependências, caso sua aplicação ainda não possua. Rode no terminal, na raiz da aplicação:
+
+```bash
+npm init -y
+```
+
+Instalar o webpack e o webpack-cli (que é o utilitário de linha de comando do webpack):
+
+```bash
+npm i -D webpack webpack-cli
+```
+
+Usamos `-D` para salvar o webpack nas dependências de desenvolvimento (_devDependencies_), já que ele só vai ser usado durante o desenvolvimento. Serão criadas as entradas abaixo no _package.json_ (a versão pode ser diferente, dependendo de qual versão é a mais recente quando você executar o comando):
+
+```json
+"devDependencies": {  
+  "webpack": "^4.20.2",  
+  "webpack-cli": "^3.1.2"  
+}
+```
+
+A estrutura de pastas vai ficar assim:
+
+```
+|-- node_modules  
+|-- package.json  
+|-- package-lock.json
+```
+
+Explicando: *node_modules* é a pasta que guarda todos os arquivos baixados das dependências instaladas, _package.json_ é onde listamos as dependências e versões (entre outras informações da aplicação) e _package-lock.json_ é um arquivo que “trava” as versões das dependências. Quando outros desenvolvedores executarem `npm i` para baixar as dependências, este arquivo garante que serão instaladas as mesmas versões para todo mundo.
+
+### Zero Config
+
+Vou mostrar daqui a pouco como configurar o webpack usando um arquivo de configuração, mas para este exemplo simples você nem vai precisar deste arquivo.
+
+### Arquivos da aplicação
+
+Por enquanto o projeto ainda não tem nenhum arquivo da aplicação em si. Uma prática comum é colocar o código-fonte da aplicação em uma pasta `src`. Primeiro vamos criar um `index.js` nesta pasta como nosso ponto de entrada:
+
+```
+|-- src  
+  |-- index.js
+```
+
+Com o conteúdo:
+
+```js
+import cow from './cow'  
+  
+document.querySelector('#box').innerText = cow.say('Webpack is great!')
+```
+
+Este arquivo importa outro arquivo que está na mesma pasta, o _cow.js_ (`./` significa “mesma pasta do arquivo atual”). Vamos agora criar este outro arquivo:
+
+```
+|-- src  
+  |-- index.js  
+  |-- cow.js
+```
+
+Com o conteúdo:
+
+```js
+import cowsay from 'cowsay-browser'
+
+export default {  
+  say: function (str) {  
+    return cowsay.say({ text: str })  
+  }  
+}
+```
+
+Veja que este arquivo já importa uma dependência externa (nome da dependência, sem `./`). Precisamos usar o NPM para instalá-la:
+
+```bash
+npm i -S cowsay-browser
+```
+
+Aqui usamos `-S` para salvar a dependência no _package.json_ como dependência normal, isto é, que será usada pela aplicação final. Vai ser adicionada esta entrada:
+
+```json
+"dependencies": {  
+  "cowsay-browser": "^1.1.8"  
+}
+```
+
+### Arquivo HTML
+
+Para ver o resultado no navegador, vamos precisar de um arquivo HTML. Vamos criar então um `index.html` na raiz da aplicação, com este conteúdo:
+
+```html
+<!doctype html>  
+<html>  
+<head>  
+  <title>Webpack</title>  
+</head>  
+<body>  
+  <pre id="box"></pre>  
+  <script src="dist/main.js"></script>  
+</body>  
+</html>
+```
+
+Veja que carrega um arquivo `dist/main.js` que ainda não temos. Este é o arquivo que o webpack vai gerar a partir de nossos fontes.
+
+### Configurando o webpack
+
+Por default, o webpack considera como ponto de entrada (**_entry point_**) o arquivo `src/index.js` e como arquivo de saída (**_output_**) `dist/main.js`. Por isto este primeiro exemplo não precisa de um arquivo de configuração.
+
+Mas, se quiséssemos alterar o **_entry point_** ou o **_output_**, poderíamos criar um arquivo `webpack.config.js` na raiz da aplicação com o conteúdo:
+
+```js
+const path = require('path')
+
+module.exports = {  
+  entry: './src/index.js',
+
+  output: {  
+    path: path.resolve('dist'),  
+    filename: 'main.js'  
+  }  
+}
+```
+
+Veja que este arquivo é um módulo, que exporta um objeto. Aqui devemos usar o padrão **CommonJS**, pois este arquivo vai executar no Node.js, quando o webpack for acionado.
+
+O primeiro item, **entry**, é o nosso ponto de entrada.
+
+O segundo, **output**, é onde o webpack vai salvar o _bundle_ gerado. Esta configuração pede o caminho da pasta (**path**) e o nome do arquivo (**filename**) separados. O caminho da pasta deve ser absoluto, por isso usamos a função [_path.resolve_](https://nodejs.org/api/path.html#path_path_resolve_paths) do Node para gerar um caminho absoluto a partir de um relativo.
+
+### Gerando o bundle (Fazendo a magia acontecer)
+
+Agora que o circo está montado, vamos gerar esse tal _main.js_! Para isso, vamos adicionar uma entrada no nosso _package.json_:
+
+```json{2}
+"scripts": {  
+  "build": "webpack"  
+}
+```
+
+Com isso, basta executar no terminal:
+
+```bash
+npm run build
+```
+
+Este comando irá executar o webpack (através do webpack-cli), que vai percorrer o **grafo de dependências**, partindo do **_entry point_**, e gerar o _main.js_, que contém todo o código da aplicação e das dependências.
+
+![](./1_2WKq5OhkZLPh-zhZuy7GLg.png)
+
+Saída do webpack
+
+Você pode abrir o _index.html_ no navegador e ver o resultado.
+
+![](./1_LoJKN16rvHA5LvMvfXwcpA.png)
+
+Resultado no navegador (vaquinha que curte webpack)
+
+### Modos: desenvolvimento e produção
+
+Se você olhar o arquivo main.js gerado vai ver que ele está minificado (sem identação e quebras de linhas, com os nomes de variáveis alterados e com tamanho bem menor que os arquivos originais). Isso acontece porque o webpack, por padrão, roda em modo **produção** (**_production_**).
+
+O modo **_production_** faz duas coisas por baixo dos panos:
+
+*   Ativa o plugin [**UglifyJS**](https://webpack.js.org/plugins/uglifyjs-webpack-plugin/) para minificar o bundle. O UglifyJS faz uma minificação agressiva. Além de remover espaços, quebras de linha e comentários, ele renomeia variáveis e faz transformações no código para deixar o mais curto possível.
+*   Seta a variável `process.env.NODE_ENV="production"`. Algumas bibliotecas olham esta variável, e se estiver com o valor “production” ativam algumas otimizações para produção.
+
+O outro modo, **desenvolvimento** (**_development_**), não minifica o código, mas ele roda mais rápido. Ideal (como o nome diz) para usar enquanto ainda está desenvolvendo o código.
+
+Para escolher o modo, basta passar a opção `--mode` para o webpack-cli:
+
+```bash
+webpack --mode development
+```
+
+### Opção watch
+
+Legal, mas toda vez que alterar um JS vou precisar rodar este comando manualmente?
+
+Não, jovem! Para isso tem a opção _watch_, onde o webpack vai ficar monitorando os arquivos e a cada alteração ele vai reconstruir o arquivo final.
+
+Para isso basta passar a flag `-w` para o cli:
+
+```bash
+webpack -w
+```
+
+Com isso, para deixar o _workflow_ mais versátil você pode definir dois scripts no _package.json_:
+
+```json
+"scripts": {  
+  "build:watch": "webpack -w --mode development",  
+  "build:prod": "webpack --mode production"  
+},
+```
+
+Assim, durante o desenvolvimento você usa `npm run build:watch` para rodar em modo **_development_** com a opção _watch_, e para mandar o código para produção você usa `npm run build:prod`.
+
+---
+
+## O que vem pela frente
+
+Nos próximos artigos da série vamos falar de **loaders**, para tratar outros formatos de arquivos, **plugins**, para realizar diferentes tarefas e apresentar cenários mais avançados.
+
+## Feedbacks?
+
+Qualquer crítica ou sugestão, comente ou entre em contato.
+
+## Recomendação de Cursos
+
+O famoso curso [**React.js Ninja**](https://click.linksynergy.com/deeplink?id=2tWLz9iuLxQ&mid=39197&murl=https%3A%2F%2Fwww.udemy.com%2Fcurso-reactjs-ninja%2F) do [Fernando Daciuk](https://twitter.com/fdaciuk) tem um módulo gratuito na **Udemy**, de React com Webpack:
+
+[**Curso React.js Ninja: Módulo React + Webpack (Gratuito)**](https://click.linksynergy.com/deeplink?id=2tWLz9iuLxQ&mid=39197&murl=https%3A%2F%2Fwww.udemy.com%2Freactjs-ninja-modulo-react-webpack%2F)
+
+Tem também o excelente curso do Stephen Grider, em inglês, completamente focado em Webpack:
+
+[**Webpack 2: The Complete Developer’s Guide**](https://click.linksynergy.com/deeplink?id=2tWLz9iuLxQ&mid=39197&murl=https%3A%2F%2Fwww.udemy.com%2Fwebpack-2-the-complete-developers-guide%2F)
+
+## Referências
+
+*   \[1\] [https://webpack.js.org/](https://webpack.js.org/) — Site oficial do webpack (inglês). Toda a documentação, com excelentes guias. Sua melhor referência, se não tiver problemas com inglês.
+*   \[2\] [https://www.udemy.com/webpack-2-the-complete-developers-guide/learn/v4/overview](https://www.udemy.com/webpack-2-the-complete-developers-guide/learn/v4/overview) — Curso de webpack (inglês) na Udemy, com o excelente instrutor Stephen Grider. Geralmente rola promoção e este curso sai por R$20 ou R$30.
+*   \[3\] [https://coderweb.com.br/webpack-e-complexo-mas-so-um-pouquinho/](https://coderweb.com.br/webpack-e-complexo-mas-so-um-pouquinho/) — Artigo do Coder Web sobre webpack.
+*   \[4\] [https://willianjusten.com.br/configurando-o-webpack-para-rodar-react-e-es6/](https://willianjusten.com.br/configurando-o-webpack-para-rodar-react-e-es6/) — Artigo do Willian Justen sobre webpack com React e ES6.
+*   \[5\] [http://exploringjs.com/es6/ch\_modules.html](http://exploringjs.com/es6/ch_modules.html) — Capítulo sobre ES Modules do livro _Exploring ES6_ (inglês)
+*   \[6\] [https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/import](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/import) — Referência na MDN sobre import.
+*   \[7\] [https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/export](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/export) — Referência na MDN sobre export.
+*   \[8\] [https://blogs.windows.com/msedgedev/2017/08/10/es-modules-node-today/](https://blogs.windows.com/msedgedev/2017/08/10/es-modules-node-today/) — Post sobre o uso de ES Modules no Node.js (inglês)

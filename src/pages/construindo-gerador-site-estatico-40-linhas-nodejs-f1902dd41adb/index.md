@@ -2,7 +2,7 @@
 title: "Construindo um gerador de site estático em 40 linhas com Node.js"
 date: "2017-10-09T21:32:21.864Z"
 ---
-> [Read in English](https://medium.com/douglas-matoso-english/build-static-site-generator-nodejs-8969ebe34b22)
+> [Read in English](../build-static-site-generator-nodejs-8969ebe34b22)
 
 Existem excelentes **geradores de sites estáticos**, em diferentes linguagens, e com muitas funcionalidades, mas construir o seu próprio é mais fácil do que você imagina, e podemos aprender algumas coisas novas no processo.
 
@@ -27,6 +27,7 @@ Os requisitos que o gerador precisaria atender são:
 
 ## Estrutura de pastas
 
+```
 public/  
 src/  
   assets/  
@@ -35,6 +36,7 @@ src/
   partials/  
   layout.ejs  
 site.config.js
+```
 
 *   **public:** onde o site gerado será salvo.
 *   **src:** arquivos fonte do site.  
@@ -49,10 +51,56 @@ site.config.js
 
 Todo o código do gerador está no arquivo _scripts/build.js_, que pode ser executado com o comando `npm run build`, sempre que quisermos reconstruir o site. Basta adiciona a seguinte entrada no bloco `scripts` do _package.json_:
 
+```json
 "build": "node ./scripts/build"
+```
 
 Este é o código completo do gerador:   
 (Abaixo eu explico cada parte.)
+
+```js
+const fse = require('fs-extra')
+const path = require('path')
+const { promisify } = require('util')
+const ejsRenderFile = promisify(require('ejs').renderFile)
+const globP = promisify(require('glob'))
+const config = require('../site.config')
+
+const srcPath = './src'
+const distPath = './public'
+
+// clear destination folder
+fse.emptyDirSync(distPath)
+
+// copy assets folder
+fse.copy(`${srcPath}/assets`, `${distPath}/assets`)
+
+// read page templates
+globP('**/*.ejs', { cwd: `${srcPath}/pages` })
+  .then((files) => {
+    files.forEach((file) => {
+      const fileData = path.parse(file)
+      const destPath = path.join(distPath, fileData.dir)
+
+      // create destination directory
+      fse.mkdirs(destPath)
+        .then(() => {
+          // render page
+          return ejsRenderFile(`${srcPath}/pages/${file}`, Object.assign({}, config))
+        })
+        .then((pageContents) => {
+          // render layout with page contents
+          return ejsRenderFile(`${srcPath}/layout.ejs`, Object.assign({}, config, { body: pageContents }))
+        })
+        .then((layoutContent) => {
+          // save the html file
+          fse.writeFile(`${destPath}/${fileData.name}.html`, layoutContent)
+        })
+        .catch((err) => { console.error(err) })
+    })
+  })
+  .catch((err) => { console.error(err) })
+```
 
 ### Dependências
 
@@ -69,82 +117,104 @@ Para este conjunto básico de funcionalidades, precisamos apenas de três depend
 
 Uma coisa a ser notada no código é que usamos o [_util.promisify_](https://nodejs.org/api/util.html#util_util_promisify_original) do Node para converter funções que usam callback em funções que retornam promise. Isso deixa o código mais curto, limpo e fácil de ler.
 
-**const** { promisify } = **require**('util')  
-**const** ejsRenderFile = promisify(**require**('ejs').renderFile)  
-**const** globP = promisify(**require**('glob'))
+```js
+const { promisify } = require('util')  
+const ejsRenderFile = promisify(require('ejs').renderFile)  
+const globP = promisify(require('glob'))
+```
 
 ### Carregar as configurações
 
 No topo importamos o arquivo de configurações, para disponibilizar estes dados mais tarde para os templates.
 
-**const** config = **require**('../site.config')
+```js
+const config = require('../site.config')
+```
 
 Este arquivo, por sua vez, importa dados adicionais da pasta _data_:
 
-**const** projects = **require**('./src/data/projects')
+```js
+const projects = require('./src/data/projects')
 
-**module.exports** = {  
+module.exports = {  
   site: {  
     title: 'NanoGen',  
     description: 'Micro Static Site Generator in Node.js',  
     projects  
   }  
 }
+```
 
 ### Limpar a pasta public
 
 Usamos _emptyDirSync_ do **fs-extra** para limpar a pasta public.
 
+```js
 fse.emptyDirSync(distPath)
+```
 
 ### Copiar os assets
 
 Aqui usamos _copy_, também do **fs-extra**, que copia uma pasta com todo seu conteúdo.
 
-fse.copy(\`${srcPath}/assets\`, \`${distPath}/assets\`)
+```js
+fse.copy(`${srcPath}/assets`, `${distPath}/assets`)
+```
 
 ### Compilar as páginas
 
 Primeiro usamos o **glob** (a versão _promisificada — _existe essa palavra?) para recursivamente varrer a pasta _src/pages_ procurando por arquivos .ejs. Ela retorna um array com o caminho de todos os arquivos encontrados.
 
-globP('\*\*/\*.ejs', { cwd: \`${srcPath}/pages\` })  
-  .**then**((files) => {
+```js
+globP('**/*.ejs', { cwd: `${srcPath}/pages` })  
+  .then((files) => {
+```
 
 Para cada template encontrado, usamos [**path**](https://nodejs.org/api/path.html).parse do Node para separar os componentes do arquivo (como caminho, nome e extensão). Então criamos uma pasta de destino daquela página, usando **fs-extra** _mkdirs_.
 
-files.**forEach**((file) => {  
-  **const** fileData = path.parse(file)  
-  **const** destPath = path.join(distPath, fileData.dir)
+```js
+files.forEach((file) => {  
+  const fileData = path.parse(file)  
+  const destPath = path.join(distPath, fileData.dir)
 
-_// create destination directory_  
+// create destination directory
   fse.mkdirs(destPath)
+```
 
 Então usamos **EJS** para compilar a página, passando os dados de configuração, para que possam ser acessados no corpo do template. Como estamos usando a versão _promisificada_ do _ejs.renderFile_, podemos retornar aqui a chamada para pegar o resultado no próximo _then_.
 
-.**then**(() => {  
-  _// render page_  
-  **return** ejsRenderFile(\`${srcPath}/pages/${file}\`, **Object**.assign({}, config))  
+```js
+.then(() => {  
+  // render page  
+  return ejsRenderFile(`${srcPath}/pages/${file}`, Object.assign({}, config))  
 })
+```
 
 No próximo bloco temos o corpo da página compilado. Agora compilamos o template de layout, passando o conteúdo da página no atributo `body`.
 
-.**then**((pageContents) => {  
-  _// render layout with page contents_  
-  **return** ejsRenderFile(\`${srcPath}/layout.ejs\`, **Object**.assign({}, config, { body: pageContents }))  
+```js
+.then((pageContents) => {  
+  // render layout with page contents  
+  return ejsRenderFile(`${srcPath}/layout.ejs`, Object.assign({}, config, { body: pageContents }))  
 })
+```
 
 Finalmente pegamos o resultado, que é HTML compilado do layout + a página e salvamos em um arquivo HTML, com o mesmo nome do template original.
 
-.**then**((layoutContent) => {  
-  _// save the html file_  
-  fse.writeFile(\`${destPath}/${fileData.name}.html\`, layoutContent)  
+```js
+.then((layoutContent) => {  
+  // save the html file  
+  fse.writeFile(`${destPath}/${fileData.name}.html`, layoutContent)  
 })
+```
 
 ## Servidor de desenvolvimento
 
 Para ficar mais fácil de visualizar o resultado, adicionamos um servidor de desenvolvimento simples, como o módulo [serve](https://www.npmjs.com/package/serve), e adicionamos o seguinte no bloco `scripts` do _package.json_:
 
+```json
 "serve": "serve ./public"
+```
 
 Então basta rodar `npm run serve` e acessar [http://localhost:5000](http://localhost:5000)
 
@@ -156,10 +226,12 @@ O exemplo completo, até aqui, pode ser encontrado em: [https://github.com/doug2
 
 A maioria dos geradores de site estático permitem escrever conteúdo no formato [Markdown](https://en.wikipedia.org/wiki/Markdown). Eles também permitem adicionar dados adicionais no topo de cada página (conhecido como **_front matter_**) no formato [YAML](http://yaml.org/), por exemplo:
 
-\---  
+```yml
+---  
 title: Hello World  
 date: 2013/7/13 20:46:25  
-\---
+---
+```
 
 Com algumas alterações podemos adicionar estas mesmas funcionalidades.
 
@@ -176,52 +248,64 @@ Precisamos adicionar duas novas dependências:
 
 Mudamos o padrão do **glob** para incluir arquivos com extensão .md. Mantemos o .ejs para permitir páginas mais complexas que não seriam possíveis apenas com Markdown, e também incluímos .html, caso queira incluir alguma página de HTML puro.
 
-globP('\*\*/\*.@(md|ejs|html)', { cwd: \`${srcPath}/pages\` })
+```js
+globP('**/*.@(md|ejs|html)', { cwd: `${srcPath}/pages` })
+```
 
 ### Extrair front matter
 
 Para cada arquivo encontrado com essas extensões, precisamos carregar o conteúdo do arquivo para que o **front-matter** consiga extrair os dados no topo.
 
-.**then**(() => {  
-  _// read page file_  
-  **return** fse.readFile(\`${srcPath}/pages/${file}\`, 'utf-8')  
+```js
+.then(() => {  
+  // read page file  
+  return fse.readFile(`${srcPath}/pages/${file}`, 'utf-8')  
 })
+```
 
 Passamos o conteúdo do arquivo para o **front-matter**. Ele retorna um objeto com um campo `attributes` contendo os meta dados encontrados, e um campo `body` contendo o restante do conteúdo do arquivo. Nós então incrementamos com estes dados a configuração que será passada para cada template.
 
-.**then**((data) => {  
-  _// extract front matter_  
-  **const** pageData = frontMatter(data)  
-  **const** templateConfig = **Object**.assign({}, config, { page: pageData.attributes })
+```js
+.then((data) => {  
+  // extract front matter  
+  const pageData = frontMatter(data)  
+  const templateConfig = Object.assign({}, config, { page: pageData.attributes })
+```
 
 ### Compilar arquivos para HTML
 
 Agora compilamos o conteúdo de cada página para HTML. Dependendo da extensão do arquivo nós usamos o **marked** (para .md), **EJS** (para .ejs) ou não fazemos nada se já for .html.
 
-**let** pageContent
+```js
+let pageContent
 
-**switch** (fileData.ext) {  
-  **case** '.md':  
+switch (fileData.ext) {  
+  case '.md':  
     pageContent = marked(pageData.body)  
-    **break**  
-  **case** '.ejs':  
+    break  
+  case '.ejs':  
     pageContent = ejs.render(pageData.body, templateConfig)  
-    **break**  
-  **default**:  
+    break  
+  default:  
     pageContent = pageData.body  
 }
+```
 
 Finalmente, compilamos o layout, como antes, injetando o HTML da página.
 
 Uma coisa legal que dá pra fazer com front matter é ter títulos individuais para cada página:
 
-\---  
+```yml
+---  
 title: Another Page  
-\---
+---
+```
 
 E no layout, onde vai o título, exibir esta informação, assim:
 
-**<title>**<%= page.title ? \`${page.title} | \` : '' %><%= site.title %>**</title>**
+```html
+<title><%= page.title ? `${page.title} | ` : '' %><%= site.title %></title>
+```
 
 Cada página vai ter seu próprio título na tag `<title>`.
 
@@ -229,31 +313,39 @@ Cada página vai ter seu próprio título na tag `<title>`.
 
 Outra funcionalidade interessante é a possibilidade de usar um layout diferente em páginas específicas. Como agora cada página pode ter uma configuração no front matter, podemos usá-la para setar um layout diferente:
 
-\---  
+```yml
+---  
 layout: minimal  
-\---
+---
+```
 
 ### Separar os arquivos de layout
 
 Para organizar os diferentes layouts, coloquei na pasta _src/layouts_:
 
+```
 src/layouts/  
   default.ejs  
   mininal.ejs
+```
 
 ### Renderizar o layout correto
 
 Se a configuração `layout` estiver presente no front matter, compilamos o arquivo de layout com o mesmo nome. Se não estiver definido, usamos o _default_.
 
-**const** layout = pageData.attributes.layout **||** 'default'
+```js
+const layout = pageData.attributes.layout || 'default'
 
-**return** ejsRenderFile(\`${srcPath}/layouts/${layout}.ejs\`, Object.assign({}, templateConfig, { body: pageContent }))
+return ejsRenderFile(`${srcPath}/layouts/${layout}.ejs`, 
+  Object.assign({}, templateConfig, { body: pageContent })
+)
+```
 
 ### Resultado
 
 O código completo, com as funcionalidades extra pode ser encontrado aqui: [https://github.com/doug2k1/nanogen/tree/legacy](https://github.com/doug2k1/nanogen/tree/legacy)
 
-**_Editado:_** _depois de um tempo eu decidi transformar o projeto em um módulo de linha de comando para ser mais fácil de usar, que está na branch_ `_master_` _do repositório. O código original criado neste post está na branch_ `_legacy_` _(link acima)._
+**_Editado:_** _depois de um tempo eu decidi transformar o projeto em um módulo de linha de comando para ser mais fácil de usar, que está na branch_ `master` _do repositório. O código original criado neste post está na branch_ `legacy` _(link acima)._
 
 Mesmo com estas funcionalidade a mais, o arquivo ficou próximo de 60 linhas. 😉
 
