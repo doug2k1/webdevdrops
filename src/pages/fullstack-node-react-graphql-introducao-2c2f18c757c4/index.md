@@ -50,12 +50,12 @@ Lembrando que este projeto, além de resolver um problema, serve como estudo. Po
 
 Sujeito a mudanças.
 
-*   [**2: Setup inicial e servidor NodeJS com Express**](./fullstack-node-react-graphql-express-b551b1a25ef3) (publicado)
-*   [**3: Banco de dados PostgreSQL e mapeamento com Sequelize**](./fullstack-node-react-graphql-postgresql-sequelize-11e646979b27) (publicado)
-*   [**3.1: Testes unitários de models**](./fullstack-node-react-graphql-testes-mocha-chai-eb5646e5b929) (publicado)
-*   [**4: Interface administrativa com Forest Admin**](./fullstack-node-react-forest-admin-e3b07c142f9a) (publicado)
-*   [**5: Integração contínua com Travis CI**](./fullstack-node-react-travis-ci-2caaee9ccbb5) (publicado)
-*   [**6: Servidor GraphQL com Apollo Server**](./fullstack-node-react-graphql-apollo-1a0559e0fc51) (publicado)
+*   [**2: Setup inicial e servidor NodeJS com Express**](../fullstack-node-react-graphql-express-b551b1a25ef3) (publicado)
+*   [**3: Banco de dados PostgreSQL e mapeamento com Sequelize**](../fullstack-node-react-graphql-postgresql-sequelize-11e646979b27) (publicado)
+*   [**3.1: Testes unitários de models**](../fullstack-node-react-graphql-testes-mocha-chai-eb5646e5b929) (publicado)
+*   [**4: Interface administrativa com Forest Admin**](../fullstack-node-react-forest-admin-e3b07c142f9a) (publicado)
+*   [**5: Integração contínua com Travis CI**](../fullstack-node-react-travis-ci-2caaee9ccbb5) (publicado)
+*   [**6: Servidor GraphQL com Apollo Server**](../fullstack-node-react-graphql-apollo-1a0559e0fc51) (publicado)
 *   7: Autenticação com Google e Passport
 *   8: Deploy em produção com Heroku
 *   9: Setup frontend com Webpack e Babel

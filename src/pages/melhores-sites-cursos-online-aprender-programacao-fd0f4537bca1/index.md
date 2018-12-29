@@ -96,3 +96,121 @@ Possivelmente os cursos com a melhor didática de toda a Internet. Os vídeos s�
 
 **💵 Custo:** Mensalidade para acessar todos os cursos. Possui cursos gratuitos. 🎉  
 🌎 **Idioma:** Inglês 🇺🇸
+
+---
+
+## Cursos de Universidades
+Quer fazer cursos nas melhores universidades do mundo sem sair de casa? Tem cursos em várias áreas como ciência da computação, engenharias, negócios, economia, humanas, artes. Estes cursos geralmente demandam mais tempo, mas aprofundam mais os conceitos.
+
+### Coursera
+[coursera.org](https://www.coursera.org/)
+Cursos das principais universidades do mundo, em várias áreas.  
+💵 Cursos gratuitos. Programas de certificação pagos.  
+🌎 Maioria em inglês, alguns poucos em português.
+
+### Edx
+[edx.org](https://www.edx.org/)
+Cursos das principais universidades do mundo, em várias áreas.  
+💵 Cursos gratuitos. Programas de certificação pagos.  
+🌎 Maioria em inglês, alguns poucos em português.
+
+---
+
+## Outros indicados
+Em ordem alfabética.
+
+### Codecademy
+[codecademy.com](https://www.codecademy.com/)  
+Cursos interativos, com editor de códigos integrado.  
+💵 Cursos gratuitos, projetos e outros recursos por mensalidade.  
+🌎 Inglês
+
+### Code Avengers
+[codeavengers.com](https://www.codeavengers.com/)  
+Cursos interativos, com editor de códigos integrado.  
+💵 Mensalidade (teste gratuito por 7 dias)  
+🌎 Inglês e português
+
+### DevMedia
+[devmedia.com.br](https://www.devmedia.com.br/)  
+Cursos de desenvolvimento em português.  
+💵 Possui conteúdos gratuitos. Mensalidade para acessar todo o acervo.  
+🌎 Português.
+
+### DevPleno
+[devpleno.com](https://www.devpleno.com/)  
+Cursos de desenvolvimento em português, além de conteúdo no YouTube. (Obrigado pela dica, Marcio Toledo!)  
+💵 Possui conteúdos gratuitos e cursos pagos.  
+🌎 Português.
+
+### EggHead
+[egghead.io](https://egghead.io/)  
+Cursos focados em desenvolvimento web.  
+💵 Alguns cursos gratuitos. Mensalidade para acessar todo o acervo.  
+🌎 Inglês
+
+### Frontend Masters
+[frontendmasters.com](https://frontendmasters.com/)  
+Cursos de desenvolvimento web, principalmente front-end.  
+💵 Mensalidade  
+🌎 Inglês
+
+### Khan Academy
+[khanacademy.org](https://www.khanacademy.org/)  
+Cursos gratuitos em diversas áreas como computação, matemática, artes, ciências.  
+💵 Gratuito  
+🌎 Inglês e português
+
+### Lynda
+[lynda.com](https://www.lynda.com/)  
+Enorme quantidade de cursos de desenvolvimento, design, negócios, marketing.  
+💵 Mensalidade  
+🌎 Inglês
+
+### Microsoft MVA
+[mva.microsoft.com](https://mva.microsoft.com/)  
+Cursos oferecidos pela Microsoft, incluindo desenvolvimento web, jogos, mobile.  
+💵 Gratuito  
+🌎 Inglês e português
+
+### School of Net
+[schoolofnet.com](https://www.schoolofnet.com/)  
+Centenas de cursos de tecnologia em português.  
+💵 Conteúdos gratuitos. Mensalidade para acessar todo o acervo.  
+🌎 Português
+
+### SitePoint
+[sitepoint.com](https://www.sitepoint.com/)  
+Livros e cursos de desenvolvimento web.  
+💵 Conteúdos gratuitos. Mensalidade para acessar todo o acervo.  
+🌎 Inglês
+
+### Skillshare
+[skillshare.com](https://www.skillshare.com/)  
+Cursos em diversas áreas como design, negócios, tecnologia, empreendedorismo, artes.  
+💵 Conteúdos gratuitos. Mensalidade para acessar todo o acervo.  
+🌎 Inglês
+
+### SoloLearn
+[sololearn.com](https://www.sololearn.com/)  
+Vários cursos de programação, com desafios e playground para praticar.  
+(Obrigado pela dica, Felipe Medeiros!)  
+💵 Gratuito.
+🌎 Inglês
+
+### Tuts+
+[tutsplus.com](https://tutsplus.com/)  
+Cursos e ebooks nas áreas de design, desenvolvimento, negócios, artes.  
+💵 Conteúdos gratuitos. Mensalidade para acessar todo o acervo.  
+🌎 Inglês
+
+### Wes Bos
+[wesbos.com/courses](http://wesbos.com/courses/)  
+Cursos do Wes Bos, um dos caras mais respeitados na comunidade JavaScript.  
+💵 Alguns cursos gratuitos, outros pagos (preço por curso).  
+🌎 Inglês
+
+## Faltou algum?
+Conhece algum site de cursos bacana que ficou faltando aqui? Viu algum detalhe errado? Comente aí que eu atualizo a lista.
+
+[]’s
