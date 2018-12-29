@@ -22,7 +22,7 @@ class BlogIndex extends React.Component {
     const nextPage = (currentPage + 1).toString()
 
     return (
-      <Layout location={this.props.location}>
+      <Layout location={this.props.location} title={siteTitle}>
         <Helmet
           htmlAttributes={{ lang: 'en' }}
           meta={[{ name: 'description', content: siteDescription }]}
@@ -54,40 +54,22 @@ class BlogIndex extends React.Component {
           style={{
             display: 'flex',
             flexWrap: 'wrap',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             alignItems: 'center',
             listStyle: 'none',
             padding: 0,
+            marginTop: '4em',
           }}
         >
           {!isFirst && (
-            <Link to={prevPage} rel="prev">
-              ← Previous Page
+            <Link to={prevPage} rel="prev" style={{ marginRight: 'auto' }}>
+              ← Anteriores
             </Link>
           )}
-          {Array.from({ length: numPages }, (_, i) => (
-            <li
-              key={`pagination-number${i + 1}`}
-              style={{
-                margin: 0,
-              }}
-            >
-              <Link
-                to={`/${i === 0 ? '' : i + 1}`}
-                style={{
-                  padding: rhythm(1 / 4),
-                  textDecoration: 'none',
-                  color: i + 1 === currentPage ? '#ffffff' : '',
-                  background: i + 1 === currentPage ? '#007acc' : '',
-                }}
-              >
-                {i + 1}
-              </Link>
-            </li>
-          ))}
+
           {!isLast && (
-            <Link to={nextPage} rel="next">
-              Next Page →
+            <Link to={nextPage} rel="next" style={{ marginLeft: 'auto' }}>
+              Próximos →
             </Link>
           )}
         </ul>
@@ -118,7 +100,7 @@ export const pageQuery = graphql`
             slug
           }
           frontmatter {
-            date(formatString: "DD MMMM, YYYY")
+            date(formatString: "DD/MM/YYYY")
             title
           }
         }

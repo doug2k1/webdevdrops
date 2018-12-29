@@ -15,7 +15,7 @@ class Layout extends React.Component {
     const isPaginatedPath = pageNumber && Boolean(pageNumber.match(/^[0-9]+$/))
     let header
 
-    if (location.pathname === rootPath) {
+    if (isRootPath || isPaginatedPath) {
       header = (
         <h1
           style={{
