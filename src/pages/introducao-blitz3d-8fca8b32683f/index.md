@@ -1,0 +1,11 @@
+---
+title: "Introdução ao Blitz 3D"
+date: "2011-06-30T07:00:00.000Z"
+---
+Há algum tempo eu traduzi uma série de tutoriais introdutórios do [**Blitz 3D**](http://www.blitzbasic.com/). São tutoriais que estão na seção de ajuda da própria ferramenta.
+
+Os tutoriais falam um pouco de movimentação, câmeras, texturas, iluminação, colisão, e podem ser conferidos aqui: [**Introdução ao Blitz 3D**](http://dmatoso.com/b3d).
+
+Para quem não conhece, o **Blitz 3D** é uma ferramenta para desenvolvimento de jogos, que utiliza uma linguagem de programação própria, o **Blitz Basic** (que é derivada do Basic). Ela possui diversas funções para criação de jogos 2D e 3D (carregamentos de imagens, modelos, terrenos, sons, colisão, etc.). Ela é paga, mas possui uma versão trial sem limite de tempo.
+
+\[\]’s
