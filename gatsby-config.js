@@ -25,11 +25,19 @@ module.exports = {
             },
           },
           {
+            resolve: 'gatsby-remark-embed-youtube',
+            options: {
+              width: 800,
+              height: 400,
+            },
+          },
+          {
             resolve: `gatsby-remark-responsive-iframe`,
             options: {
               wrapperStyle: `margin-bottom: 1.0725rem`,
             },
           },
+          'gatsby-remark-external-links',
           'gatsby-remark-prismjs',
           'gatsby-remark-copy-linked-files',
           'gatsby-remark-smartypants',

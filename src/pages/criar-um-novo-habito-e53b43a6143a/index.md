@@ -34,6 +34,8 @@ Eu sugiro uma abordagem diferente.
 
 Sabia que uma peça de dominó pode derrubar outra 1.5 vezes maior que ela?
 
+`youtube:https://www.youtube.com/embed/y97rBdSYbkg`
+
 O efeito dominó é poderoso. Mas a única maneira de começar é movimentando a peça que é pequena o suficiente para conseguirmos derrubar.
 
 O que normalmente fazemos é começar na outra ponta. Passamos pelas peças pequenas e começamos de cara a lutar com a maior.

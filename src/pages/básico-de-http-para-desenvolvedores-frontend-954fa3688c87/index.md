@@ -2,7 +2,7 @@
 title: "Básico de HTTP para desenvolvedores frontend"
 date: "2017-09-01T02:52:11.776Z"
 ---
-> [Read in English](https://medium.com/douglas-matoso-english/http-primer-for-frontend-developers-f091a2070637)
+> [Read in English](../http-primer-for-frontend-developers-f091a2070637)
 
 **HTTP** — Hypertext Transfer Protocol — é como cliente e servidor (frontend e backend) conversam entre si. Como desenvolvedores frontend (e desenvolvedores web em geral) nós deveríamos entender pelo menos o básico desta comunicação, pois uma importante parte do nosso trabalho é enviar requisições para o servidor e tratar as respostas.
 
@@ -87,13 +87,79 @@ Como no cabeçalho da requisição, contém informações adicionais sobre o ser
 
 Opcional. Este é o conteúdo retornado pelo servidor.
 
+---
+
 ## Exemplos práticos: requisições HTTP com JavaScript
 
 **Exemplo #1**: Pegar (GET) informações sobre o último release da biblioteca React no GitHub
 
+```js
+
+// requisição:
+// não é preciso informar o método (GET é o padrão), 
+//   nem cabeçalho ou corpo (requisição GET não precisa de corpo)
+fetch('https://api.github.com/repos/facebook/react/releases/latest') // URI
+  .then(response => {
+    // recebemos a resposta e logamos o status
+    console.log(response.status)
+    // retorna o corpo da resposta em formato JSON
+    return response.json()
+  })
+  .then(json => {
+    // loga o JSON
+    console.log(json)
+  })
+
+// em caso de sucesso vai logar:
+// 200
+// { ... conteúdo do corpo da resposta em formato JSON ... }
+```
+
 **Exemplo #2**: Postar (POST) um novo endereço de e-mail para associá-lo a minha conta do GitHub
 
+```js
+
+// requisição:
+// adicionar um novo endereço de e-mail à minha conta do GitHub
+fetch('https://api.github.com/user/emails', { // URI
+  method: 'POST', // método
+  body: JSON.stringify(["octocat@github.com"]) // corpo
+})
+  .then(response => {
+    // recebemos a resposta e logamos o status
+    console.log(response.status)
+    // retorna o corpo em formato JSON
+    return response.json()
+  })
+  .then(json => {
+    // loga o JSON
+    console.log(json)
+  })
+
+// em caso de sucesso vai logar:
+// 201
+// { ... conteúdo do corpo da resposta como JSON ... }
+```
+
 **Exemplo #3**: Tratar uma requisição com falha (status diferente de 2xx)
+
+```js
+
+// requisição:
+// tenta fazer um GET em URI inexistente
+fetch('https://api.github.com/nonexistent-uri')
+  .then(response => {
+    if (response.ok) {
+      // não deve entrar aqui
+      console.log('success')
+    } else {
+      console.log(response.status)
+    }
+  })
+
+// vai logar:
+// 404
+```
 
 ## Links
 

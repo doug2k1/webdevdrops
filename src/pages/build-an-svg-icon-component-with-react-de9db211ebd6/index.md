@@ -10,7 +10,9 @@ After coming from PNG sprites and then icon fonts to display icons in my project
 
 The goal is to simply pass the icon name as a prop and have the SVG rendered on the page, like this:
 
+```jsx
 <Icon name="camera" />
+```
 
 ![](./1_ZFSSN_MkGy_aBWllOa4Lcg.png)
 
@@ -19,6 +21,19 @@ Icon on the page.
 ## Creating the component
 
 The `Icon` component is a functional stateless component that render some SVG markup:
+
+```jsx
+import React from 'react'
+import './icons.svg'
+
+const Icon = (props) => (
+  <svg className={`icon icon-${props.name}`}>
+    <use xlinkHref={`#icons_${props.name}`} />
+  </svg>
+)
+
+export default Icon
+```
 
 A few things to notice:
 
@@ -30,6 +45,7 @@ A few things to notice:
 
 The `icons.svg` file looks like this:
 
+```xml
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg">  
   <defs>  
     <symbol id="home" viewBox="0 0 32 32">  
@@ -45,6 +61,7 @@ The `icons.svg` file looks like this:
       </symbol>  
   </defs>  
 </svg>
+```
 
 This is the actual SVG data to draw the icons. It uses `symbol` tags to make the shapes reusable. For instance, `<use xlink:href="#camera"></use>` will take contents of the `symbol` with `id="camera"` and replicate it.
 
@@ -60,10 +77,12 @@ In order for the `xlink:href` find the SVG data, the contents of the `icons.svg`
 
 To use the svg-sprite-loader, just install it (`npm i -D svg-sprite-loader`) and add to your Webpack config, inside `module.rules`:
 
+```js
 {  
   test: /\\.svg$/,  
   loader: 'svg-sprite-loader'  
 }
+```
 
 With this default config, the loader will intercept imported SVG files, like the `import './icons.svg’` in our component, and inject the contents on top of the page body. It will add the name of the file as a prefix to the symbol ids, so `<symbol id="camera">` in our original `icons.svg` file, becomes `<symbol id="icons_camera">`. That’s why our component has ``xlinkHref={`#icons_${props.name}`}``.
 

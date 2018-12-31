@@ -2,7 +2,7 @@
 title: "HTTP primer for frontend developers"
 date: "2017-08-30T15:00:39.671Z"
 ---
-> [Ler em Português](https://medium.com/douglas-matoso-brasil/b%C3%A1sico-de-http-para-desenvolvedores-frontend-954fa3688c87)
+> [Ler em Português](../básico-de-http-para-desenvolvedores-frontend-954fa3688c87)
 
 **HTTP **— Hypertext  Transfer Protocol — is how client and server (frontend and backend) talk to each other. As frontend developers (and web developers in general) we should understand at least the basics of this communication, because an important part of our job is to send _requests_ to the server and handle the _responses_.
 
@@ -86,3 +86,87 @@ Like the request header, this contains additional information about the server a
 ### Body
 
 Optional. This is the content returned by the server.
+
+
+---
+
+## Practical examples: HTTP requests with JavaScript
+
+**Example #1**: GET information about the latest React release on GitHub
+
+```js
+// the request:
+// GET information about the latest React release on GitHub
+// we don't need to inform the method (GET is the default), 
+//   headers or body (GET request doesn't need one)
+fetch('https://api.github.com/repos/facebook/react/releases/latest') // the URI
+  .then(response => {
+    // we received the response and print the status code
+    console.log(response.status)
+    // return response body as JSON
+    return response.json()
+  })
+  .then(json => {
+    // print the JSON
+    console.log(json)
+  })
+
+// on success will log:
+// 200
+// { ... contents of the response body as JSON ... }
+```
+
+**Example #2**: POST a new email to be associated to my GitHub account
+
+```js
+// the request:
+// POST a new email address to my GitHub account
+fetch('https://api.github.com/user/emails', { // the URI
+  method: 'POST', // the method
+  body: JSON.stringify(["octocat@github.com"]) // the body
+})
+  .then(response => {
+    // we received the response and print the status code
+    console.log(response.status)
+    // return response body as JSON
+    return response.json()
+  })
+  .then(json => {
+    // print the JSON
+    console.log(json)
+  })
+
+// on success will log:
+// 201
+// { ... contents of the response body as JSON ... }
+```
+
+**Example #3**: Handling a failed request (status code different than 2xx)
+
+```js
+// the request:
+// try to GET an nonexistent URI
+fetch('https://api.github.com/nonexistent-uri')
+  .then(response => {
+    if (response.ok) {
+      // we should not reach here
+      console.log('success')
+    } else {
+      console.log(response.status)
+    }
+  })
+
+// will log:
+// 404
+```
+
+## Additional resources
+
+[https://developer.mozilla.org/en-US/docs/Web/HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP)  
+ [https://pt.wikipedia.org/wiki/Hypertext\_Transfer\_Protocol](https://pt.wikipedia.org/wiki/Hypertext_Transfer_Protocol)  
+ [https://www.tutorialspoint.com/http/index.htm](https://www.tutorialspoint.com/http/index.htm)  
+ [https://developer.mozilla.org/en/docs/Web/API/Fetch\_API](https://developer.mozilla.org/en/docs/Web/API/Fetch_API)
+
+Feedback? Suggestions?
+
+See y’all!

@@ -6,8 +6,8 @@ Neste post vou mostrar um setup mínimo de Webpack para começar a trabalhar com
 
 ![](./1_M4ahYjPeHM2cpkjGwkeGyg.jpeg)
 
-**tl;dr  
-**O setup final, com um componente de exemplo, pode ser encontrado aqui: [https://github.com/doug2k1/react-minimal-setup](https://github.com/doug2k1/react-minimal-setup)
+**tl;dr**  
+O setup final, com um componente de exemplo, pode ser encontrado aqui: [https://github.com/doug2k1/react-minimal-setup](https://github.com/doug2k1/react-minimal-setup)
 
 ### E o create-react-app?
 
@@ -28,7 +28,9 @@ As únicas dependências (não dev) que precisamos são:
 
 Elas devem ser instaladas com a flag `--save` ou `-S` :
 
-`npm i -S react react-dom`
+```bash
+npm i -S react react-dom
+```
 
 E as dependências de dev:
 
@@ -40,7 +42,9 @@ E as dependências de dev:
 
 Estas são instaladas com `--save-dev` ou `-D`:
 
-`npm i -D webpack babel-core babel-loader babel-preset-react babel-preset-es2015`
+```bash
+npm i -D webpack babel-core babel-loader babel-preset-react babel-preset-es2015
+```
 
 ### Sobre o ES2015 (ES6)
 
@@ -52,20 +56,69 @@ Teoricamente poderíamos economizar uma dependência e não usar ES2015, mas par
 
 Nossa config de Webpack (_webpack.config.js_) é simples assim:
 
+```js
+const path = require('path')
+
+module.exports = {
+  entry: './src/index.js',
+
+  output: {
+    path: path.resolve('dist'),
+    filename: 'bundle.js'
+  },
+
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader'
+      }
+    ]
+  }
+}
+```
+
 Ela tem um _entrypoint_ (ponto de partida da execução da nossa aplicação), um _output_ (onde será salvo o JS empacotado, que será executado no navegador) e um _loader_.
 
 Nosso arquivo de entrada usa react-dom para renderizar o componente _App_ no corpo da página:
 
+```jsx
 import React from 'react'  
 import ReactDOM from 'react-dom'  
 import App from './App'
 
 ReactDOM.render(<App />, document.getElementById('app'))
+```
 
 ### Babel
 
 Os loaders do Babel vão ler os arquivos JS e converter os códigos JSX e ES2015 para ES5. Precisamos habilitar estas duas transformações no arquivo de configuração do Babel (_.babelrc_):
 
+```json
 {  
-  "presets": \[ "es2015", "react" \]  
+  "presets": [ "es2015", "react" ]  
 }
+```
+
+---
+
+Com este setup você pode executar `webpack` para gerar o arquivos _bundle.js_, ou `webpack -w` para ficar escutando alterações nos arquivos e regenerar o _bundle.js_ sempre que houver alteração.
+
+Para ver o aplicativo rodando no navegador, precisamos de um _index.html_ incluindo o JS final:
+
+```html
+<!doctype html>  
+<html>  
+<head>  
+  <title>React</title>  
+</head>  
+<body>  
+  <div id="app"></div>  
+  <script src="dist/bundle.js"></script>  
+</body>  
+</html>
+```
+
+Você pode conferir o resultado final aqui: [https://github.com/doug2k1/react-minimal-setup](https://github.com/doug2k1/react-minimal-setup)
+
+\[\]’s
