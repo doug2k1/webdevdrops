@@ -1,6 +1,6 @@
 ---
 title: "Portfolio: Games & CG"
-date: "2011-06-30T07:00:00.000Z"
+date: "2011-06-30T21:00:00.000Z"
 ---
 Segue uma lista de alguns games e demonstrações que eu desenvolvi por hobby (alguns por necessidade) ao longo do tempo.
 
@@ -16,7 +16,7 @@ Joguinho feito em XNA para aprendizado.
 
 ## Boliche
 
-![](./1_d-D6_zpLE44M1H1h3ccwKw.png)
+![](./1_d-D6_zpLE44M1H1h3ccwK.png)
 
 Desenvolvido com Blitz3D e a biblioteca de física Tokamak.
 

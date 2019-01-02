@@ -2,8 +2,8 @@
 title: "Android SDK — JDK não encontrado?"
 date: "2011-06-30T07:00:00.000Z"
 ---
-Estou instalando o [SDK do Android](http://developer.android.com/sdk/index.html), só que estava esbarrando no erro “_Java SE Development Kit (JDK) not found_” (JDK não encontrado), mesmo já tendo instalado a versão mais recente do JDK.**  
-Nota:** Estou usando o Windows 7.
+Estou instalando o [SDK do Android](http://developer.android.com/sdk/index.html), só que estava esbarrando no erro “_Java SE Development Kit (JDK) not found_” (JDK não encontrado), mesmo já tendo instalado a versão mais recente do JDK.  
+**Nota:** Estou usando o Windows 7.
 
 Vi algumas soluções que envolviam alterações no registro, mas [nesse blog](http://codearetoy.wordpress.com/2010/12/23/jdk-not-found-on-installing-android-sdk/) alguém comentou uma solução bem mais simples, que funcionou para mim.
 

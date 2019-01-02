@@ -1,12 +1,12 @@
 ---
 title: "Little Plane — Meu primeiro game"
-date: "2011-06-30T07:00:00.000Z"
+date: "2011-06-30T20:00:00.000Z"
 ---
 Há 8 anos, quando eu estava começando a gostar desse negócio de desenvolvimento de games, eu descobri a ferramenta [**Game Maker**](http://www.yoyogames.com/gamemaker), que facilitava muito o trabalho de criar um jogo, ao mesmo tempo que te dava muita flexibilidade. Era muito divertido fazer as coisas com ela.
 
 Resolvi então fazer um game simples, mas do início ao fim (depois de ter deixado muitas ideias pelas metades). Fiz o **Aviaozim**. O jogo era completo (apesar de não ter história, e só ter uma fase), tinha manual de instruções, site do jogo. Mais tarde fiz uma versão em inglês, o [**Little Plane**](http://dmatoso.com/littleplane/).
 
-![](https://cdn-images-1.medium.com/max/800/0*H7tpIohwiUoVMAd9.jpg)
+![](0_H7tpIohwiUoVMAd.jpg)
 
 ## **1ª lição aprendida**
 

@@ -1,6 +1,6 @@
 ---
 title: "Exibindo conteúdo de um XML no SharePoint 2010"
-date: "2011-06-30T07:00:00.000Z"
+date: "2011-06-30T23:00:00.000Z"
 ---
 E aí, pessoal?
 
@@ -12,11 +12,11 @@ Estou usando o **SharePoint Foundation 2010** (hospedado gratuitamente, conforme
 
 Na página onde o conteúdo vai ser exibido, clique em **_Site Actions » Edit Page_**.
 
-![](https://cdn-images-1.medium.com/max/800/0*hbeApdFTFHKAKoTx.png)
+![](/0_hbeApdFTFHKAKoTx.png)
 
 Clique em **_Add a Web Part_** (ou **_Insert » Web Part_** no topo) e escolha a web part **_XML Viewer_** (está na categoria **_Content Rollup_**). Clique em **_Add_**.
 
-![](https://cdn-images-1.medium.com/max/800/0*Ehi3Q9niSGXfAGY_.png)
+![](/0_Ehi3Q9niSGXfAGY_.png)
 
 ## Configurando a web part
 
@@ -24,11 +24,11 @@ Clique no link **_open the tool pane_**, ou no menu dropdown da web part clique 
 
 No painel de opções da web part você pode digitar o XML que vai usar, ou colocar o link pra ele (pode ser um XML externo ou que esteja na própria aplicação). No nosso caso vamos usar o RSS do blog: [http://blog.dmatoso.com/feed/](http://blog.dmatoso.com/feed/)
 
-![](https://cdn-images-1.medium.com/max/800/0*rcso9B0I6w3E0y5q.png)
+![](/0_rcso9B0I6w3E0y5q.png)
 
 Coloque o link e clique em **_Apply_**. A web part vai mostrar todo o texto do XML, sem formatação. No good.
 
-![](https://cdn-images-1.medium.com/max/800/0*e2sz-EE8jSoxgzgz.png)
+![](/0_e2sz-EE8jSoxgzgz.png)
 
 ## Customizando a formatação com XSLT
 
@@ -36,6 +36,7 @@ Nas opções da web part você pode informar um XSL (seja digitando diretamente 
 
 Para o nosso exemplo vamos usar o XSLT abaixo:
 
+```xml
 <?xml version='1.0' encoding="utf-8" ?>  
 <xsl:stylesheet version="1.0" xmlns:xsl="[http://www.w3.org/1999/XSL/Transform](http://www.w3.org/1999/XSL/Transform)">  
   <xsl:output method="html" />  
@@ -57,10 +58,11 @@ Para o nosso exemplo vamos usar o XSLT abaixo:
     </li>  
   </xsl:template>  
 </xsl:stylesheet>
+```
 
 Digite este conteúdo no **_XSL Editor…_** (ou salve um arquivo .xslt e informe o link). Veja o resultado:
 
-![](https://cdn-images-1.medium.com/max/800/0*NUUVfdn8s_CCUnZE.png)
+![](/0_NUUVfdn8s_CCUnZE.png)
 
 Much better!
 
@@ -72,7 +74,7 @@ Como pode notar, o XSL é também um XML.
 
 **xsl:output** diz qual vai ser o resultado da transformação (no nosso caso, um HTML).
 
-**xsl:template** informa regras que serão aplicadas quando um nó do XML casa com o seletor do atributo **_match_**. No nosso exemplo, o primeiro template, que casa com “rss/channel” simplesmente abre e fecha a lista (<ul>…</ul>), e dentro dela aplica outro template (que casa com “item”). Como um feed possui vários nós “item”, este template será aplicado várias vezes, gerando os ítens da lista (<li>…</li>).
+**xsl:template** informa regras que serão aplicadas quando um nó do XML casa com o seletor do atributo **_match_**. No nosso exemplo, o primeiro template, que casa com “rss/channel” simplesmente abre e fecha a lista (`<ul>…</ul>`), e dentro dela aplica outro template (que casa com “item”). Como um feed possui vários nós “item”, este template será aplicado várias vezes, gerando os ítens da lista (`<li>…</li>`).
 
 Mais abaixo, no template que casa com “item”, usamos a tag **xsl:value-of** para inserir valores do XML no HTML resultante, como o título do post e a descrição (resumo).
 

@@ -14,28 +14,34 @@ A função **$.grep** recebe um array e uma função de filtro. Esta função re
 
 Suponha que temos um array de estudantes, com seus nomes e notas (_name_ e _grade_):
 
-var students = \[  
+```js
+var students = [  
   { name: 'Quico', grade: 10 },  
   { name: 'Godinez', grade: 4 },  
   { name: 'Chaves', grade: 5 },  
   { name: 'Nhonho', grade: 8 }  
-\];
+];
+```
 
 Agora quero filtrar de forma a manter apenas os aprovados (nota **5** ou mais):
 
+```js
 var approved = $.grep(students, function(student) {  
   return student.grade >= 5;  
 });
+```
 
 Note que passamos o array original e uma função. Esta função vai ser executada para cada um dos elementos do array, e deve retornar um booleano indicando se aquele elemento deve ser mantido ou não. No nosso exemplo estamos mantendo só quem tem **nota >= 5**.
 
 A variável _approved_ agora contém:
 
-var students = \[  
+```js
+[  
   { name: 'Quico', grade: 10 },  
   { name: 'Chaves', grade: 5 },  
   { name: 'Nhonho', grade: 8 }  
-\];
+];
+```
 
 ## Transformando com $.map
 
@@ -45,6 +51,7 @@ A função **$.map** tem uma assinatura idêntica à $.grep. Ela recebe um array
 
 Considerando o mesmo array de estudantes do exemplo anterior, vamos supor que queremos exibir a informação de maneira mais amigável. Vamos gerar um novo array com mensagens (_strings_), de acordo com as notas:
 
+```js
 var studentsMessages = $.map(students, function(student) {  
   var message = student.name + ' foi ';
 
@@ -58,13 +65,16 @@ var studentsMessages = $.map(students, function(student) {
 
   return message;  
 });
+```
 
 Veja que a função de transformação recebe um valor (um objeto com nome e nota) e usa essas informações para retornar um novo valor (uma string) que irá compor o array resultante. Com isso o array _studentsMessages_ fica assim:
 
-\["Quico foi aprovado com louvor!",  
+```js
+["Quico foi aprovado com louvor!",  
 "Godinez foi reprovado.",  
 "Chaves foi aprovado!",  
-"Nhonho foi aprovado!"\]
+"Nhonho foi aprovado!"]
+```
 
 ## $.map funcionando como $.grep
 
@@ -74,6 +84,7 @@ A $.map tem mais uma carta na manga! Ela pode funcionar como $.grep, excluindo e
 
 Vamos modificar o exemplo anterior para manter no array de mensagens apenas mensagens para os alunos aprovados:
 
+```js
 var studentsMessages = $.map(students, function(student) {  
   var message = student.name + ' foi ';
 
@@ -87,12 +98,15 @@ var studentsMessages = $.map(students, function(student) {
 
   return message;  
 });
+```
 
 Resultado:
 
-\["Quico foi aprovado com louvor!",  
+```js
+["Quico foi aprovado com louvor!",  
 "Chaves foi aprovado!",  
-"Nhonho foi aprovado!"\]
+"Nhonho foi aprovado!"]
+```
 
 Veja que o array resultante é menor que o original, pois além de transformado ele foi filtrado.
 
@@ -104,6 +118,7 @@ Os exemplos anteriores deixaram o array original intacto, mas nem sempre isso ac
 
 Queremos modificar o array de estudantes, adicionando um novo atributo _gift_, um presente de acordo com a nota de cada um:
 
+```js
 $.map(students, function(student) {  
   if (student.grade < 5) {  
     student.gift = 'Livro';  
@@ -113,17 +128,20 @@ $.map(students, function(student) {
     student.gift = 'Bola quadrada';  
   }  
 });
+```
 
 Note que não estamos atribuindo o resultado de $.map a nada, pois o que nos interessa é modificar o array original. (Neste caso o resultado de $.map é um **array vazio**, pois a função de transformação não retorna nada, o que implicitamente quer dizer que ela retorna _undefined_, e retornando _undefined_ para todos os elementos ela está filtrando e excluindo todos do resultado.)
 
 Com isso, nosso array original _students_ fica assim:
 
-\[  
+```js
+[  
   { name: 'Quico', grade: 10, gift: 'Bola quadrada' },  
   { name: 'Godinez', grade: 4, gift: 'Livro' },  
   { name: 'Chaves', grade: 5, gift: 'Refresco'},  
   { name: 'Nhonho', grade: 8, gift: 'Refresco'}  
-\]
+]
+```
 
 ## Sem jQuery: filter e map
 
@@ -133,9 +151,11 @@ A versão **1.6** do JavaScript possui os métodos **Array.filter** e **Array.ma
 
 Veja o mesmo exemplo do $.grep agora usando **Array.filter**:
 
+```js
 var approved = students.filter(function(student) {  
   return student.grade >= 5;  
 });
+```
 
 Note que filter é um método do próprio array, portanto ele só recebe como parâmetro a função de filtro. O corpo da função de filtro e o resultado são idênticos ao $.grep.
 
@@ -143,6 +163,7 @@ Note que filter é um método do próprio array, portanto ele só recebe como pa
 
 Veja o exemplo de mensagens, agora usando **Array.map**:
 
+```js
 var studentsMessages = students.map(function(student) {  
   var message = student.name + ' foi ';
 
@@ -156,6 +177,7 @@ var studentsMessages = students.map(function(student) {
 
   return message;  
 });
+```
 
 Mesma coisa. Só muda a forma de chamar.
 
@@ -163,6 +185,7 @@ Mesma coisa. Só muda a forma de chamar.
 
 Vimos que podemos usar $.map também para filtrar, bastando retornar _null_ ou _undefined_ para os elementos que desejamos exlcuir. Array.map não funciona da mesma forma. Qualquer coisa que for retornada será acrescentada ao array resultante. Exemplo:
 
+```js
 var studentsMessages = students.map(function(student) {  
   var message = student.name + ' foi ';
 
@@ -176,15 +199,18 @@ var studentsMessages = students.map(function(student) {
 
   return message;  
 });
+```
 
 _studentsMessages_ vai ficar assim:
 
-\[  
+```js
+[  
   "Quico foi aprovado com louvor!",  
   null,  
   "Chaves foi aprovado!",  
   "Nhonho foi aprovado!"  
-\]
+]
+```
 
 Por fim, o exemplo de $.map onde o array original foi alterado funcionaria da mesma forma com Array.map.
 

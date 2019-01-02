@@ -14,7 +14,7 @@ Comprei o notebook E-Max S501A com o processador Celeron M 440 (1866, 1MB, FSB 5
 *   Processador compatível
 *   Pasta térmica
 
-![](https://cdn-images-1.medium.com/max/800/0*TAAVJrbaLj2By-Zc.jpg)
+![](0_TAAVJrbaLj2By-Zc.jpg)
 
 Processador Core 2 Duo T5600
 
@@ -24,13 +24,13 @@ Antes de mais nada, retire a bateria do notebook (eu vacilei e abri o meu ainda 
 
 Vire o notebook de cabeça pra baixo e solte os 4 parafusos indicados na foto:
 
-![](https://cdn-images-1.medium.com/max/800/0*77Y-0ZoLas67EgXV.jpg)
+![](0_7Y-0ZoLas67EgXV.jpg)
 
 Parafusos a serem soltos
 
 Deslize a tampa um pouco para baixo e a retire.
 
-![](https://cdn-images-1.medium.com/max/800/0*1x6X0k9h7OK8iUgC.jpg)
+![](0_1x6X0k9h7OK8iUgC.jpg)
 
 Notebook sem a tampa
 
@@ -38,13 +38,13 @@ Notebook sem a tampa
 
 Para chegar à CPU você precisa remover o dissipador de calor, que é esta peça destacada na foto:
 
-![](https://cdn-images-1.medium.com/max/800/0*chh797fKhI5rx2ja.jpg)
+![](0_chh797fKhI5rx2ja.jpg)
 
 Dissipador de calor
 
 Remova os 6 parafusos que prendem o dissipador, seguindo a ordem inversa da numeração dos parafusos, ou seja: 6,5,4,3,2,1.
 
-![](https://cdn-images-1.medium.com/max/800/0*c4nYvg-nwvQjYV_J.jpg)
+![](0_c4nYvg-nwvQjYV_J.jpg)
 
 Numeração dos parafusos
 
@@ -52,19 +52,19 @@ Lembre-se: Para retirar o dissipador, remover os parafusos 6,5,4,3,2,1, nesta or
 
 Além dos parafusos, é preciso descolar o adesivo que prende o dissipador ao cooler:
 
-![](https://cdn-images-1.medium.com/max/800/0*iwYw7pQuTjk6DjAq.jpg)
+![](0_iwYw7pQuTjk6DjAq.jpg)
 
 É preciso descolar este adesivo
 
 Assim você pode remover o dissipador. Evite tocar os pedaços de fita térmica que estão colados no dissipador.
 
-![](https://cdn-images-1.medium.com/max/800/0*d5CLgmx262vphlRw.jpg)
+![](0_d5CLgmx262vphlRw.jpg)
 
 Removendo o dissipador
 
 Curiosidade: Agora dá pra ver o chipset de vídeo da ATI e a memória dedicada:
 
-![](https://cdn-images-1.medium.com/max/800/0*AVOs5tX_uG94sUDc.jpg)
+![](0_AVOs5tX_uG94sUDc.jpg)
 
 Chipset de vídeo
 
@@ -72,7 +72,7 @@ Chipset de vídeo
 
 Para remover o processador, é preciso girar a trava utilizando uma chave de fenda. Veja que há um desenho de cadeado aberto e fechado. Gire para a posição com o cadeado aberto.
 
-![](https://cdn-images-1.medium.com/max/800/0*7yCXF2-JGY5MLNJR.jpg)
+![](0_7yCXF2-JGY5MLNJR.jpg)
 
 Removendo o processador
 
@@ -80,13 +80,13 @@ Estando destravado, o processador sai com facilidade. Não é preciso fazer for�
 
 Retire o processador e coloque o novo. Novamente, não é preciso força, nem empurrá-lo para baixo. Verifique a posição correta dos pinos do processador. Em um canto falta um pino, que coincide com o canto onde falta um buraco no suporte. Basta posicionar corretamente e deixar ele encaixar nos buracos. Se não encaixou, é porque está na posição errada.
 
-![](https://cdn-images-1.medium.com/max/800/0*V7P_7MMq7ewxiwSS.jpg)
+![](0_V7P_7MMq7ewxiwSS.jpg)
 
 O novo processador
 
 Verifique se a CPU está bem assentada no suporte, como na foto:
 
-![](https://cdn-images-1.medium.com/max/800/0*CqBucZd91GEBmfcA.jpg)
+![](0_CqBucZd91GEBmfcA.jpg)
 
 CPU encaixada no suporte
 
@@ -96,19 +96,19 @@ Gire a trava de volta para o posição do cadeado fechado.
 
 Como a fita térmica que veio no seu notebook estará desgastada (veja foto), eu recomendo substiuí-la por pasta térmica.
 
-![](https://cdn-images-1.medium.com/max/800/0*9nbWNfm6ar1XqfJA.jpg)
+![](0_9nbWNfm6ar1XqfJA.jpg)
 
 Pasta térmica desgastada
 
 Primeiramente limpe bem a superfície de contato entre o dissipador e a CPU. Basta utilizar um papel. Ela vai ficar mais ou menos assim:
 
-![](https://cdn-images-1.medium.com/max/800/0*VUoYpDylx1Slzu68.jpg)
+![](0_VUoYpDylx1Slzu68.jpg)
 
 Contato limpo
 
 Aplique a pasta térmica no processador. Aqui minha falta de conhecimento entra em ação, pois eu não sei a quantidade ideal de pasta térmica. O que eu faço é colocar o suficiente para cobrir a parte metálica do processador, e evitar o contato direto entre o processador e o dissipador. Se escorrer um pouco pra fora da parte metálica não faz mal.
 
-![](https://cdn-images-1.medium.com/max/800/0*WZuOB-lpHyQx0Ctt.jpg)
+![](0_WZuOB-lpHyQx0Ctt.jpg)
 
 Aplicando pasta térmica
 
@@ -116,7 +116,7 @@ Feito isto, recoloque o dissipador, encaixando primeiramente a parte da grelha, 
 
 Recoloque os 6 parafusos, desta vez seguindo a ordem 1,2,3,4,5,6. Veja novamente a imagem:
 
-![](https://cdn-images-1.medium.com/max/800/0*ee5tBOK_v_1XjHPs.jpg)
+![](0_ee5tBOK_v_1XjHPs.jpg)
 
 Numeração dos parafusos
 

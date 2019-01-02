@@ -2,11 +2,12 @@
 title: "Usando Git (e GitHub) no Windows"
 date: "2011-09-13T07:00:00.000Z"
 ---
+> **Atualizado 2017**: Novos prints e atualização dos passos.
+
 E ae, pessoal!
 
 Tempinho sem postar, né? Bom, para colocar alguma atividade nesta bagaça vou fazer um tutorial simples para utilizar o [**Git**](http://git-scm.com/) no Windows e comitar seus códigos no [**GitHub**](http://www.github.com/).
 
-> **Atualizado 2017**: Novos prints e atualização dos passos.
 
 ## 1) Instalando o Git para Windows
 
@@ -50,14 +51,18 @@ Vamos testar? Crie uma pasta, botão direito nela e “**Git Bash Here**”.
 
 Antes de mais nada, informe ao Git os seus dados, que irão identificar seus commits. Digite os comandos:
 
+```bash
 git config --global user.name "Nome Sobrenome"   
-git config --global user.email "seu\_email@email.com"
+git config --global user.email "seu_email@email.com"
+```
 
 **Dica:** para copiar e colar comandos no Git Bash, clique com o botão direito na tela do terminal.
 
 Agora vamos inicializar um repositório Git nesta pasta que estamos.
 
+```bash
 git init
+```
 
 ![](https://cdn-images-1.medium.com/max/800/0*bjndKLLj8UWlpYJ9.png)
 
@@ -65,9 +70,11 @@ Viu esse (master) que apareceu na linha de comando? Ele indica que você está e
 
 Vamos adicionar um arquivo neste repositório que está vazio e comitá-lo. Veja a sequência de comandos:
 
+```bash
 touch teste.txt   
 git add .   
 git commit -m "Primeiro commit"
+```
 
 Primeiro criamos um arquivo **teste.txt** vazio. Depois adicionamos todos os novos arquivos (no caso só o teste.txt) ao índice do repositório, e por último comitamos todos os arquivos que estão no índice e foram modificados.
 
@@ -81,13 +88,17 @@ Vá em [https://github.com/](https://github.com/) e clique em “**Sign Up**” 
 
 Tendo cadastrado e logado em sua conta, agora você precisa de uma **chave SSH** para poder começar a comitar. No Git Bash digite:
 
-ssh-keygen -t rsa -C "seu\_email@email.com"
+```bash
+ssh-keygen -t rsa -C "seu_email@email.com"
+```
 
 Informe no comando seu e-mail cadastrado no **GitHub**. Dê Enter na próxima pergunta (sobre o arquivo a ser criado — vamos deixar o padrão).
 
 A próxima pergunta vai te pedir uma senha (**passphrase**). Invente uma senha e a informe. Ele vai pedir uma confirmação. Digite a senha novamente e Enter. Digite agora:
 
-notepad ~/.ssh/id\_rsa.pub
+```bash
+notepad ~/.ssh/id_rsa.pub
+```
 
 para abrir no Bloco de Notas o arquivo que foi criado.
 
@@ -99,7 +110,9 @@ Tome cuidado de copiar e colar todo o conteúdo do arquivo, começando por “ss
 
 Vamos testar pra ver se essa bagaça deu certo. No Git Bash digite:
 
+```bash
 ssh -T git@github.com
+```
 
 Ele vai perguntar se você tem certeza que quer conectar bla bla bla (yes/no). Digite **yes** e Enter. Na próxima pergunta (Enter passphrase…) informe sua senha (a que você escolheu ao criar a chave SSH).
 
@@ -121,7 +134,9 @@ Você cairá na página do seu repositório, que por enquanto ainda não tem arq
 
 No Git Bash (na pasta do seu repositório local) digite:
 
+```bash
 git remote add origin git@github.com:login/repositorio.git
+```
 
 Note que **login/repositorio** deve ser digitado como aparece na URL do seu repositório, no exemplo:
 
@@ -129,7 +144,9 @@ Note que **login/repositorio** deve ser digitado como aparece na URL do seu repo
 
 Agora para atualizar o **GitHub** com o que está no seu repositório local, digite:
 
+```bash
 git push -u origin master
+```
 
 Informe a sua senha (da chave SSH) quando pedido.
 
@@ -145,8 +162,7 @@ Até a próxima!
 
 ## Recomendação de Cursos
 
-[**Git e Github na Vida Real | Udemy**  
-_Vamos dominar o Git e não ficar mais desesperados com conflitos e como trabalhar em equipe._click.linksynergy.com](https://click.linksynergy.com/deeplink?id=2tWLz9iuLxQ&mid=39197&murl=https%3A%2F%2Fwww.udemy.com%2Fgit-e-github-na-vida-real%2F "https://click.linksynergy.com/deeplink?id=2tWLz9iuLxQ&mid=39197&murl=https%3A%2F%2Fwww.udemy.com%2Fgit-e-github-na-vida-real%2F")[](https://click.linksynergy.com/deeplink?id=2tWLz9iuLxQ&mid=39197&murl=https%3A%2F%2Fwww.udemy.com%2Fgit-e-github-na-vida-real%2F)
+[**Git e Github na Vida Real | Udemy**](https://click.linksynergy.com/deeplink?id=2tWLz9iuLxQ&mid=39197&murl=https%3A%2F%2Fwww.udemy.com%2Fgit-e-github-na-vida-real%2F)
 
 ## Links
 

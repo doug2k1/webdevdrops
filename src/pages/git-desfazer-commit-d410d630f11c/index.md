@@ -6,11 +6,15 @@ Acabou de comitar no **Git** e lembrou que faltou alguma alteração, ou foi alg
 
 Faça as alterações necessárias, dê um
 
+```bash
 git add
+```
 
 mas ao invés de fazer um novo commit, faça:
 
+```bash
 git commit --amend
+```
 
 Desta forma as alterações serão adicionadas ao commit anterior e você poderá inclusive editar a mensagem.
 
