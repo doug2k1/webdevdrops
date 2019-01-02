@@ -12,26 +12,36 @@ Você tem algumas opções para instalar.
 
 a) Se já possui Node/NPM na máquina:
 
-$ npm install -g n
+```bash
+npm install -g n
+```
 
 b) Você pode clonar o repositório e fazer:
 
-$ make install
+```bash
+make install
+```
 
 c) Ou ainda, usando o [n-install](https://github.com/mklement0/n-install):
 
-$ curl -L [https://git.io/n-install](https://git.io/n-install) | bash
+```bash
+curl -L [https://git.io/n-install](https://git.io/n-install) | bash
+```
 
 Uma vez instalado, você tem o comando `n` para usar no terminal:
 
-$ n --version  
+```bash
+n --version  
 2.1.7 
+```
 
 ## Instalando e usando versões do Node
 
 Ver quais versões estão disponíveis para instalação:
 
-$ n ls
+```bash
+n ls
+```
 
 ![](./1_5ywwlNGIZ6bcgO4zkNYR3w.png)
 
@@ -41,20 +51,28 @@ As versões em negrito já estão instaladas, e a marcada com um `o` é a versã
 
 Instalar e ativar uma versão específica:
 
-$ n 8.3.0
+```bash
+n 8.3.0
+```
 
 Ou instalar a última:
 
-$ n latest
+```bash
+n latest
+```
 
 Quer conferir se instalou mesmo?
 
-$ node -v  
+```bash
+node -v  
 v8.3.0
+```
 
 Ver quais versões já estão instaladas:
 
-$ n
+```bash
+n
+```
 
 ![](./1_lze8eHh1_n_2B3lu0yXILg.png)
 
@@ -64,7 +82,9 @@ A versão em destaque é a que está ativa no momento. Você pode ativar outra, 
 
 Você também pode ativar outra versão com o comando:
 
-$ n 7.8.0
+```bash
+n 7.8.0
+```
 
 Veja que é o mesmo comando para instalar uma versão nova. Ele é inteligente o suficiente para verificar se a versão já está instalada, e nesse caso só a torna ativa.
 
@@ -72,11 +92,15 @@ Veja que é o mesmo comando para instalar uma versão nova. Ele é inteligente o
 
 Com o tempo você pode começar a ficar com várias versões instaladas. Se quiser remover uma, ou mais, que não esteja usando:
 
-$ n - 4.0.0 6.2.0
+```bash
+n - 4.0.0 6.2.0
+```
 
 Ou se quiser remover todas, exceto a que está ativa:
 
-$ n prune
+```bash
+n prune
+```
 
 ## Conclusão
 

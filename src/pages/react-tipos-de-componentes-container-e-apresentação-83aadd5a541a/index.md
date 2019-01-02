@@ -14,6 +14,31 @@ Neste post vou falar sobre dois tipos de componentes no [**React**](https://face
 
 Um componente típico de **React** tem mais ou menos esta estrutura:
 
+```js
+class UserList extends React.Component {
+  constructor () {
+    super();
+    this.state = {
+      users: []
+    };
+  }
+
+  componentDidMount () {
+    fetch('/users').then(users => {
+      this.setState({ users });
+    });
+  }
+
+  render () {
+    return (
+      <ul>
+        {this.state.users.map(user => <li key={user.id}>{user.name}</li>)}
+      </ul>
+    );
+  }
+}
+```
+
 Observe que ele cuida de duas coisas distintas: carregar os dados e apresentá-los. Por que isso é ruim? Imagine que você tem um componente que é uma lista de usuários (_UserList_, como no exemplo). Agora você quer exibir essa lista em partes diferentes da aplicação (ex.: lista de usuários logados, lista de usuários que são meus amigos, lista de usuários que mais participam), todas com a mesma cara, mas com dados vindos de fontes diferentes. O componente acima já não pode ser reusado.
 
 Uma solução para isso é separar a parte de lógica, busca de dados, _state_, da parte da exibição.
@@ -22,11 +47,47 @@ Uma solução para isso é separar a parte de lógica, busca de dados, _state_, 
 
 Um componente de apresentação (_presentational component_), também chamado de componente “burro”, cuida apenas da parte do _render_. Todos os dados que ele precisa para fazer o render ele recebe via _props_. Ele deve tratar estes dados como imutáveis.
 
+```js
+class UserList extends React.Component {
+  render () {
+    return (
+      <ul>
+        {this.props.users.map(user => <li key={user.id}>{user.name}</li>)}
+      </ul>
+    );
+  }
+}
+```
+
 Veja que, para este componente não interessa de onde os dados vieram. Ele exibe o que ele recebe.
 
 ## Componente container
 
 O que “sobrou” do componente original é o container (_container component_). Ele é a parte “inteligente”. Ele carrega os dados, manipula o _state_ e entrega tudo mastigado para o componente de apresentação exibí-los.
+
+```js
+class UserListContainer extends React.Component {
+  constructor () {
+    super();
+    
+    this.state = {
+      users: []
+    };
+  }
+
+  componentDidMount () {
+    fetch('/users').then(users => {
+      this.setState({ users });
+    });
+  }
+
+  render () {
+    return (
+      <UserList users={this.state.users} />
+    );
+  }
+}
+```
 
 Veja que o _render_ dele é bem simples, apenas delegando para o componente de apresentação e tarefa de exibir os dados.
 
@@ -36,11 +97,56 @@ Com isso as responsabilidades ficam mais separadas e você pode reusar o compone
 
 Como os componentes de apresentação só possuem basicamente o _render_, o **React** permite escrevê-los de forma mais enxuta, na forma de _stateless functional components_. Ao invés de ser uma classe, seu componente é apenas uma função (o próprio _render_), que recebe os _props_ e retorna o _JSX_.
 
+```js
+const UserList = (props) => {
+  return (
+    <ul>
+      {props.users.map(user => <li key={user.id}>{user.name}</li>)}
+    </ul>
+  );
+};
+```
+
 ## Eventos
 
 Uma dúvida que pode surgir é sobre os eventos. Eventos são registrados nos elementos da apresentação, mas eles trabalham com lógica e podem alterar o _state_, que é responsabilidade do container.
 
 Para manter a separação você deve passar os possíveis _event handlers_ para a apresentação também na forma de props.
+
+```js
+// container
+class UserListContainer extends React.Component {
+  ...
+
+  toggleActive (event) {
+    // event logic
+  }
+
+  render () {
+    return (
+      <UserList users={this.state.users} toggleActive={this.toggleActive} />
+    );
+  }
+}
+```
+
+```js
+// apresentação
+const UserList = (props) => {
+  return (
+    <ul>
+      {props.users.map(user => {
+        return (
+          <li key={user.id}>
+            <input type="checkbox" onChange={props.toggleActive} />
+            {user.name}
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
+```
 
 ## MVC?
 
