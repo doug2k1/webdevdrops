@@ -4,6 +4,7 @@ import { Link, graphql } from 'gatsby'
 
 import Bio from '../components/Bio'
 import Layout from '../components/Layout'
+import Comments from '../components/Comments'
 import { rhythm, scale } from '../utils/typography'
 import './blog-post.css'
 
@@ -40,6 +41,18 @@ class BlogPostTemplate extends React.Component {
         />
         <Bio />
 
+        <hr
+          style={{
+            marginBottom: rhythm(1),
+          }}
+        />
+        <Comments />
+
+        <hr
+          style={{
+            marginBottom: rhythm(1),
+          }}
+        />
         <ul
           style={{
             display: 'flex',

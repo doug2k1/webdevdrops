@@ -1,4 +1,10 @@
 import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faTwitter,
+  faGithub,
+  faLinkedin,
+} from '@fortawesome/free-brands-svg-icons'
 
 // Import typefaces
 import 'typeface-montserrat'
@@ -6,6 +12,16 @@ import 'typeface-merriweather'
 
 import profilePic from './profile-pic.jpg'
 import { rhythm } from '../utils/typography'
+
+const links = [
+  { icon: faTwitter, alt: 'Twitter', url: 'https://twitter.com/doug2k1' },
+  { icon: faGithub, alt: 'GitHub', url: 'https://github.com/doug2k1' },
+  {
+    icon: faLinkedin,
+    alt: 'LinkedIn',
+    url: 'https://www.linkedin.com/in/douglasmatoso',
+  },
+]
 
 class Bio extends React.Component {
   render() {
@@ -29,6 +45,13 @@ class Bio extends React.Component {
         />
         <p>
           Por <strong>Douglas Matoso</strong>, desenvolvedor frontend.
+        </p>
+        <p>
+          {links.map(({ icon, alt, url }) => (
+            <a href={url} target="_blank">
+              <FontAwesomeIcon icon={icon} alt={alt} />
+            </a>
+          ))}
         </p>
       </div>
     )
