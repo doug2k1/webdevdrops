@@ -1,0 +1,2 @@
+# Redirect domain aliases to primary domain
+https://blog.dmatoso.com/* https://www.webdevdrops.com/:splat 301!
