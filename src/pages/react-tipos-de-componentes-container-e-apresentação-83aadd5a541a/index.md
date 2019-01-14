@@ -2,7 +2,7 @@
 title: "React - Tipos de componentes: container e apresentação"
 date: "2016-09-28T04:03:11.701Z"
 ---
-![](./1_wNMqBhaxEq0I2Q720yUcXw.jpeg)
+![](/1_wNMqBhaxEq0I2Q720yUcXw.jpeg)
 
 Componente burro (apresentação) e inteligente (container)
 

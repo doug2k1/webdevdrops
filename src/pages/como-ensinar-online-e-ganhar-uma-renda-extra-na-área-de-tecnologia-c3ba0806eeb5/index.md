@@ -4,7 +4,7 @@ date: "2018-10-30T02:29:01.665Z"
 ---
 A expansão da tecnologia nas mais diversas atividades profissionais fez com que a área de TI se estabelecesse como um dos pilares fundamentais de qualquer organização. Afinal, essa área impacta em muitos setores importantes da sociedade — cultural, social e, principalmente, econômico -, tornando-se relevante e essencial para a atuação de grandes empresas.
 
-![](./1_rq6O17GRJ92FqqI0-BGFkg.jpg)
+![](/1_rq6O17GRJ92FqqI0-BGFkg.jpg)
 
 Se o mercado de trabalho demanda os serviços prestados pela área, isso significa que a demanda por profissionais também existe. E em alto volume. Os profissionais de TI estão entre os mais procurados e bem pagos no mercado de trabalho. Se você, desenvolvedor, já está cansado de saber desses fatos, é hora de olhar para eles de uma nova perspectiva: esse é o contexto perfeito para você aproveitar suas habilidades e conhecimentos na área de TI e viabilizar uma renda extra.
 

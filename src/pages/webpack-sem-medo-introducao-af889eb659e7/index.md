@@ -20,7 +20,7 @@ Mapa da série:
 
 ## Mas o que é webpack?
 
-![](./1_eXNeHK9x0WzU2FJ16Xc0tA.png)
+![](/1_eXNeHK9x0WzU2FJ16Xc0tA.png)
 
 Ilustração na home page do webpack
 
@@ -36,7 +36,7 @@ Um ponto forte do **webpack** que ele é altamente configurável e extensível a
 
 Como o **webpack** sabe quais arquivos incluir e em qual ordem? Ele monta um **grafo de dependências**, que é uma estrutura mais ou menos assim:
 
-![](./1_IdbqsilganTNsOIoBHngVw.png)
+![](/1_IdbqsilganTNsOIoBHngVw.png)
 
 Grafo de dependências
 
@@ -87,7 +87,7 @@ Ambas as sintaxes são suportadas pelo webpack, mas aqui vamos usar **ES Modules
 
 Antes de começar a colocar a mão na massa é importante compreender os **4 _core concepts_** do webpack: **entry**, **output**, **loaders** e **plugins**. Tendo estes conceitos em mente fica mais fácil entender como o webpack trabalha.
 
-![](./1_jnnjkQxPySI5IUKpc5B19Q.png)
+![](/1_jnnjkQxPySI5IUKpc5B19Q.png)
 
 Ilustração dos 4 conceitos fundamentais do webpack
 
@@ -266,13 +266,13 @@ npm run build
 
 Este comando irá executar o webpack (através do webpack-cli), que vai percorrer o **grafo de dependências**, partindo do **_entry point_**, e gerar o _main.js_, que contém todo o código da aplicação e das dependências.
 
-![](./1_2WKq5OhkZLPh-zhZuy7GLg.png)
+![](/1_2WKq5OhkZLPh-zhZuy7GLg.png)
 
 Saída do webpack
 
 Você pode abrir o _index.html_ no navegador e ver o resultado.
 
-![](./1_LoJKN16rvHA5LvMvfXwcpA.png)
+![](/1_LoJKN16rvHA5LvMvfXwcpA.png)
 
 Resultado no navegador (vaquinha que curte webpack)
 

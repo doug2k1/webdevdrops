@@ -10,7 +10,7 @@ date: "2017-09-01T02:52:11.776Z"
 
 Basicamente, a forma como esta comunicação funciona é através da troca de mensagens. O cliente envia uma requisição e o servidor envia de volta uma resposta.
 
-![](./1_lqeEhjYQMv4k_vhbYT6eTQ.png)
+![](/1_lqeEhjYQMv4k_vhbYT6eTQ.png)
 
 Cliente e servidor conversando entre si.
 
@@ -18,7 +18,7 @@ Cliente e servidor conversando entre si.
 
 Uma requisição HTTP é composta das seguintes partes:
 
-![](./1_qbTgoN5Qx7epTNY6cUvNDg.png)
+![](/1_qbTgoN5Qx7epTNY6cUvNDg.png)
 
 Partes de uma requisição HTTP.
 
@@ -53,7 +53,7 @@ Opcional. É o conteúdo que o cliente envia para o servidor. Normalmente requis
 
 Uma resposta HTTP é composta das seguintes partes:
 
-![](./1_BrUEYdcNRbdqE3drkN5WoQ.png)
+![](/1_BrUEYdcNRbdqE3drkN5WoQ.png)
 
 Partes de uma resposta HTTP.
 

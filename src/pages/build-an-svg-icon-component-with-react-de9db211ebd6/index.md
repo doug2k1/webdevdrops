@@ -4,7 +4,7 @@ date: "2017-08-15T02:17:43.367Z"
 ---
 After coming from PNG sprites and then icon fonts to display icons in my projects, and suffering the problems and limitations of those approaches, in my most recent project I finally tried to use a more suitable format: SVGs!
 
-![](./1_9t47nYogiy-cub9L4PsYPQ.png)
+![](/1_9t47nYogiy-cub9L4PsYPQ.png)
 
 ## How the component should work
 
@@ -14,7 +14,7 @@ The goal is to simply pass the icon name as a prop and have the SVG rendered on 
 <Icon name="camera" />
 ```
 
-![](./1_ZFSSN_MkGy_aBWllOa4Lcg.png)
+![](/1_ZFSSN_MkGy_aBWllOa4Lcg.png)
 
 Icon on the page.
 

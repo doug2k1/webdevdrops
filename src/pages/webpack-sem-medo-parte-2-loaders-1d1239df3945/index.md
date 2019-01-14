@@ -26,7 +26,7 @@ You may need an appropriate loader to handle this file type.
 
 **Loaders** são módulos que são instalados separadamente e fazem a transformação do arquivo original para código JS. A forma como esta transformação é feita depende de cada loader. Loaders também podem ser usados para converter JS de uma versão para outra (por exemplo, ES6 para ES5).
 
-![](./1_jnnjkQxPySI5IUKpc5B19Q.png)
+![](/1_jnnjkQxPySI5IUKpc5B19Q.png)
 
 Conceitos fundamentais do webpack (veja onde os loaders entram)
 

@@ -23,17 +23,17 @@ O **Marmalade** é um SDK para desenvolvimento de aplicações mobile, para **Wi
 
 Para este tutorial eu vou criar uma aplicação simples, usando o template “**2D Game**” do **Marmalade**:
 
-![](./0_V1EPHsfQhrsorbe.png)
+![](/0_V1EPHsfQhrsorbe.png)
 
 O código gerado exibe um quadrado que acompanha onde você toca na tela. Vou modificá-lo um pouco, colocando uma imagem de fundo e outra imagem no lugar do quadrado. O código modificado pode ser encontrado [neste repositório do GitHub](https://github.com/doug2k1/marmalade_win_tutorial).
 
 Antes de mais nada, teste a aplicação no Windows para garantir que está compilando e rodando. NoVisual C++ escolha a configuração **(x86) Debug** e dê um **Start (F5)**.
 
-![](./0_14yu6mt6uBqd2PFM.png)
+![](/0_14yu6mt6uBqd2PFM.png)
 
 O resultado é o seguinte:
 
-![](./0_GQR96HZjq-Z1m2gp.jpg)
+![](/0_GQR96HZjq-Z1m2gp.jpg)
 
 ## 3) Instalando os certificados
 
@@ -41,29 +41,29 @@ Esta etapa é a mais complexa do processo, mas precisa ser feita apenas uma vez.
 
 Visite [http://developer.apple.com/membercenter](http://developer.apple.com/membercenter) e faça o login na sua conta de desenvolvedor e clique em **“iOS Provisioning Portal”**.
 
-![](./0_X8goTK_gCr1mWuc1.png)
+![](/0_X8goTK_gCr1mWuc1.png)
 
 Enquanto isso execute a ferramenta **“iPhone Signing Request Tool”** _(Iniciar > Programas > Marmalade > 5.1 > Tools > Marmalade iPhone Signing Request_). Esta ferramenta vai gerar um arquivo **.csr** que vai ser usado no site da Apple. O primeiro campo é onde o arquivo resultante será salvo, o segundo fica “developer\_identity.key”, o terceiro e quarto campos devem ser preenchidos com seu nome (primeiro e último) e email exatamente como estão cadastrados na Apple.
 
-![](./0_Kjn5LfySChvS7vpv.png)
+![](/0_Kjn5LfySChvS7vpv.png)
 
 Clique em “**Run**”.
 
 Com o arquivo .csr gerado, volte ao “**iOS Provisioning Portal**” e clique em “**Certificates**”. Clique no botão “**Request Certificate**”.
 
-![](./0_DnEE97kA_S82Jk5z.png)
+![](/0_DnEE97kA_S82Jk5z.png)
 
 No campo “**Selecionar arquivo**” (ou **Browse**) escolha o arquivo .csr que foi gerado e clique em “**Submit**”.
 
 De volta à tela “**Certificates**” clique no link **“\*If you do not have the WWDR intermediate certificate installed, click here to download now.**” para baixar o arquivo “**AppleWWDRCA.cer**”.
 
-![](./0_DBthAar9oxnpR6hv.png)
+![](/0_DBthAar9oxnpR6hv.png)
 
 Salve o arquivo na pasta “_C:\\Marmalade\\5.1\\s3e\\deploy\\plugins\\iphone\\certificates_” (ou a pasta equivalente na sua instalação do **Marmalade**).
 
 Mais uma vez, na tela “**Certificates**”, clique no botão “**Download**” ao lado do seu nome. (Se aparece seu nome, mas não o botão de download, atualize a página que o botão aparece.)
 
-![](./0_568tcHFp7yjISAWL.png)
+![](/0_568tcHFp7yjISAWL.png)
 
 Você vai baixar o arquivo “**developer\_identity.cer**”. Salve-o também na pasta “_C:\\Marmalade\\5.1\\s3e\\deploy\\plugins\\iphone\\certificates_”
 
@@ -73,11 +73,11 @@ Para poder rodar a aplicação no seu iPod/iPhone é preciso registrá-lo na sua
 
 De volta ao “**iOS Provisioning Portal**” clique em “**Devices**” e depois no botão “**Add Devices**”.
 
-![](./0_lXD4OWYU_dS7CTJC.png)
+![](/0_lXD4OWYU_dS7CTJC.png)
 
 Na próxima tela você vai precisar informar um nome para identificar o aparelho e o seu “Device ID”. Você pode descobrir este ID no **iTunes**, estando com seu aparelho conectado. Na tela abaixo, clique em “**Número de Série**”. Ele vai mudar para “**Identific. (UDID)**”. Aperte Ctrl+C para copiar o ID.
 
-![](./0_L0lubWmx4EobNdDb.png)
+![](/0_L0lubWmx4EobNdDb.png)
 
 Preencha os dois campos e clique em “**Submit**”.
 
@@ -87,17 +87,17 @@ Estamos quase lá! Mais um passo para poder rodar nosso app no aparelho.
 
 No “**iOS Provisioning Portal**” clique agora em “**App IDs**” e depois no botão “**New App ID**”.
 
-![](./0_f5At37VN9aenc-6_.png)
+![](/0_f5At37VN9aenc-6_.png)
 
 Preencha os campos. Em “**Description**” coloque uma descrição de sua preferência e em “**Bundle Identifier**” crie um identificador para seu app. Se quiser usar o mesmo App ID para mais de um app, você pode terminar esse identificador com um \* (asterisco), como eu fiz no exemplo:
 
-![](./0_Tpj6Swz9QRhuI5pR.png)
+![](/0_Tpj6Swz9QRhuI5pR.png)
 
 Clique em “**Submit**”.
 
 Agora clique em “**Provisioning**” e depois, “**New Profile**”. Preencha um nome para o perfil, e nos outros campos escolha o certficado, o App ID, e o dispositivo que configuramos nos passos anteriores, como na imagem:
 
-![](./0_QsA9t2eCxUiTDZ6P.png)
+![](/0_QsA9t2eCxUiTDZ6P.png)
 
 Clique em “**Submit**”.
 
@@ -105,7 +105,7 @@ De volta na tela que lista os perfis, clique no botão “**Download**” em fre
 
 **Nota:** Se o botão não aparece e o status está como “**Pending**”, atualize a página até que o status fique como “**Active**”.
 
-![](./0_TdhG1KdAe4TlEVWK.png)
+![](/0_TdhG1KdAe4TlEVWK.png)
 
 Você vai baixar um arquivo **.mobileprovision**. Abra o **iTunes** e vá em _Arquivo > Adicionar Arquivo à Biblioteca…_ Escolha o arquivo **.mobileprovision** que você baixou e clique “**Abrir**”. Parece que nada aconteceu, mas acredite, este passo é necessário.
 
@@ -117,37 +117,37 @@ Após todo esse trâmite, agora é só alegria. Vamos rodar nosso game no aparel
 
 Abra novamente o projeto no **Visual C++** e escolha a configuração “**GCC (ARM) Release**” e clique em **Start (F5)**.
 
-![](./0_XRCsnSamyxi452tJ.png)
+![](/0_XRCsnSamyxi452tJ.png)
 
 Após a compilação o próprio **Visual C++** vai executar o “**Marmalade System Deployment Tool**”. Na primeira tela escolha “**ARM GCC Release**” e clique “**Next** >”
 
-![](./0_l5IZv1FJ3Wdqo3RV.png)
+![](/0_l5IZv1FJ3Wdqo3RV.png)
 
 Na tela seguinte não precisa mudar nada. Clique “**Next** >”.
 
 Na tela “**Choose Platform(s)…**” escolha “**iOS (iPhone, iPad, iPod)**”. Clique “**Next** >”.
 
-![](./0_3LUYHVWmTqSEq613.png)
+![](/0_3LUYHVWmTqSEq613.png)
 
 Nas duas telas seguintes você entra com dados do aplicativo. Para testes pode deixar as duas como estão.
 
 Na última tela (foto abaixo) eu geralmente escolho “**Package and Install**”, pois assim ele gera o arquivo **IPA** e já instala no **iTunes**.
 
-![](./0_dBqT3Gn9uy71Won7.png)
+![](/0_dBqT3Gn9uy71Won7.png)
 
 Clique em “**Deploy All**”. Se tudo deu certo ele vai abrir o **iTunes** com seu jogo já instalado lá em “**Aplicativos**”.
 
 Se o **iTunes** não abriu, você pode navegar na pasta do seu projeto, e ir em “*\\build\\_meu jogo 2d\_vc10\\deployments\\default\\iphone\\release*” e dar um duplo-clique no arquivo “**algumacoisa.ipa**”.
 
-![](./0_HmPeJNzsRfa2A4rj.png)
+![](/0_HmPeJNzsRfa2A4rj.png)
 
 Agora basta sincronizar o seu **iPod**/**iPhone** e o aplicativo será instalado no aparelho.
 
-![](./0_pd300bXKKgIteeqx.jpg)
+![](/0_pd300bXKKgIteeqx.jpg)
 
 **OBS.:** Deixei o ícone padrão do Marmalade, mas obviamente ele pode ser alterado.
 
-![](./0_melYkzF8ZB_abq9D.jpg)
+![](/0_melYkzF8ZB_abq9D.jpg)
 
 Com isso concluimos o tutorial. Vale lembrar que a parte mais burocrática (passos 3, 4 e 5) é feita apenas uma vez. Depois é só ir desenvolvendo, testando no simulador e atualizando no aparelho.
 

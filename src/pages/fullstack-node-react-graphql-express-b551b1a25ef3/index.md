@@ -2,9 +2,9 @@
 title: "Fullstack com Node.js, React e GraphQL — Parte 2: Setup inicial e servidor Node.js com Express"
 date: "2018-03-06T00:59:33.036Z"
 ---
-E aí, pessoal! Neste segundo post da série [**Fullstack com Node.js, React e GraphQL**](./fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos fazer o setup inicial do projeto e o básico do servidor Express.
+E aí, pessoal! Neste segundo post da série [**Fullstack com Node.js, React e GraphQL**](/fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos fazer o setup inicial do projeto e o básico do servidor Express.
 
-![](./1_Kcvo-cPi0qsxOtKTZkWAuw.png)
+![](/1_Kcvo-cPi0qsxOtKTZkWAuw.png)
 
 O código final desta parte do projeto está aqui: [https://github.com/doug2k1/my-money/tree/v1.0.0](https://github.com/doug2k1/my-money/tree/v1.0.0)
 
@@ -126,7 +126,7 @@ Por fim adicionamos um arquivo HTML em _public/index.html_. Como o servidor est�
 
 Agora é só executar `npm start` e acessar [http://localhost:5000](http://localhost:5000):
 
-![](./1_X7CLaIt207qGwQ4NcyPYbQ.png)
+![](/1_X7CLaIt207qGwQ4NcyPYbQ.png)
 
 Servidor rodando local
 

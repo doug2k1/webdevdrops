@@ -4,7 +4,7 @@ date: "2017-09-01T02:12:34.955Z"
 ---
 Existe uma crença de que as pessoas mais produtivas são aquelas que conseguem fazer várias coisas ao mesmo tempo. [Dave Crenshaw](http://www.davecrenshaw.com/), no seu livro “The Myth of Multitasking” mostra que, na realidade o que acontece é o oposto.
 
-![](./0_x8me9t8iNAhAFW3.jpg)
+![](/0_x8me9t8iNAhAFW3.jpg)
 
 ## Faça um teste e veja você mesmo
 

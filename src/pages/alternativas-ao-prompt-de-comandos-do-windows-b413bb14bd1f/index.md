@@ -6,13 +6,13 @@ Neste post vou mostrar algumas boas alternativas ao defasado “prompt” do Win
 
 Se você desenvolve no Windows e ainda usa isso aqui para executar comandos:
 
-![](./0_hau0ohAxB2gFPoFY.png)
+![](/0_hau0ohAxB2gFPoFY.png)
 
 Pode parar! Veja algumas alternativas. Qualquer uma delas é melhor que o _cmd_ padrão.
 
 ## Git Bash
 
-![](./0_F0Q85BgPY7vvKE9R.png)
+![](/0_F0Q85BgPY7vvKE9R.png)
 
 Emulador de Bash para Windows. Já vem junto com o Git.
 
@@ -25,7 +25,7 @@ Link: [https://git-scm.com/](https://git-scm.com/)
 
 ## Console2
 
-![](./0_tiktJvCbM2B932io.png)
+![](/0_tiktJvCbM2B932io.png)
 
 É muito simples de usar e as abas ajudam muito.
 
@@ -38,7 +38,7 @@ Link: [http://sourceforge.net/projects/console/](http://sourceforge.net/projects
 
 ## ConEmu
 
-![](./0_VjvwrfqqsOPDUSBR.png)
+![](/0_VjvwrfqqsOPDUSBR.png)
 
 É o meu preferido atualmente. A subdivisão de uma mesma janela é um pouco chatinha de configurar no início, mas extremamente útil no dia-a-dia.
 
@@ -53,7 +53,7 @@ Link: [https://conemu.github.io/](https://conemu.github.io/)
 
 ## cmder
 
-![](./0_eihE5WOhW3_O561M.jpg)
+![](/0_eihE5WOhW3_O561M.jpg)
 
 O cmder é um pacote que junta o ConEmu com funcionalidades do [Clink](https://mridgers.github.io/clink/).
 
@@ -64,7 +64,7 @@ Link: [http://cmder.net/](http://cmder.net/)
 
 ## Power Cmd
 
-![](./0_GapGfvbbuHsa4n8n.png)
+![](/0_GapGfvbbuHsa4n8n.png)
 
 Possui funcionalidades parecidas com o ConEmu.
 
@@ -79,7 +79,7 @@ Link: [http://www.powercmd.com/](http://www.powercmd.com/)
 
 ## Babun
 
-![](./0_hhFdYgp-W3s5D-Fy.png)
+![](/0_hhFdYgp-W3s5D-Fy.png)
 
 *   Pré-configurado com Cygwin (comandos do Linux portados para Windows)
 *   Pact (instalador de pacotes semelhante a apt-get ou yum)

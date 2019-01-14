@@ -4,7 +4,7 @@ date: "2017-09-01T02:18:16.331Z"
 ---
 > Traduzido de [The Art of Momentum: Why Your Ideas Need Speed](http://the99percent.com/tips/6815/The-Art-of-Momentum-Why-Your-Ideas-Need-Speed), de Jocelyn K. Glei.
 
-![](./1_qNfgp-53-nrSwVzQfV-XTg2.png)
+![](/1_qNfgp-53-nrSwVzQfV-XTg2.png)
 
 Em seu maravilhoso livro _Musicophilia_, o neurologista Oliver Sacks descreve Clive Wearing, um músico e musicólogo cuja memória foi quase que completamente apagada após uma severa infecção cerebral. Pós-trauma, a memória de curto prazo de Clive durava apenas questão de segundos. Sacks escreve, “Ele não se lembrava de quase nada exceto do que ele estava fazendo naquele momento”.
 

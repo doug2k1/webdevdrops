@@ -4,7 +4,7 @@ date: "2017-12-29T12:02:22.339Z"
 ---
 E aí, pessoal! Neste post eu vou listar os melhores sites de cursos online pra aprender programação (seja web, mobile, games, machine learning) e tudo mais relacionado a tecnologia. Tem muita coisa em português e também muita coisa gratuita.
 
-![](./1_AbAo83RIOsXSQ1sG0Ymcbw.png)
+![](/1_AbAo83RIOsXSQ1sG0Ymcbw.png)
 
 ## Os Top 5 🏆
 
@@ -14,7 +14,7 @@ Antes de listar todas as opções, acho justo elencar e detalhar mais as **5 mel
 
 🔗 [udemy.com](http://bit.ly/udemy-dmatoso)
 
-![](./1_nhBZJGaOkig-wZp8-BO41A.png)
+![](/1_nhBZJGaOkig-wZp8-BO41A.png)
 
 Mais de 50.000 cursos em diversas áreas, como programação, design, negócios, artes, idiomas, etc.
 
@@ -35,7 +35,7 @@ Mais de 50.000 cursos em diversas áreas, como programação, design, negócios,
 
 🔗 [alura.com.br](http://www.alura.com.br)
 
-![](./1_Nnr_aMhucZ295lJejepMqA.png)
+![](/1_Nnr_aMhucZ295lJejepMqA.png)
 
 Mais de 400 cursos de tecnologia, nas áreas de programação, design, infraestrutura, negócios. Todos em português!
 
@@ -56,7 +56,7 @@ Mais de 400 cursos de tecnologia, nas áreas de programação, design, infraestr
 
 🔗 [pluralsight.com](http://bit.ly/pluralsight-dmatoso)
 
-![](./1_lO-80MS2Cbd_90Xd5A2iBQ.png)
+![](/1_lO-80MS2Cbd_90Xd5A2iBQ.png)
 
 Mais de 5000 cursos de tecnologia em áreas como desenvolvimento, infraestrutura e design e UX.
 
@@ -77,7 +77,7 @@ Mais de 5000 cursos de tecnologia em áreas como desenvolvimento, infraestrutura
 
 🔗 [udacity.com](https://br.udacity.com/)
 
-![](./1_nvulrDGvUvgPYQoGTxpxlA.png)
+![](/1_nvulrDGvUvgPYQoGTxpxlA.png)
 
 Excelentes cursos gratuitos em diferentes áreas do desenvolvimento (web, mobile, machine learning). Muitos cursos são feitos em parceria com grandes empresas como Google, Facebook e AT&T. Tem bastante material em português.
 
@@ -90,7 +90,7 @@ Oferece o programa _Nanodegree_, que são cursos mais completos, onde você dese
 
 🔗 [codeschool.com](https://www.codeschool.com/)
 
-![](./1__ttBTmck7V1KLgIdUpi2mQ.png)
+![](/1__ttBTmck7V1KLgIdUpi2mQ.png)
 
 Possivelmente os cursos com a melhor didática de toda a Internet. Os vídeos são objetivos e bem humorados, e após cada aula tem exercícios práticos que você faz no próprio navegador. Não possui uma quantidade tão grande de cursos quanto as outras escolas.
 

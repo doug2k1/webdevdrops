@@ -4,7 +4,7 @@ date: "2018-03-04T14:25:18.880Z"
 ---
 E aí, pessoal! Nesta série de posts irei documentar o desenvolvimento de uma aplicação web, backend e frontend, do zero até produção, envolvendo tecnologias como **Node.js**, **Sequelize**, **React**, **GraphQL** e **Apollo**.
 
-![](./1_tdnJ3a6gvjh7T27n2sdPFw.png)
+![](/1_tdnJ3a6gvjh7T27n2sdPFw.png)
 
 ## Motivação
 
@@ -27,7 +27,7 @@ A planilha começou a ficar complexa e trabalhosa de atualizar e consultar. Ent�
 
 ## Arquitetura
 
-![](./1_a57VA9JPX1D_VAPYg0zO1A.png)
+![](/1_a57VA9JPX1D_VAPYg0zO1A.png)
 
 Resumo da arquitetura
 

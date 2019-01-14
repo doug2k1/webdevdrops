@@ -10,7 +10,7 @@ date: "2017-08-30T15:00:39.671Z"
 
 Basically the way that communication works is by exchanging messages. The client sends a _request_ and the server sends back a _response_.
 
-![](./1_td1E_wVCTuIID4Ya1WAsAg.png)
+![](/1_td1E_wVCTuIID4Ya1WAsAg.png)
 
 Client and server talking to each other.
 
@@ -18,7 +18,7 @@ Client and server talking to each other.
 
 An HTTP request is composed of the following parts:
 
-![](./1_2jJAcnmw5vCGTmvU1Z_vAQ.png)
+![](/1_2jJAcnmw5vCGTmvU1Z_vAQ.png)
 
 Parts of an HTTP request.
 
@@ -53,7 +53,7 @@ Optional. The content the client sends to the server. GET and DELETE requests us
 
 An HTTP response is composed of the following parts:
 
-![](./1_o1R-tyJWZFB6utYP8giKpA.png)
+![](/1_o1R-tyJWZFB6utYP8giKpA.png)
 
 Parts of an HTTP response
 

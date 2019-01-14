@@ -8,7 +8,7 @@ OBS. 2: São todos executáveis Windows (sorry, Linux and Mac people).
 
 ## Mr. Bean Cortando o Rabo do Macaco
 
-![](./1_mZV86DyVsJV-Ae_k4VUrcw.png)
+![](/1_mZV86DyVsJV-Ae_k4VUrcw.png)
 
 Joguinho feito em XNA para aprendizado.
 
@@ -16,7 +16,7 @@ Joguinho feito em XNA para aprendizado.
 
 ## Boliche
 
-![](./1_d-D6_zpLE44M1H1h3ccwK.png)
+![](/1_d-D6_zpLE44M1H1h3ccwK.png)
 
 Desenvolvido com Blitz3D e a biblioteca de física Tokamak.
 
@@ -24,7 +24,7 @@ Desenvolvido com Blitz3D e a biblioteca de física Tokamak.
 
 ## Little Plane
 
-![](./1_w1VpDgiseziOOXdrjHj3FA.png)
+![](/1_w1VpDgiseziOOXdrjHj3FA.png)
 
 Game desenvolvido com o Game Maker.
 
@@ -34,7 +34,7 @@ Game desenvolvido com o Game Maker.
 
 ## Cena Urbana
 
-![](./1_rK37bOM7r8AlOtz1zAiGIw.png)
+![](/1_rK37bOM7r8AlOtz1zAiGIw.png)
 
 Trabalho desenvolvido para a disciplina de Computação Gráfica da universidade. Feito em C++ e OpenGL. (OBS.: Download temporariamente indisponível)
 
@@ -42,7 +42,7 @@ Trabalho desenvolvido para a disciplina de Computação Gráfica da universidade
 
 ## Demo FPS (Tiro em Primeira Pessoa)
 
-![](./1_Ov_lUwkYaCTaf2wWoabx4A.png)
+![](/1_Ov_lUwkYaCTaf2wWoabx4A.png)
 
 Demonstração de um jogo de tiro em primeira pessoa, feito em Blitz3D.
 
@@ -50,7 +50,7 @@ Demonstração de um jogo de tiro em primeira pessoa, feito em Blitz3D.
 
 ## Pong Max
 
-![](./1_jEGyZbfqbzFvLA05-4YRtQ.png)
+![](/1_jEGyZbfqbzFvLA05-4YRtQ.png)
 
 Demo de uma versão turbinada do clássico Pong, feita em BlitzMax.
 
@@ -58,7 +58,7 @@ Demo de uma versão turbinada do clássico Pong, feita em BlitzMax.
 
 ## FutMesa 3D
 
-![](./1_L3vpbmTodKsJ9faIctq5Gg.png)
+![](/1_L3vpbmTodKsJ9faIctq5Gg.png)
 
 Desenvolvido com Blitz3D e a biblioteca de física Tokamak.
 
@@ -66,7 +66,7 @@ Desenvolvido com Blitz3D e a biblioteca de física Tokamak.
 
 ## Tetris 3D
 
-![](./1_lEtcXSwv1_qfbMAMAjtXSg.png)
+![](/1_lEtcXSwv1_qfbMAMAjtXSg.png)
 
 Trabalho desenvolvido para a disciplina de Computação Gráfica da universidade. Feito em C++ e OpenGL.
 
@@ -74,7 +74,7 @@ Trabalho desenvolvido para a disciplina de Computação Gráfica da universidade
 
 ## Sinuca e Trigonometria
 
-![](./1_DHUH4uWdILgQdpIajhQhGQ.png)
+![](/1_DHUH4uWdILgQdpIajhQhGQ.png)
 
 Objeto de Aprendizagem desenvolvido em Flash para a disciplina de Sistemas Interativos da universidade.
 
@@ -82,7 +82,7 @@ Objeto de Aprendizagem desenvolvido em Flash para a disciplina de Sistemas Inter
 
 ## Câmera em 3a. Pessoa
 
-![](./1_oGgPzjmqITWDyNjIk1Iijg.png)
+![](/1_oGgPzjmqITWDyNjIk1Iijg.png)
 
 Teste de uma câmera em 3a. pessoa e personagem animado (formato MD2). Feito em Blitz3D.
 
@@ -90,7 +90,7 @@ Teste de uma câmera em 3a. pessoa e personagem animado (formato MD2). Feito em 
 
 ## Cenário 2D
 
-![](./1_HSbxQwC3QVtWQ01rvE2YZg.png)
+![](/1_HSbxQwC3QVtWQ01rvE2YZg.png)
 
 Carregamento de um cenário 2D feito em tiles com camadas de scroll. Cenário feito com o TileStudio e código em BlitzMax.
 
@@ -98,7 +98,7 @@ Carregamento de um cenário 2D feito em tiles com camadas de scroll. Cenário fe
 
 ## Sistema de Partículas
 
-![](./1_LLfpCpA7otnVawlcWkI5GQ.png)
+![](/1_LLfpCpA7otnVawlcWkI5GQ.png)
 
 Sistema de partículas desenvolvido em BlitzMax.
 
@@ -106,7 +106,7 @@ Sistema de partículas desenvolvido em BlitzMax.
 
 ## Sistema de Partículas (Fogo)
 
-![](./1_LKgt4PYzpr-txPXPfMMrFg.png)
+![](/1_LKgt4PYzpr-txPXPfMMrFg.png)
 
 Continuação do sistema de partículas desenvolvido em BlitzMax, agora com exemplo de fogo.
 
@@ -114,7 +114,7 @@ Continuação do sistema de partículas desenvolvido em BlitzMax, agora com exem
 
 ## Relógio Analógico
 
-![](./1_kxDtJjEn4X5UGc5dbNJlAw.png)
+![](/1_kxDtJjEn4X5UGc5dbNJlAw.png)
 
 Relógio analógico feito em BlitzMax.
 

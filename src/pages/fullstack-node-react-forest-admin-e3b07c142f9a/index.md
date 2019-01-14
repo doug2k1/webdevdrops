@@ -2,9 +2,9 @@
 title: "Fullstack com Node.js, React e GraphQL — Parte 4: Interface administrativa com Forest Admin"
 date: "2018-03-24T01:26:58.960Z"
 ---
-Faaala, pessoal! Neste quarto post da série [**Fullstack com Node.js, React e GraphQL**](./fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos criar a interface administrativa usando [**Forest Admin**](https://www.forestadmin.com/), permitindo fazer o CRUD dos dados (criar, editar, visualizar e remover).
+Faaala, pessoal! Neste quarto post da série [**Fullstack com Node.js, React e GraphQL**](/fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos criar a interface administrativa usando [**Forest Admin**](https://www.forestadmin.com/), permitindo fazer o CRUD dos dados (criar, editar, visualizar e remover).
 
-![](./1_Jh0amx_qcIQlgdeUilt1cA.png)
+![](/1_Jh0amx_qcIQlgdeUilt1cA.png)
 
 ## Forest Admin
 
@@ -77,11 +77,11 @@ Se estiver tudo certo, você vai ver a mensagem: **_Installation success!_**
 
 Você pode dar um nome para a sua aplicação e clicar **_Start_**. Ele vai pedir mais alguns dados e te levar para a tela de entrada da sua área administrativa (ele vai pedir a senha mais uma vez).
 
-![](./1_32P4Yg58XXSZLsMugcEKJg.png)
+![](/1_32P4Yg58XXSZLsMugcEKJg.png)
 
 Veja abaixo do nome que você está no ambiente **Development**. O Forest permite separar a área administrativa de desenvolvimento da de produção. Assim podemos testar funcionalidades sem mexer nos dados de produção.
 
-![](./1_aZBZ4B4ON-WpuHfOh81Bag.png)
+![](/1_aZBZ4B4ON-WpuHfOh81Bag.png)
 
 Veja no menu **_Data_** que temos páginas de listagem, criação, edição para cada um de nossos modelos.
 
@@ -89,7 +89,7 @@ Veja no menu **_Data_** que temos páginas de listagem, criação, edição para
 
 Uma _feature_ muito legal é na hora de cadastrar modelos relacionados. Por exemplo, para criar um **investimento** precisamos informar a qual **corretora** ele pertence. O Forest entende a relação e oferece um campo com auto-complete para selecionar a corretora:
 
-![](./1_oxknBIh0QW1GE8LdrAwWSw.png)
+![](/1_oxknBIh0QW1GE8LdrAwWSw.png)
 
 ### Customizações
 
@@ -97,13 +97,13 @@ O Forest permite várias customizações na interface através da opção **_Lay
 
 Você pode remover e ordenar campos dos formulários (os campos _id_, _created at_ e _updated at_, por exemplo, são preenchidos automaticamente e não precisamos deles nos formulários).
 
-![](./1_Kh1d9hww5Xbxrb3afeB_rQ.png)
+![](/1_Kh1d9hww5Xbxrb3afeB_rQ.png)
 
 Deixando o formulário mais clean.
 
 Você também pode ordenar e remover colunas das listagens e alterar o tamanho da paginação.
 
-![](./1_2yUykWKthpimuS4NqN9z7g.png)
+![](/1_2yUykWKthpimuS4NqN9z7g.png)
 
 Customizando a listagem
 
@@ -113,7 +113,7 @@ O Forest possui uma _feature_ chamada **Smart Fields**, onde você pode adiciona
 
 É normal ter o mesmo investimento em diferentes corretoras. Posso ter um valor aplicado no **Tesouro Selic 2023** nas corretoras **Easynvest** e **Rico**, por exemplo. No nosso admin, se eu for tentar adicionar uma transação no Tesouro Selic 2023 da Rico, o auto-complete do campo de investimento vai ficar assim:
 
-![](./1_v-EqyWU_B4a3yA96z0Y5IA.png)
+![](/1_v-EqyWU_B4a3yA96z0Y5IA.png)
 
 E aí? Qual é o da Rico e qual é da Easynvest?
 
@@ -137,15 +137,15 @@ ForestAdmin.collection('Investment', {
 
 Precisamos dizer ao Forest para usar este campo no auto-complete. Ative o **_Layout Editor_** e clique na engrenagem ao lado de **Investments**:
 
-![](./1_BfUYSFZLDz7yGLim4tKDAg.png)
+![](/1_BfUYSFZLDz7yGLim4tKDAg.png)
 
 E na opção **_reference field_**, esolher “full name”:
 
-![](./1_ELdMiU6brG6adUlGXQOhSg.png)
+![](/1_ELdMiU6brG6adUlGXQOhSg.png)
 
 Com isso, sempre que o modelo de **investimento** for referenciado em alguma parte da aplicação, você vai ver o **full name**. Assim podemos identificar a qual corretora pertence:
 
-![](./1_JSkwyHIHD_XLF7nuHgniuA.png)
+![](/1_JSkwyHIHD_XLF7nuHgniuA.png)
 
 ## Resultado final
 

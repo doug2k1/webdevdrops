@@ -2,9 +2,9 @@
 title: "Fullstack com Node.js, React e GraphQL — Parte 5: Integração Contínua com Travis CI"
 date: "2018-03-25T16:52:56.535Z"
 ---
-E aí, pessoal! Neste quinto post da série [**Fullstack com Node.js, React e GraphQL**](./fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos configurar integração contínua com [**Travis CI**](https://travis-ci.org/).
+E aí, pessoal! Neste quinto post da série [**Fullstack com Node.js, React e GraphQL**](/fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos configurar integração contínua com [**Travis CI**](https://travis-ci.org/).
 
-![](./1_FRJhbgto1rY2b3OgcRL5ow.png)
+![](/1_FRJhbgto1rY2b3OgcRL5ow.png)
 
 ## Integração contínua
 
@@ -26,7 +26,7 @@ Para se cadastrar no **Travis** é só visitar [https://travis-ci.org](https://t
 
 Já logado, encontre o repositório que queira ativar. Por exemplo:
 
-![](./1_4Q4DODhoZ7IkNIcxlyUZpA.png)
+![](/1_4Q4DODhoZ7IkNIcxlyUZpA.png)
 
 ### Configuração
 
@@ -105,17 +105,17 @@ Por fim, no `script` rodamos a verificação do Prettier, o ESLint e os testes.
 
 Sempre que você fizer um _push_ para o GitHub, o Travis irá executar as validações e indicar no _commit_ se passou ou não:
 
-![](./1_lXLRhz005nbQIi4gaHsbfQ.png)
+![](/1_lXLRhz005nbQIi4gaHsbfQ.png)
 
 ### Selo no README
 
 Você pode, inclusive, colocar um selo como este no seu README, indicando o status da _build_:
 
-![](./1_HzVlEHiTX6tLw2htC9-SGw.png)
+![](/1_HzVlEHiTX6tLw2htC9-SGw.png)
 
 Basta ir na sua conta do Travis, clicar no selo ao lado do nome do projeto, escolher o formato **Markdown** e colar o código no seu _README.md_.
 
-![](./1_Sx0-xynx-GL4fVe2fx-w5A.png)
+![](/1_Sx0-xynx-GL4fVe2fx-w5A.png)
 
 ## Resultado final
 

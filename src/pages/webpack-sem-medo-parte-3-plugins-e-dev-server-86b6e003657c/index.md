@@ -15,7 +15,7 @@ Mapa da série:
 *   [2: Loaders](../webpack-sem-medo-parte-2-loaders-1d1239df3945)
 *   **3: Plugins e Dev Server** (você está aqui)
 
-![](./1_9t8V1Gq2ESrH7yafGSycGg.png)
+![](/1_9t8V1Gq2ESrH7yafGSycGg.png)
 
 ## Plugins
 
@@ -105,7 +105,7 @@ Ele espera um objeto, onde a chave é o nome da variável que será disponibiliz
 
 Feito isso podemos remover o `import` do arquivo `src/cow.js` e rodar `npm run build`. Ao acessar a página a vaquinha continua lá:
 
-![](./1_W9DqlBUCYooEuaH-aX-i8A.png)
+![](/1_W9DqlBUCYooEuaH-aX-i8A.png)
 
 ## Exemplo 7: Extrair CSS
 
@@ -177,7 +177,7 @@ Por isso, é preciso alterar o _index.html_, para linkar este CSS:
 
 E aí podemos ver o resultado:
 
-![](./1_hQlkQxno7FwLlI9OeiEuvQ.png)
+![](/1_hQlkQxno7FwLlI9OeiEuvQ.png)
 
 ---
 

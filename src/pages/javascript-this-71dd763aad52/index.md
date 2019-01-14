@@ -4,7 +4,7 @@ date: "2017-09-06T21:46:58.001Z"
 ---
 Um dos aspectos mais importantes da linguagem JavaScript, e um dos mais incompreendidos, é a palavra-chave `this`. Neste post vou mostrar que `this` não é nenhum bicho de sete cabeças, e o valor dele é definido por 4 regras.
 
-![](./1_hirx3C42Y7PUjMtqmGQBSQ.jpeg)
+![](/1_hirx3C42Y7PUjMtqmGQBSQ.jpeg)
 
 ## WFT is ‘this’?
 

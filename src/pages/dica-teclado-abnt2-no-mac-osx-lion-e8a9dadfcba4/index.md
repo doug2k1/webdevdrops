@@ -12,6 +12,6 @@ Eu estava tendo problemas no meu Mac Mini, e dentre os pacotes que encontrei que
 
 Mas é possível mudar o mapeamento destas teclas de apoio, em **System Preferences > Keyboard > Modifier Keys**. No meu caso eu troquei as teclas **Command** e **Ctrl** entre si. Assim, para copiar eu continuo apertando Ctrl+C. :D
 
-![](./0_e1-Wi2H_80gYgBgl.jpg)
+![](/0_e1-Wi2H_80gYgBgl.jpg)
 
 \[\]’s

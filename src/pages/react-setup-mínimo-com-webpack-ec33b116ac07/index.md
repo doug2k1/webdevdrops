@@ -4,7 +4,7 @@ date: "2017-08-28T15:02:54.471Z"
 ---
 Neste post vou mostrar um setup mínimo de Webpack para começar a trabalhar com React.
 
-![](./1_M4ahYjPeHM2cpkjGwkeGyg.jpeg)
+![](/1_M4ahYjPeHM2cpkjGwkeGyg.jpeg)
 
 **tl;dr**  
 O setup final, com um componente de exemplo, pode ser encontrado aqui: [https://github.com/doug2k1/react-minimal-setup](https://github.com/doug2k1/react-minimal-setup)

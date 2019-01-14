@@ -2,9 +2,9 @@
 title: "Fullstack com Node.js, React e GraphQL — Parte 3.1: Testes unitários de models"
 date: "2018-03-22T23:57:26.641Z"
 ---
-Fala aí, pessoal! Nesta segunda parte do terceiro post da série [**Fullstack com Node.js, React e GraphQL**](./fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos adicionar testes unitários aos nossos modelos do [**Sequelize**](http://docs.sequelizejs.com/).
+Fala aí, pessoal! Nesta segunda parte do terceiro post da série [**Fullstack com Node.js, React e GraphQL**](/fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos adicionar testes unitários aos nossos modelos do [**Sequelize**](http://docs.sequelizejs.com/).
 
-![](./1_P4u1Mt5ZMHtAIih7Fn77UA.png)
+![](/1_P4u1Mt5ZMHtAIih7Fn77UA.png)
 
 ## Introdução
 
@@ -224,15 +224,15 @@ expect(transaction.get('Investment').get('name')).to.equal('Inv');
 
 Se rodarmos `npm run test` veremos um resultado assim:
 
-![](./1_AwaYu4VmSLd9XJjSV4b8cg.png)
+![](/1_AwaYu4VmSLd9XJjSV4b8cg.png)
 
 E se rodarmos `npm run test:coverage`, ele mostra no terminal a porcentagem de cobertura de cada arquivo:
 
-![](./1_nvRIHO1AnJs7u4B6S8bEAQ.png)
+![](/1_nvRIHO1AnJs7u4B6S8bEAQ.png)
 
 E também gera um HTML em _coverage/index.html_ com os detalhes da cobertura, inclusive mostrando as linhas de código onde os testes passaram ou não.
 
-![](./1_wj3gP9LSjwf0JX_z2QGEeA.png)
+![](/1_wj3gP9LSjwf0JX_z2QGEeA.png)
 
 ## Resultado final
 

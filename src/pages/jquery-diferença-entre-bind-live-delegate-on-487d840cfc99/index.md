@@ -4,7 +4,7 @@ date: "2016-09-27T03:00:45.249Z"
 ---
 A biblioteca [**jQuery**](http://www.jquery.com) oferece diferentes formas de registrar eventos: **bind**, **live**, **delegate**, **on**… Mas quais são as diferenças? Quando devo usar cada uma destas funções?
 
-![](./1_Gss2nCUCTy4vw_qicvxZDg.jpeg)
+![](/1_Gss2nCUCTy4vw_qicvxZDg.jpeg)
 
 ## bind
 

@@ -6,7 +6,7 @@ date: "2017-10-09T21:32:21.864Z"
 
 Existem excelentes **geradores de sites estáticos**, em diferentes linguagens, e com muitas funcionalidades, mas construir o seu próprio é mais fácil do que você imagina, e podemos aprender algumas coisas novas no processo.
 
-![](./1_qedPrFYGXlsbmjDl7lnVmg.jpeg)
+![](/1_qedPrFYGXlsbmjDl7lnVmg.jpeg)
 
 ## Por que construir o seu próprio?
 

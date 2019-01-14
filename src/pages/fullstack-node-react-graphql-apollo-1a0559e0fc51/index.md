@@ -2,9 +2,9 @@
 title: "Fullstack com Node.js, React e GraphQL — Parte 6: Servidor GraphQL"
 date: "2018-04-21T00:06:02.176Z"
 ---
-E aí, pessoal! Neste sexto post da série [**Fullstack com Node.js, React e GraphQL**](./fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos adicionar o **GraphQL** no servidor usando [**Apollo Server**](https://www.apollographql.com/docs/apollo-server/).
+E aí, pessoal! Neste sexto post da série [**Fullstack com Node.js, React e GraphQL**](/fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos adicionar o **GraphQL** no servidor usando [**Apollo Server**](https://www.apollographql.com/docs/apollo-server/).
 
-![](./1_45PbrMFt9GJDe3cYwVxl2Q.png)
+![](/1_45PbrMFt9GJDe3cYwVxl2Q.png)
 
 ### GraphQL
 
@@ -12,7 +12,7 @@ E aí, pessoal! Neste sexto post da série [**Fullstack com Node.js, React e Gra
 
 Para ilustrar, veja um exemplo de query e o retorno do servidor:
 
-![](./1_J38COL43zbvywF6lmu_hQQ.png)
+![](/1_J38COL43zbvywF6lmu_hQQ.png)
 
 Eu pedi pelas corretoras, campos id e nome, e dentro de cada corretora trazer seus investimentos, apenas campo nome. Esta é a parte **QL** do nome (_query language_).
 
@@ -24,7 +24,7 @@ A parte **Graph** do nome vem do fato que toda busca percorre um **grafo**.
 
 Para ilustrar, veja como ficaria o grafo que representa nossa aplicação. Destacado em laranja está o caminho percorrido pela _query_ acima.
 
-![](./1_XQbgY8IoglLkOox1pOg12A.png)
+![](/1_XQbgY8IoglLkOox1pOg12A.png)
 
 Grafo com a representação de nossos modelos e suas relações.
 
@@ -126,7 +126,7 @@ Mas tem! É o…
 
 O **GraphiQL** é uma interface web que permite inserir _queries_, possui autocomplete e uma documentação com todas as _queries_ e campos possíveis. Tudo gerado a partir do nosso _schema_.
 
-![](./1_SOshJPwch9WxUPUeNPHseQ.png)
+![](/1_SOshJPwch9WxUPUeNPHseQ.png)
 
 Interface do GraphiQL
 

@@ -43,7 +43,7 @@ Ver quais versões estão disponíveis para instalação:
 n ls
 ```
 
-![](./1_5ywwlNGIZ6bcgO4zkNYR3w.png)
+![](/1_5ywwlNGIZ6bcgO4zkNYR3w.png)
 
 Saída do comando “n ls”
 
@@ -74,7 +74,7 @@ Ver quais versões já estão instaladas:
 n
 ```
 
-![](./1_lze8eHh1_n_2B3lu0yXILg.png)
+![](/1_lze8eHh1_n_2B3lu0yXILg.png)
 
 Saída do comando “n”
 

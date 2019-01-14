@@ -2,15 +2,15 @@
 title: "Fullstack com Node.js, React e GraphQL — Parte 3: PostgreSQL e Sequelize"
 date: "2018-03-15T01:08:24.784Z"
 ---
-Olá, pessoal! Neste terceiro post da série [**Fullstack com Node.js, React e GraphQL**](./fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos adicionar o banco de dados [**PostgreSQL**](https://www.postgresql.org/), fazendo o mapeamento entre o banco e a aplicação com [**Sequelize**](http://docs.sequelizejs.com/).
+Olá, pessoal! Neste terceiro post da série [**Fullstack com Node.js, React e GraphQL**](/fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos adicionar o banco de dados [**PostgreSQL**](https://www.postgresql.org/), fazendo o mapeamento entre o banco e a aplicação com [**Sequelize**](http://docs.sequelizejs.com/).
 
-![](./1_1WK3mKHG11Dwq-e3V_nK-g.png)
+![](/1_1WK3mKHG11Dwq-e3V_nK-g.png)
 
 ## Esquema do banco
 
 Nosso banco de dados vai começar simples:
 
-![](./1_LTjQGVt7pF_mt1RiPDpNrA.png)
+![](/1_LTjQGVt7pF_mt1RiPDpNrA.png)
 
 Esquema do banco
 
@@ -42,7 +42,7 @@ Vamos usar o comando `psql` para acessar o banco.
 
 Uma vez conectado, você vai estar em uma outra linha de comando, onde pode usar comandos específicos no Postgres. um deles é o `\du`, que lista os usuários existentes no banco:
 
-![](./1_p64ACI0ZRn_dfQmVdojA_A.png)
+![](/1_p64ACI0ZRn_dfQmVdojA_A.png)
 
 Vamos criar o usuário _mymoney_ para a aplicação (pode escolher uma senha mais segura 😉):
 

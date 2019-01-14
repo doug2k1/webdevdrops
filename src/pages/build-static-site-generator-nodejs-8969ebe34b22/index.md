@@ -6,7 +6,7 @@ date: "2017-09-14T21:34:36.069Z"
 
 There are excellent **static site generators** out there, in different languages, with lots of features, but actually building your own is easier than you might think, and we learn some things in the process.
 
-![](./1_qedPrFYGXlsbmjDl7lnVmg.jpeg)
+![](/1_qedPrFYGXlsbmjDl7lnVmg.jpeg)
 
 ## Why build your own?
 
