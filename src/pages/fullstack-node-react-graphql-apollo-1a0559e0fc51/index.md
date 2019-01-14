@@ -94,8 +94,8 @@ Para _queries_ que aceitam parâmetros, estes são passados no segundo argumento
 
 ```js
 Query: {  
-    brokers: (obj, **args**) => Broker.all(args),  
-    broker: (obj, **{ id }**) => Broker.findById(id)
+    brokers: (obj, args) => Broker.all(args),  
+    broker: (obj, { id }) => Broker.findById(id)
 ```
 
 ### Endpoint de consultas

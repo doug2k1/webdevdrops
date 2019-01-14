@@ -60,7 +60,7 @@ module.exports = {
         short_name: `WebDevDrops`,
         start_url: `/`,
         background_color: `#ffffff`,
-        theme_color: `#663399`,
+        theme_color: `#245E28`,
         display: `minimal-ui`,
         icon: `src/assets/app-icon.png`,
       },
