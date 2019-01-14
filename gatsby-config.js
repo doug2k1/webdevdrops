@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: 'Web Dev Drops',
     author: 'Douglas Matoso',
-    description: 'A starter blog demonstrating what Gatsby can do.',
+    description: 'Artigos, tutoriais e dicas sobre desenvolvimento web.',
     siteUrl: 'https://webdevdrops.com',
   },
   pathPrefix: '/',
@@ -49,7 +49,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        //trackingId: `ADD YOUR TRACKING ID HERE`,
+        trackingId: `UA-22870179-6`,
       },
     },
     `gatsby-plugin-feed`,
