@@ -1,2 +1,5 @@
 # Redirect domain aliases to primary domain
 https://blog.dmatoso.com/* https://www.webdevdrops.com/:splat 301!
+
+# Optional: Redirect default Netlify subdomain to primary domain
+https://webdevdrops.netlify.com/* https://www.webdevdrops.com/:splat 301!
