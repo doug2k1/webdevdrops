@@ -56,13 +56,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Web Dev Bits`,
-        short_name: `WebDevBits`,
+        name: `Web Dev Drops`,
+        short_name: `WebDevDrops`,
         start_url: `/`,
         background_color: `#ffffff`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/assets/gatsby-icon.png`,
+        icon: `src/assets/app-icon.png`,
       },
     },
     `gatsby-plugin-offline`,
