@@ -43,16 +43,26 @@ class Bio extends React.Component {
             height: rhythm(2),
           }}
         />
-        <p>
-          Por <strong>Douglas Matoso</strong>, desenvolvedor frontend.
-        </p>
-        <p>
-          {links.map(({ icon, alt, url }) => (
-            <a href={url} target="_blank">
-              <FontAwesomeIcon icon={icon} alt={alt} />
-            </a>
-          ))}
-        </p>
+        <div>
+          <p style={{ margin: 0 }}>
+            Por <strong>Douglas Matoso</strong>, desenvolvedor frontend.
+            <br />
+            {links.map(({ icon, alt, url }) => (
+              <a
+                href={url}
+                target="_blank"
+                style={{
+                  color: 'inherit',
+                  boxShadow: 'none',
+                  fontSize: 20,
+                  marginRight: 10,
+                }}
+              >
+                <FontAwesomeIcon icon={icon} alt={alt} />
+              </a>
+            ))}
+          </p>
+        </div>
       </div>
     )
   }

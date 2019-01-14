@@ -6,11 +6,14 @@ class Bio extends React.Component {
     return (
       <section
         style={{
-          display: 'flex',
           marginBottom: rhythm(2.5),
         }}
       >
         <h2>Comentários</h2>
+        <p>
+          Estamos em processo de migração. Os comentários serão habilitados em
+          breve.
+        </p>
       </section>
     )
   }
