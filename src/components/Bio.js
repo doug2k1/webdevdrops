@@ -1,4 +1,5 @@
 import React from 'react'
+import { config } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faTwitter,
@@ -9,6 +10,10 @@ import {
 // Import typefaces
 import 'typeface-montserrat'
 import 'typeface-merriweather'
+
+// add icons
+config.autoAddCss = false
+import '@fortawesome/fontawesome-svg-core/styles.css'
 
 import profilePic from './profile-pic.jpg'
 import { rhythm } from '../utils/typography'
@@ -52,12 +57,14 @@ class Bio extends React.Component {
                 key={url}
                 href={url}
                 target="_blank"
+                rel="nofollow noopener noreferrer"
                 style={{
                   color: 'inherit',
                   boxShadow: 'none',
                   fontSize: 22,
                   marginRight: 16,
                 }}
+                title={alt}
               >
                 <FontAwesomeIcon icon={icon} alt={alt} />
               </a>
