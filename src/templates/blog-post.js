@@ -15,10 +15,11 @@ class BlogPostTemplate extends React.Component {
     const siteDescription = post.excerpt
     const { previous, next } = this.props.pageContext
     const title = `${post.frontmatter.title} | ${siteTitle}`
-    const imageUrl =
-      (post.frontmatter.image &&
-        post.frontmatter.image.childImageSharp.fixed.src) ||
-      ''
+    const imageUrl = post.frontmatter.image
+      ? `${this.props.data.site.siteMetadata.siteUrl}${
+          post.frontmatter.image.childImageSharp.fixed.src
+        }`
+      : ''
 
     /* <meta property="og:title" content="European Travel Destinations">
 <meta property="og:description" content="Offering tour packages for individuals or groups.">
@@ -108,6 +109,7 @@ export const pageQuery = graphql`
       siteMetadata {
         title
         author
+        siteUrl
       }
     }
     markdownRemark(fields: { slug: { eq: $slug } }) {
