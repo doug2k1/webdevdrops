@@ -1,6 +1,7 @@
 ---
 title: "Fullstack com Node.js, React e GraphQL — Parte 6: Servidor GraphQL"
 date: "2018-04-21T00:06:02.176Z"
+image: "1_45PbrMFt9GJDe3cYwVxl2Q.png"
 ---
 E aí, pessoal! Neste sexto post da série [**Fullstack com Node.js, React e GraphQL**](/fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos adicionar o **GraphQL** no servidor usando [**Apollo Server**](https://www.apollographql.com/docs/apollo-server/).
 
