@@ -49,6 +49,7 @@ class Bio extends React.Component {
             <br />
             {links.map(({ icon, alt, url }) => (
               <a
+                key={url}
                 href={url}
                 target="_blank"
                 style={{
