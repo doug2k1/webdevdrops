@@ -31,7 +31,7 @@ class BlogIndex extends React.Component {
             { property: 'og:title', content: siteTitle },
             {
               property: 'og:image',
-              content: `${siteUrl}/assets/app-icon.png`,
+              content: `${siteUrl}/icons/icon-512x512.png`,
             },
             { name: 'twitter:card', content: 'summary' },
           ]}
