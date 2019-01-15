@@ -55,8 +55,8 @@ class Bio extends React.Component {
                 style={{
                   color: 'inherit',
                   boxShadow: 'none',
-                  fontSize: 20,
-                  marginRight: 10,
+                  fontSize: 22,
+                  marginRight: 16,
                 }}
               >
                 <FontAwesomeIcon icon={icon} alt={alt} />
