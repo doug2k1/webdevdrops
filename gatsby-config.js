@@ -3,7 +3,7 @@ module.exports = {
     title: 'Web Dev Drops',
     author: 'Douglas Matoso',
     description: 'Artigos, tutoriais e dicas sobre desenvolvimento web.',
-    siteUrl: 'https://webdevdrops.com',
+    siteUrl: 'https://www.webdevdrops.com',
   },
   pathPrefix: '/',
   plugins: [
