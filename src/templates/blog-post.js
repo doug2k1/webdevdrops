@@ -14,13 +14,31 @@ class BlogPostTemplate extends React.Component {
     const siteTitle = this.props.data.site.siteMetadata.title
     const siteDescription = post.excerpt
     const { previous, next } = this.props.pageContext
+    const title = `${post.frontmatter.title} | ${siteTitle}`
+    const imageUrl =
+      (post.frontmatter.image &&
+        post.frontmatter.image.childImageSharp.fixed.src) ||
+      ''
+
+    /* <meta property="og:title" content="European Travel Destinations">
+<meta property="og:description" content="Offering tour packages for individuals or groups.">
+<meta property="og:image" content="http://euro-travel-example.com/thumbnail.jpg">
+<meta property="og:url" content="http://euro-travel-example.com/index.htm">
+</meta> */
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <Helmet
           htmlAttributes={{ lang: 'en' }}
-          meta={[{ name: 'description', content: siteDescription }]}
-          title={`${post.frontmatter.title} | ${siteTitle}`}
+          meta={[
+            { name: 'description', content: siteDescription },
+            { property: 'og:title', content: title },
+            {
+              property: 'og:image',
+              content: imageUrl,
+            },
+          ]}
+          title={title}
         />
         <h1>{post.frontmatter.title}</h1>
         <p
@@ -99,6 +117,13 @@ export const pageQuery = graphql`
       frontmatter {
         title
         date(formatString: "DD/MM/YYYY")
+        image {
+          childImageSharp {
+            fixed(width: 630) {
+              ...GatsbyImageSharpFixed
+            }
+          }
+        }
       }
     }
   }

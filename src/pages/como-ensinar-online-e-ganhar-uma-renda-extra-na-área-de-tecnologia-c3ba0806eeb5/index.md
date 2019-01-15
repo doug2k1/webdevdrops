@@ -1,6 +1,7 @@
 ---
 title: "Como ensinar online e ganhar uma renda extra na área de tecnologia"
 date: "2018-10-30T02:29:01.665Z"
+image: "1_rq6O17GRJ92FqqI0-BGFkg.jpg"
 ---
 A expansão da tecnologia nas mais diversas atividades profissionais fez com que a área de TI se estabelecesse como um dos pilares fundamentais de qualquer organização. Afinal, essa área impacta em muitos setores importantes da sociedade — cultural, social e, principalmente, econômico -, tornando-se relevante e essencial para a atuação de grandes empresas.
 
