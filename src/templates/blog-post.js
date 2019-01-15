@@ -32,6 +32,7 @@ class BlogPostTemplate extends React.Component {
               property: 'og:image',
               content: imageUrl,
             },
+            { name: 'twitter:card', content: 'summary_large_image' },
           ]}
           title={title}
         />
