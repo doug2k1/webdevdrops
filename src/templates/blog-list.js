@@ -29,6 +29,7 @@ class BlogIndex extends React.Component {
           meta={[
             { name: 'description', content: siteDescription },
             { property: 'og:title', content: siteTitle },
+            { property: 'og:description', content: siteDescription },
             {
               property: 'og:image',
               content: `${siteUrl}/icons/icon-512x512.png`,
