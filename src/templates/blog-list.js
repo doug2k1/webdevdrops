@@ -10,6 +10,7 @@ import { rhythm } from '../utils/typography'
 class BlogIndex extends React.Component {
   render() {
     const siteTitle = get(this, 'props.data.site.siteMetadata.title')
+    const siteUrl = get(this, 'props.data.site.siteMetadata.siteUrl')
     const siteDescription = get(
       this,
       'props.data.site.siteMetadata.description'
@@ -25,7 +26,15 @@ class BlogIndex extends React.Component {
       <Layout location={this.props.location} title={siteTitle}>
         <Helmet
           htmlAttributes={{ lang: 'en' }}
-          meta={[{ name: 'description', content: siteDescription }]}
+          meta={[
+            { name: 'description', content: siteDescription },
+            { property: 'og:title', content: siteTitle },
+            {
+              property: 'og:image',
+              content: `${siteUrl}/assets/app-icon.png`,
+            },
+            { name: 'twitter:card', content: 'summary' },
+          ]}
           title={siteTitle}
         />
         <Bio />
@@ -86,6 +95,7 @@ export const pageQuery = graphql`
       siteMetadata {
         title
         description
+        siteUrl
       }
     }
     allMarkdownRemark(
