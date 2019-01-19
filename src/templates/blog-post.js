@@ -60,7 +60,13 @@ class BlogPostTemplate extends React.Component {
             marginBottom: rhythm(1),
           }}
         />
-        <Comments />
+
+        <Comments
+          url={`${this.props.data.site.siteMetadata.siteUrl}/${
+            post.fields.slug
+          }`}
+          id={post.id}
+        />
 
         <hr
           style={{
@@ -109,6 +115,9 @@ export const pageQuery = graphql`
     }
     markdownRemark(fields: { slug: { eq: $slug } }) {
       id
+      fields {
+        slug
+      }
       excerpt
       html
       frontmatter {
