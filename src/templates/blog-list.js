@@ -37,7 +37,9 @@ class BlogIndex extends React.Component {
             { name: 'twitter:card', content: 'summary' },
           ]}
           title={siteTitle}
-        />
+        >
+          <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" />
+        </Helmet>
         <Bio />
         {posts.map(({ node }) => {
           const title = node.frontmatter.title || node.fields.slug
