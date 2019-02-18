@@ -45,7 +45,8 @@ class BlogPostTemplate extends React.Component {
             marginTop: rhythm(-1),
           }}
         >
-          {post.frontmatter.date}
+          📅 {post.frontmatter.date} &bull; 🕙
+          {Math.round(post.fields.readingTime.minutes)} min. de leitura
         </p>
         <div dangerouslySetInnerHTML={{ __html: post.html }} />
         <hr
@@ -117,6 +118,9 @@ export const pageQuery = graphql`
       id
       fields {
         slug
+        readingTime {
+          minutes
+        }
       }
       excerpt
       html

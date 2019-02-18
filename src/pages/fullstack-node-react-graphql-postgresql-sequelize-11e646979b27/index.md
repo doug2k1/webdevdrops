@@ -323,6 +323,12 @@ Mais detalhes da API de model do Sequelize e todas as funções disponíveis par
 
 Vamos explorar mais estes modelos nas próximas partes.
 
+## JavaScript Ninja
+
+Quer aprender **JavaScript** DE VERDADE?   
+O [**Curso JavaScript Ninja**](http://bit.ly/udemy-js-ninja) do **Fernando Daciuk** é o mais completo e melhor avaliado do Brasil! 🤘
+
+
 ## Resultado final
 
 O código do projeto até este ponto está em: [https://github.com/doug2k1/my-money/tree/v2.0.0](https://github.com/doug2k1/my-money/tree/v2.0.0)
