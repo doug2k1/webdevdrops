@@ -7,7 +7,7 @@ E aí, pessoal! Neste sexto post da série [**Fullstack com Node.js, React e Gra
 
 ![](/1_45PbrMFt9GJDe3cYwVxl2Q.png)
 
-### GraphQL
+## GraphQL
 
 [**GraphQL**](http://graphql.org/) é uma linguagem de consulta (_query language_) para APIs que permite ao cliente descrever exatamente os dados que quer receber, e também um conjunto de tecnologias que permite ao servidor descrever os dados disponíveis e entregar estes dados, que podem ser buscados de múltiplas fontes (bancos de dados, APIs REST, outros servidores GraphQL).
 
@@ -17,7 +17,7 @@ Para ilustrar, veja um exemplo de query e o retorno do servidor:
 
 Eu pedi pelas corretoras, campos id e nome, e dentro de cada corretora trazer seus investimentos, apenas campo nome. Esta é a parte **QL** do nome (_query language_).
 
-## E o grafo?
+### E o grafo?
 
 A parte **Graph** do nome vem do fato que toda busca percorre um **grafo**.
 
@@ -33,7 +33,7 @@ No **GraphQL** sempre temos um nó especial, chamado _Query_ (ou ponto de entrad
 
 No nosso exemplo, a partir daí a consulta pode requisitar um ou mais **Brokers** ou **Investments**, e sequencialmente ir seguindo as arestas e pedindo dados de outros modelos relacionados. Essa estrutura, e o que pode ou não ser pedido será definida por nós, quando criarmos nosso **schema**.
 
-### Apollo
+## Apollo
 
 [**Apollo**](https://www.apollographql.com/) é uma plataforma para desenvolvimento com GraphQL composta por:
 
@@ -47,7 +47,7 @@ A primeira coisa que precisamos pensar é na forma dos dados que serão disponib
 
 O **schema** é como se fosse um contrato entre o fornecedor e o consumidor dos dados (ou entre o _server_ e o _client_).
 
-## Ponto de entrada
+### Ponto de entrada
 
 Vamos criar nosso schema em _src/graphql/schema.graphql_, começando pela _root query:_
 
@@ -68,7 +68,7 @@ A `!` como em `id: ID!` significa obrigatoriedade daquele valor.
 
 Resumindo, nosso ponto de entrada permite buscar por um `broker` ou um `investment`, informando o _id_ como parâmetro, ou por uma lista de `brokers` ou `investments`, opcionalmente informando um limite.
 
-## Demais nós
+### Demais nós
 
 Na sequência descrevemos os nós que representam nossos modelos, ficando assim:
 
@@ -123,7 +123,7 @@ Agora precisamos testar nossas consultas. Ah, se tivesse uma espécie de _playgr
 
 Mas tem! É o…
 
-### GraphiQL
+## GraphiQL
 
 O **GraphiQL** é uma interface web que permite inserir _queries_, possui autocomplete e uma documentação com todas as _queries_ e campos possíveis. Tudo gerado a partir do nosso _schema_.
 
@@ -141,17 +141,24 @@ app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 Assim, basta rodar o servidor local e acessar [http://localhost:5000/graphiql](http://localhost:5000/graphiql) para explorar seu servidor **GraphQL**.
 
-### Resultado final
+## E-book gratuito
+
+A *Danki Code* tem um e-book gratuito:  
+📚 **Como se tornar um(a) Desenvolvedor(a) Full-Stack**  
+que você pode baixar aqui: http://bit.ly/ebook-fullstack 
+
+
+## Resultado final
 
 O código do projeto até este ponto está em: [https://github.com/doug2k1/my-money/tree/v5.0.0](https://github.com/doug2k1/my-money/tree/v5.0.0)
 
-### No próximo capítulo
+## No próximo capítulo
 
 Na próxima parte vamos implementar **autenticação** para proteger nosso _endpoint_ de consultas contras bisbilhoteiros.
 
 _Stay tuned!_
 
-### Feedbacks?
+## Feedbacks?
 
 E aí, o que está achando até agora? Algo que precisa melhorar?
 
