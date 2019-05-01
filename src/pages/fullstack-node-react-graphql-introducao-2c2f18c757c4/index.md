@@ -56,10 +56,10 @@ Sujeito a mudanças.
 *   [**4: Interface administrativa com Forest Admin**](../fullstack-node-react-forest-admin-e3b07c142f9a) (publicado)
 *   [**5: Integração contínua com Travis CI**](../fullstack-node-react-travis-ci-2caaee9ccbb5) (publicado)
 *   [**6: Servidor GraphQL com Apollo Server**](../fullstack-node-react-graphql-apollo-1a0559e0fc51) (publicado)
-*   7: Autenticação com Google e Passport
-*   8: Deploy em produção com Heroku
-*   9: Setup frontend com Webpack e Babel
-*   10: Frontend ReactJS
+*   [**7: Autenticação com Google e Passport**](../fullstack-node-react-graphql-autenticacao-passport) (publicado)
+*   8: Setup frontend com Webpack e Babel
+*   9: Frontend ReactJS
+*   10: Deploy em produção com Heroku
 *   11: Testes end-to-end com TestCafe (ou Cypress)
 *   12: Transformando a aplicação em PWA
 
