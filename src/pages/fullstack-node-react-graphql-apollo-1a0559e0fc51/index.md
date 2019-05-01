@@ -72,6 +72,43 @@ Resumindo, nosso ponto de entrada permite buscar por um `broker` ou um `investme
 
 Na sequência descrevemos os nós que representam nossos modelos, ficando assim:
 
+```graphql
+scalar Date
+
+type Query {
+  brokers(limit: Int): [Broker]
+  broker(id: ID!): Broker
+  investments(limit: Int): [Investment]
+  investment(id: ID!): Investment
+}
+
+type Broker {
+  id: ID!
+  name: String!
+  investments: [Investment]
+}
+
+type Investment {
+  id: ID!
+  name: String!
+  broker: Broker
+  balanceUpdates(limit: Int, order: [[String]]): [BalanceUpdate]
+  transactions: [Transaction]
+}
+
+type BalanceUpdate {
+  id: ID!
+  amount: Float!
+  date: Date!
+}
+
+type Transaction {
+  id: ID!
+  amount: Float!
+  date: Date!
+}
+```
+
 Para mais detalhes, veja a documentação sobre a definição de _schema_: [http://graphql.org/learn/schema/](http://graphql.org/learn/schema/)
 
 ### Resolvers
