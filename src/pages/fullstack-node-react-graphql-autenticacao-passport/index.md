@@ -70,7 +70,7 @@ O uso mais típico é guardar em *sessão* apenas o `id` e depois usar este `id`
 
 ### Google OAuth
 
-Agora vamos conrigurar o **Google OAuth**:
+Agora vamos configurar o **Google OAuth**:
 
 ```js
 passport.use(
