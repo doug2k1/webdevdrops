@@ -323,12 +323,6 @@ Mais detalhes da API de model do Sequelize e todas as funções disponíveis par
 
 Vamos explorar mais estes modelos nas próximas partes.
 
-## JavaScript Ninja
-
-Quer aprender **JavaScript** DE VERDADE?   
-O [**Curso JavaScript Ninja**](http://bit.ly/udemy-js-ninja) do **Fernando Daciuk** é o mais completo e melhor avaliado do Brasil! 🤘
-
-
 ## Resultado final
 
 O código do projeto até este ponto está em: [https://github.com/doug2k1/my-money/tree/v2.0.0](https://github.com/doug2k1/my-money/tree/v2.0.0)
@@ -342,3 +336,8 @@ Na próxima parte vamos criar a interface administrativa usando [**Forest Admin*
 E aí, o que está achando até agora? Algo que precisa melhorar?
 
 \[\]’s
+
+## 🔥 [Pacote Fullstack | 4 Cursos Completos](https://www.webdevdrops.com/pacote-full-stack/wdd)
+
+A **Danki Code** está oferecendo uma formação para **desenvolvedor fullstack** bastente completa, englobando frontend, backend, UX/UI, SEO, etc.   
+[**Saiba mais...**](https://www.webdevdrops.com/pacote-full-stack/wdd)

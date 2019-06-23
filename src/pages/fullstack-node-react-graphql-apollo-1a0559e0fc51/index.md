@@ -178,13 +178,6 @@ app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 Assim, basta rodar o servidor local e acessar [http://localhost:5000/graphiql](http://localhost:5000/graphiql) para explorar seu servidor **GraphQL**.
 
-## E-book gratuito
-
-A *Danki Code* tem um e-book gratuito:  
-📚 **Como se tornar um(a) Desenvolvedor(a) Full-Stack**  
-que você pode baixar aqui: http://bit.ly/ebook-fullstack 
-
-
 ## Resultado final
 
 O código do projeto até este ponto está em: [https://github.com/doug2k1/my-money/tree/v5.0.0](https://github.com/doug2k1/my-money/tree/v5.0.0)
@@ -200,3 +193,8 @@ _Stay tuned!_
 E aí, o que está achando até agora? Algo que precisa melhorar?
 
 \[\]’s
+
+## 🔥 [Pacote Fullstack | 4 Cursos Completos](https://www.webdevdrops.com/pacote-full-stack/wdd)
+
+A **Danki Code** está oferecendo uma formação para **desenvolvedor fullstack** bastente completa, englobando frontend, backend, UX/UI, SEO, etc.   
+[**Saiba mais...**](https://www.webdevdrops.com/pacote-full-stack/wdd)

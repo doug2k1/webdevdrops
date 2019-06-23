@@ -247,3 +247,8 @@ Na próxima parte vamos criar a interface administrativa usando [**Forest Admin*
 E aí, o que está achando até agora? Algo que precisa melhorar?
 
 \[\]’s
+
+## 🔥 [Pacote Fullstack | 4 Cursos Completos](https://www.webdevdrops.com/pacote-full-stack/wdd)
+
+A **Danki Code** está oferecendo uma formação para **desenvolvedor fullstack** bastente completa, englobando frontend, backend, UX/UI, SEO, etc.   
+[**Saiba mais...**](https://www.webdevdrops.com/pacote-full-stack/wdd)

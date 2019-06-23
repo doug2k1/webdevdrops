@@ -66,3 +66,8 @@ Sujeito a mudanças.
 ## Até a próxima
 
 Este post foi só para introduzir a série. Já estou desenvolvendo a aplicação alguns passos na frente, quebrando algumas pedras e deixando mais redondo para escrever os posts.
+
+## 🔥 [Pacote Fullstack | 4 Cursos Completos](https://www.webdevdrops.com/pacote-full-stack/wdd)
+
+A **Danki Code** está oferecendo uma formação para **desenvolvedor fullstack** bastente completa, englobando frontend, backend, UX/UI, SEO, etc.   
+[**Saiba mais...**](https://www.webdevdrops.com/pacote-full-stack/wdd)
