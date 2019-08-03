@@ -1,9 +1,11 @@
+const siteUrl = 'https://www.webdevdrops.com'
+
 module.exports = {
   siteMetadata: {
     title: 'Web Dev Drops',
     author: 'Douglas Matoso',
     description: 'Artigos, tutoriais e dicas sobre desenvolvimento web.',
-    siteUrl: 'https://www.webdevdrops.com',
+    siteUrl,
   },
   pathPrefix: '/',
   plugins: [
@@ -69,7 +71,7 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#245E28`,
         display: `minimal-ui`,
-        icon: `src/assets/app-icon.jpg`,
+        icon: `src/assets/webdevdrops.png`,
       },
     },
     `gatsby-plugin-offline`,
@@ -81,5 +83,12 @@ module.exports = {
       },
     },
     `gatsby-plugin-sitemap`,
+    {
+      resolve: `gatsby-plugin-canonical-urls`,
+      options: {
+        siteUrl,
+        stripQueryString: true,
+      },
+    },
   ],
 }

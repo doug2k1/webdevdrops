@@ -6,6 +6,7 @@ import {
   faGithub,
   faLinkedin,
   faFacebook,
+  faInstagram,
 } from '@fortawesome/free-brands-svg-icons'
 
 // Import typefaces
@@ -20,7 +21,12 @@ import profilePic from './profile-pic.jpg'
 import { rhythm } from '../utils/typography'
 
 const links = [
-  { icon: faTwitter, alt: 'Twitter', url: 'https://twitter.com/doug2k1' },
+  { icon: faTwitter, alt: 'Twitter', url: 'https://twitter.com/webdevdrops' },
+  {
+    icon: faInstagram,
+    alt: 'Instagram',
+    url: 'https://instagram.com/webdevdrops',
+  },
   {
     icon: faFacebook,
     alt: 'Facebook',

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'gatsby'
-
 import { rhythm, scale } from '../utils/typography'
 import '../assets/styles.css'
+import Footer from './Footer'
 
 class Layout extends React.Component {
   render() {
@@ -69,6 +69,12 @@ class Layout extends React.Component {
       >
         {header}
         {children}
+        <hr
+          style={{
+            marginBottom: rhythm(1),
+          }}
+        />
+        <Footer />
       </div>
     )
   }
