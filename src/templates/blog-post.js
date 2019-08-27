@@ -1,12 +1,12 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import { Link, graphql } from 'gatsby'
-
 import Bio from '../components/Bio'
 import Layout from '../components/Layout'
 import Comments from '../components/Comments'
 import { rhythm, scale } from '../utils/typography'
 import './blog-post.css'
+import ShareButtons from '../components/ShareButtons'
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -16,10 +16,9 @@ class BlogPostTemplate extends React.Component {
     const { previous, next } = this.props.pageContext
     const title = `${post.frontmatter.title} | ${siteTitle}`
     const imageUrl = post.frontmatter.image
-      ? `${this.props.data.site.siteMetadata.siteUrl}${
-          post.frontmatter.image.childImageSharp.fixed.src
-        }`
+      ? `${this.props.data.site.siteMetadata.siteUrl}${post.frontmatter.image.childImageSharp.fixed.src}`
       : ''
+    const postUrl = `${this.props.data.site.siteMetadata.siteUrl}${post.fields.slug}`
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
@@ -49,6 +48,12 @@ class BlogPostTemplate extends React.Component {
           {Math.round(post.fields.readingTime.minutes)} min. de leitura
         </p>
         <div dangerouslySetInnerHTML={{ __html: post.html }} />
+
+        <ShareButtons
+          url={postUrl}
+          title={post.frontmatter.title}
+        ></ShareButtons>
+
         <hr
           style={{
             marginBottom: rhythm(1),
@@ -62,12 +67,7 @@ class BlogPostTemplate extends React.Component {
           }}
         />
 
-        <Comments
-          url={`${this.props.data.site.siteMetadata.siteUrl}/${
-            post.fields.slug
-          }`}
-          id={post.id}
-        />
+        <Comments url={postUrl} id={post.id} />
 
         <hr
           style={{

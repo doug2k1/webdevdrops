@@ -90,5 +90,6 @@ module.exports = {
         stripQueryString: true,
       },
     },
+    'gatsby-plugin-sass',
   ],
 }
