@@ -47,7 +47,7 @@ class Layout extends React.Component {
         >
           <Link
             style={{
-              color: '#245E28',
+              color: '#5475FB',
               boxShadow: 'none',
               textDecoration: 'none',
             }}
