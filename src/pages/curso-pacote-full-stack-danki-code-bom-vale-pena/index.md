@@ -56,6 +56,8 @@ Um curso **bem estruturado** faz muita diferença na sua carreira. Muitos desenv
 
 O [Pacote Full-Stack](/pacote-full-stack/postwdd) é um excelente investimento atualmente, tanto para quem quer começar quanto para o profissional que quer dar um upgrade na carreira de **desenvolvedor web**.
 
-[]'s
+🔥 **Atualização**:   
+A Danki Code liberou algumas **aulas grátis** do **Pacote Full-Stack**!  
+Veja como acessar no post: [Aulas Grátis do Curso Pacote Full-Stack da Danki Code](/aulas-gratis-curso-pacote-full-stack-danki-code/)
 
 [![Pacote Full-Stack, da Danki Code. Increva-se agora!](pacote-full-stack.jpg)](/pacote-full-stack/postwdd)
