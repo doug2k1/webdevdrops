@@ -1,0 +1,20 @@
+.row main {
+  width: 75%;
+}
+.row aside {
+  width: 25%;
+  padding-left: 1.6rem;
+}
+
+@media screen and (max-width: 900px) {
+  .row {
+    flex-direction: column;
+  }
+  .row main {
+    width: auto;
+  }
+  .row aside {
+    width: auto;
+    padding: 0;
+  }
+}

@@ -1,2 +1,1 @@
-require('./src/utils/prism.css')
-require('./src/utils/prism-fixes.css')
+import "prismjs/themes/prism-tomorrow.css"
