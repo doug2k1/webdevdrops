@@ -1,0 +1,3 @@
+- Code syntax highlight
+- EN/PT (link no header e texto no topo do artigo, como no Overreacted)
+- Pagination

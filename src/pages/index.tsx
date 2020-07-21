@@ -12,18 +12,12 @@ type Data = {
       title: string
     }
   }
-  allMarkdownRemark: {
+  allWordpressPost: {
     edges: {
       node: {
+        slug: string
         excerpt: string
-        frontmatter: {
-          title: string
-          date: string
-          description: string
-        }
-        fields: {
-          slug: string
-        }
+        title: string
       }
     }[]
   }
@@ -33,11 +27,12 @@ const PostList = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: ${rhythm(1)};
+  row-gap: ${rhythm(2)};
 `
 
 const BlogIndex = ({ data }: PageProps<Data>) => {
   const siteTitle = data.site.siteMetadata.title
-  const posts = data.allMarkdownRemark.edges
+  const posts = data.allWordpressPost.edges
 
   return (
     <Layout title={siteTitle} home>
@@ -45,7 +40,7 @@ const BlogIndex = ({ data }: PageProps<Data>) => {
 
       <PostList>
         {posts.map(({ node }) => (
-          <PostListItem node={node} key={node.fields.slug} />
+          <PostListItem node={node} key={node.slug} />
         ))}
       </PostList>
     </Layout>
@@ -61,17 +56,21 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+    allWordpressPost {
       edges {
         node {
+          slug
           excerpt
-          fields {
-            slug
-          }
-          frontmatter {
-            date(formatString: "MMMM DD, YYYY")
-            title
-            description
+          title
+          date
+          featured_media {
+            localFile {
+              childImageSharp {
+                fluid(maxWidth: 322, maxHeight: 181) {
+                  ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+            }
           }
         }
       }

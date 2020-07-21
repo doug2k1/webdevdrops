@@ -1,4 +1,4 @@
-import React from "react"
+import React, { FC, useEffect } from "react"
 import { Link, graphql } from "gatsby"
 import {
   FaClock,
@@ -6,6 +6,7 @@ import {
   FaRocket,
   FaGraduationCap,
 } from "react-icons/fa"
+import Prism from "prismjs"
 import Bio from "../components/bio"
 import Layout from "../components/Layout"
 import SEO from "../components/Seo"
@@ -13,6 +14,11 @@ import { rhythm, scale } from "../utils/typography"
 import styled from "styled-components"
 import SidebarLink from "../components/SidebarLink"
 import { themeColor } from "../styles/vars"
+
+interface Props {
+  data: any
+  pageContext: any
+}
 
 const H1 = styled.h1`
   margin-bottom: 0;
@@ -31,21 +37,22 @@ const Article = styled.main`
   padding: ${rhythm(2)};
 `
 
-const BlogPost = ({ data, pageContext, location }) => {
-  const post = data.markdownRemark
+const BlogPost: FC<Props> = ({ data, pageContext }) => {
+  const post = data.allWordpressPost.edges[0].node
   const siteTitle = data.site.siteMetadata.title
   const { previous, next } = pageContext
 
+  useEffect(() => {
+    Prism.highlightAll()
+  }, [])
+
   return (
     <Layout title={siteTitle}>
-      <SEO
-        title={post.frontmatter.title}
-        description={post.frontmatter.description || post.excerpt}
-      />
+      <SEO title={post.title} description={post.excerpt} />
       <ArticleContainer>
         <Article>
           <header>
-            <H1>{post.frontmatter.title}</H1>
+            <H1>{post.title}</H1>
             <p
               style={{
                 ...scale(-1 / 6),
@@ -55,17 +62,15 @@ const BlogPost = ({ data, pageContext, location }) => {
               }}
             >
               <FaCalendarAlt />
-              <span style={{ margin: "0 16px 0 5px" }}>
-                {post.frontmatter.date}
-              </span>
+              <span style={{ margin: "0 16px 0 5px" }}>{post.date}</span>
               <FaClock />
               <span style={{ marginLeft: "5px" }}>
                 Leitura:
-                {Math.ceil(post.fields.readingTime.minutes)} min.
+                {/* Math.ceil(post.fields.readingTime.minutes) */} min.
               </span>
             </p>
           </header>
-          <section dangerouslySetInnerHTML={{ __html: post.html }} />
+          <section dangerouslySetInnerHTML={{ __html: post.content }} />
           <hr
             style={{
               marginBottom: rhythm(1),
@@ -102,15 +107,15 @@ const BlogPost = ({ data, pageContext, location }) => {
         >
           <li>
             {previous && (
-              <Link to={previous.fields.slug} rel="prev">
-                ← {previous.frontmatter.title}
+              <Link to={previous.slug} rel="prev">
+                ← {previous.title}
               </Link>
             )}
           </li>
           <li>
             {next && (
-              <Link to={next.fields.slug} rel="next">
-                {next.frontmatter.title} →
+              <Link to={next.slug} rel="next">
+                {next.title} →
               </Link>
             )}
           </li>
@@ -129,18 +134,18 @@ export const pageQuery = graphql`
         title
       }
     }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
-      id
-      excerpt(pruneLength: 160)
-      html
-      frontmatter {
-        title
-        date(formatString: "MMMM DD, YYYY")
-        description
-      }
-      fields {
-        readingTime {
-          minutes
+    allWordpressPost(limit: 1, filter: { slug: { eq: $slug } }) {
+      edges {
+        node {
+          id
+          slug
+          title
+          date
+          excerpt
+          content
+          featured_media {
+            source_url
+          }
         }
       }
     }

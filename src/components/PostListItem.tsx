@@ -1,10 +1,11 @@
 import React from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
+import Img from "gatsby-image"
 import { rhythm } from "../utils/typography"
 import { themeColor } from "../styles/vars"
 
-const Image = styled.img`
+const Image = styled(Img)`
   border: 1px solid #ccc;
   display: block;
   margin-bottom: ${rhythm(0.5)};
@@ -13,7 +14,7 @@ const Image = styled.img`
 
 const Title = styled.span`
   display: block;
-  font: 24px "Fira Sans", "sans-serif";
+  font: 400 22px "Fira Sans", "sans-serif";
 `
 
 const SubTitle = styled.small`
@@ -29,16 +30,21 @@ const PostLink = styled(Link)`
 `
 
 const PostListItem = ({ node }) => {
-  const title = node.frontmatter.title || node.fields.slug
+  const title = node.title || node.slug
 
   return (
     <article>
-      <Link to={node.fields.slug}>
-        <Image src="https://dummyimage.com/262x147/000/fff" alt={title} />
+      <Link to={node.slug}>
+        {node.featured_media && (
+          <Image
+            fluid={node.featured_media.localFile.childImageSharp.fluid}
+            alt={title}
+          />
+        )}
       </Link>
-      <PostLink to={node.fields.slug} className="post-list-item-title">
+      <PostLink to={node.slug} className="post-list-item-title">
         <Title>{title}</Title>
-        <SubTitle>{node.frontmatter.date}</SubTitle>
+        <SubTitle>{node.date}</SubTitle>
       </PostLink>
     </article>
   )

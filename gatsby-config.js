@@ -12,20 +12,20 @@ module.exports = {
     },
   },
   plugins: [
-    {
+    /* {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/content/blog`,
         name: `blog`,
       },
-    },
-    {
+    }, */
+    /* {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/content/assets`,
         name: `assets`,
       },
-    },
+    }, */
     {
       resolve: `gatsby-transformer-remark`,
       options: {
@@ -42,7 +42,6 @@ module.exports = {
               wrapperStyle: `margin-bottom: 1.0725rem`,
             },
           },
-          `gatsby-remark-prismjs`,
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
           `gatsby-remark-reading-time`,
@@ -67,7 +66,7 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `content/assets/gatsby-icon.png`,
+        icon: `static/images/webdevdrops-icon.png`,
       },
     },
     `gatsby-plugin-react-helmet`,
@@ -81,5 +80,15 @@ module.exports = {
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
     `gatsby-plugin-styled-components`,
+    {
+      resolve: `gatsby-source-wordpress`,
+      options: {
+        baseUrl: `www.webdevdrops.com`,
+        protocol: `https`,
+        hostingWPCOM: false,
+        useACF: false,
+        includedRoutes: ["**/posts", "**/tags", "**/media"],
+      },
+    },
   ],
 }

@@ -5,7 +5,7 @@ const typography = new Typography({
   googleFonts: [
     {
       name: "Fira Sans",
-      styles: ["700"],
+      styles: ["400, 700"],
     },
     {
       name: "Open Sans",
