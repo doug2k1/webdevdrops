@@ -80,14 +80,44 @@ module.exports = {
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
     `gatsby-plugin-styled-components`,
+    // {
+    //   resolve: `gatsby-source-wordpress`,
+    //   options: {
+    //     baseUrl: `www.webdevdrops.com`,
+    //     protocol: `https`,
+    //     hostingWPCOM: false,
+    //     useACF: false,
+    //     includedRoutes: ["**/posts", "**/tags", "**/media"],
+    //   },
+    // },
     {
-      resolve: `gatsby-source-wordpress`,
+      resolve: `gatsby-source-wordpress-experimental`,
       options: {
-        baseUrl: `www.webdevdrops.com`,
-        protocol: `https`,
-        hostingWPCOM: false,
-        useACF: false,
-        includedRoutes: ["**/posts", "**/tags", "**/media"],
+        url: process.env.WPGRAPHQL_URL || `https://webdevdrops.local/graphql`,
+        verbose: true,
+        develop: {
+          hardCacheMediaFiles: true,
+        },
+        html: {
+          useGatsbyImage: true,
+          imageQuality: 80,
+          imageMaxWidth: 1400,
+        },
+        debug: {
+          graphql: {
+            writeQueriesToDisk: true,
+          },
+        },
+        type: {
+          Post: {
+            limit:
+              process.env.NODE_ENV === `development`
+                ? // Lets just pull 50 posts in development to make it easy on ourselves.
+                  50
+                : // and we don't actually need more than 5000 in production for this particular site
+                  5000,
+          },
+        },
       },
     },
   ],

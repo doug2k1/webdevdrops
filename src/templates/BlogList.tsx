@@ -5,6 +5,7 @@ import SEO from "../components/Seo"
 import PostListItem from "../components/PostListItem"
 import styled from "styled-components"
 import { rhythm } from "../utils/typography"
+import Pagination from "../components/Pagination"
 
 type Data = {
   site: {
@@ -12,13 +13,11 @@ type Data = {
       title: string
     }
   }
-  allWordpressPost: {
-    edges: {
-      node: {
-        slug: string
-        excerpt: string
-        title: string
-      }
+  allWpPost: {
+    nodes: {
+      slug: string
+      excerpt: string
+      title: string
     }[]
   }
 }
@@ -30,40 +29,47 @@ const PostList = styled.div`
   row-gap: ${rhythm(2)};
 `
 
-const BlogIndex = ({ data }: PageProps<Data>) => {
+const BlogList = ({ data, pageContext }: PageProps<Data>) => {
   const siteTitle = data.site.siteMetadata.title
-  const posts = data.allWordpressPost.edges
+  const posts = data.allWpPost.nodes
+  const { currentPage, numPages } = pageContext
 
   return (
     <Layout title={siteTitle} home>
       <SEO title="All posts" />
 
       <PostList>
-        {posts.map(({ node }) => (
-          <PostListItem node={node} key={node.slug} />
+        {posts.map((post) => (
+          <PostListItem post={post} key={post.slug} />
         ))}
       </PostList>
+
+      <Pagination currentPage={currentPage} numPages={numPages} />
     </Layout>
   )
 }
 
-export default BlogIndex
+export default BlogList
 
 export const pageQuery = graphql`
-  query {
+  query blogListQuery($skip: Int!, $limit: Int!) {
     site {
       siteMetadata {
         title
       }
     }
-    allWordpressPost {
-      edges {
-        node {
-          slug
-          excerpt
-          title
-          date
-          featured_media {
+    allWpPost(
+      limit: $limit
+      skip: $skip
+      sort: { fields: [date], order: DESC }
+    ) {
+      nodes {
+        slug
+        excerpt
+        title
+        date
+        featuredImage {
+          node {
             localFile {
               childImageSharp {
                 fluid(maxWidth: 322, maxHeight: 181) {

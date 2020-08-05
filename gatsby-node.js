@@ -1,18 +1,20 @@
 const path = require(`path`)
 
+// fix self signed certificate on local Wordpress
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
-  const blogPost = path.resolve(`./src/templates/BlogPost.tsx`)
+  const blogList = path.resolve("./src/templates/BlogList.tsx")
+  const blogPost = path.resolve("./src/templates/BlogPost.tsx")
   const result = await graphql(
     `
       {
-        allWordpressPost(limit: 10) {
-          edges {
-            node {
-              id
-              slug
-            }
+        allWpPost {
+          nodes {
+            id
+            slug
           }
         }
       }
@@ -23,20 +25,31 @@ exports.createPages = async ({ graphql, actions }) => {
     throw result.errors
   }
 
-  // Create blog posts pages.
-  const edges = result.data.allWordpressPost.edges
+  const posts = result.data.allWpPost.nodes
+  const postsPerPage = 10
+  const numPages = Math.ceil(posts.length / postsPerPage)
 
-  edges.forEach((edge, index) => {
-    const previous = index === edges.length - 1 ? null : edges[index + 1].node
-    const next = index === 0 ? null : edges[index - 1].node
-
+  // Create blog list pages
+  Array.from({ length: numPages }).forEach((_, i) => {
     createPage({
-      path: edge.node.slug,
+      path: i === 0 ? "/" : `/page/${i + 1}`,
+      component: blogList,
+      context: {
+        limit: postsPerPage,
+        skip: i * postsPerPage,
+        numPages,
+        currentPage: i + 1,
+      },
+    })
+  })
+
+  // Create blog posts
+  posts.forEach((post) => {
+    createPage({
+      path: post.slug,
       component: blogPost,
       context: {
-        slug: edge.node.slug,
-        previous,
-        next,
+        slug: post.slug,
       },
     })
   })

@@ -38,7 +38,7 @@ const Article = styled.main`
 `
 
 const BlogPost: FC<Props> = ({ data, pageContext }) => {
-  const post = data.allWordpressPost.edges[0].node
+  const post = data.allWpPost.nodes[0]
   const siteTitle = data.site.siteMetadata.title
   const { previous, next } = pageContext
 
@@ -134,19 +134,14 @@ export const pageQuery = graphql`
         title
       }
     }
-    allWordpressPost(limit: 1, filter: { slug: { eq: $slug } }) {
-      edges {
-        node {
-          id
-          slug
-          title
-          date
-          excerpt
-          content
-          featured_media {
-            source_url
-          }
-        }
+    allWpPost(limit: 1, filter: { slug: { eq: $slug } }) {
+      nodes {
+        id
+        slug
+        title
+        date
+        excerpt
+        content
       }
     }
   }

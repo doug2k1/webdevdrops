@@ -1,3 +1,4 @@
-- Code syntax highlight
+- Menus
+- Responsivo
 - EN/PT (link no header e texto no topo do artigo, como no Overreacted)
 - Pagination

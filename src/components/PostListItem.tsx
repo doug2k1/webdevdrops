@@ -29,22 +29,22 @@ const PostLink = styled(Link)`
   }
 `
 
-const PostListItem = ({ node }) => {
-  const title = node.title || node.slug
+const PostListItem = ({ post }) => {
+  const title = post.title || post.slug
 
   return (
     <article>
-      <Link to={node.slug}>
-        {node.featured_media && (
+      <Link to={post.slug}>
+        {post.featuredImage && (
           <Image
-            fluid={node.featured_media.localFile.childImageSharp.fluid}
+            fluid={post.featuredImage.node.localFile.childImageSharp.fluid}
             alt={title}
           />
         )}
       </Link>
-      <PostLink to={node.slug} className="post-list-item-title">
+      <PostLink to={post.slug} className="post-list-item-title">
         <Title>{title}</Title>
-        <SubTitle>{node.date}</SubTitle>
+        <SubTitle>{post.date}</SubTitle>
       </PostLink>
     </article>
   )
