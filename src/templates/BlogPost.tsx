@@ -39,6 +39,7 @@ const Article = styled.main`
 
 const BlogPost: FC<Props> = ({ data, pageContext }) => {
   const post = data.allWpPost.nodes[0]
+  const postDate = new Date(post.date).toLocaleDateString("pt-BR")
   const siteTitle = data.site.siteMetadata.title
   const { previous, next } = pageContext
 
@@ -62,11 +63,10 @@ const BlogPost: FC<Props> = ({ data, pageContext }) => {
               }}
             >
               <FaCalendarAlt />
-              <span style={{ margin: "0 16px 0 5px" }}>{post.date}</span>
+              <span style={{ margin: "0 16px 0 5px" }}>{postDate}</span>
               <FaClock />
               <span style={{ marginLeft: "5px" }}>
-                Leitura:
-                {/* Math.ceil(post.fields.readingTime.minutes) */} min.
+                Leitura: {Math.ceil(post.readingTime.minutes)} min.
               </span>
             </p>
           </header>
@@ -142,6 +142,9 @@ export const pageQuery = graphql`
         date
         excerpt
         content
+        readingTime {
+          minutes
+        }
       }
     }
   }

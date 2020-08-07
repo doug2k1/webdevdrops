@@ -20,7 +20,8 @@ const StyledFooter = styled.footer`
 `
 
 const FooterContainer = styled(Container)`
-  padding: ${rhythm(2)} 0 ${rhythm(1)};
+  padding-top: ${rhythm(2)};
+  padding-bottom: ${rhythm(1)};
 `
 
 const FooterCols = styled.div`

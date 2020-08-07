@@ -31,6 +31,7 @@ const PostLink = styled(Link)`
 
 const PostListItem = ({ post }) => {
   const title = post.title || post.slug
+  const postDate = new Date(post.date).toLocaleDateString("pt-BR")
 
   return (
     <article>
@@ -44,7 +45,7 @@ const PostListItem = ({ post }) => {
       </Link>
       <PostLink to={post.slug} className="post-list-item-title">
         <Title>{title}</Title>
-        <SubTitle>{post.date}</SubTitle>
+        <SubTitle>{postDate}</SubTitle>
       </PostLink>
     </article>
   )

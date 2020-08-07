@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { graphql, useStaticQuery } from "gatsby"
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa"
 import Container from "./Container"
 
@@ -39,11 +40,32 @@ const SocialLinks = styled.div`
 `
 
 export default function Nav() {
+  const data = useStaticQuery(graphql`
+    {
+      allWpMenu(filter: { name: { eq: "main" } }) {
+        nodes {
+          name
+          menuItems {
+            nodes {
+              label
+              url
+            }
+          }
+        }
+      }
+    }
+  `)
+
+  const links = data.allWpMenu.nodes[0].menuItems.nodes
+
   return (
     <NavContainer>
       <StyledNav>
-        <a href="">HOME</a>
-        <a href="">CONTATO</a>
+        {links.map((link) => (
+          <a key={link.url} href={link.url}>
+            {link.label}
+          </a>
+        ))}
       </StyledNav>
 
       <SocialLinks>
