@@ -48,6 +48,12 @@ query NODE_LIST_QUERY($first: Int!, $after: String) {
       id
       isFrontPage
       isRevision
+      language {
+        id
+        locale
+        name
+        slug
+      }
       lastEditedBy {
         node {
           id
@@ -73,6 +79,9 @@ query NODE_LIST_QUERY($first: Int!, $after: String) {
         }
       }
       title
+      translations {
+        id
+      }
       uri
       __typename
     }

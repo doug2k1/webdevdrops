@@ -1,3 +1,5 @@
+const defaultLanguage = "pt"
+
 module.exports = {
   siteMetadata: {
     title: `Web Dev Drops`,
@@ -10,6 +12,7 @@ module.exports = {
     social: {
       twitter: `webdevdrops`,
     },
+    defaultLanguage: defaultLanguage,
   },
   plugins: [
     /* {
@@ -100,8 +103,7 @@ module.exports = {
         },
         html: {
           useGatsbyImage: true,
-          imageQuality: 80,
-          imageMaxWidth: 1400,
+          imageMaxWidth: 1024,
         },
         debug: {
           graphql: {
@@ -118,6 +120,11 @@ module.exports = {
                   5000,
           },
         },
+        plugins: [
+          {
+            resolve: `gatsby-wordpress-experimental-inline-images`,
+          },
+        ],
       },
     },
     {
@@ -129,6 +136,26 @@ module.exports = {
         types: {
           // Key: GraphQL Type to add reading times to, Value: Resolver function takes source node of Defined GraphQL type and returns content to be processed.
           WpPost: (post) => post.content,
+        },
+      },
+    },
+    {
+      resolve: `gatsby-plugin-react-i18next`,
+      options: {
+        path: `${__dirname}/locales`,
+        languages: [`en`, `pt`],
+        defaultLanguage: `pt`,
+        pages: [
+          {
+            matchPath: "/:lang?/:slug",
+            getLanguageFromPath: true,
+            excludeLanguages: ["pt"],
+          },
+        ],
+        i18nextOptions: {
+          interpolation: {
+            escapeValue: false, // not needed for react as it escapes by default
+          },
         },
       },
     },

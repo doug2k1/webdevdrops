@@ -1,4 +1,6 @@
-const path = require(`path`)
+const path = require("path")
+const fs = require("fs")
+const { siteMetadata } = require("./gatsby-config")
 
 // fix self signed certificate on local Wordpress
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
@@ -15,6 +17,9 @@ exports.createPages = async ({ graphql, actions }) => {
           nodes {
             id
             slug
+            language {
+              slug
+            }
           }
         }
       }
@@ -26,7 +31,7 @@ exports.createPages = async ({ graphql, actions }) => {
   }
 
   const posts = result.data.allWpPost.nodes
-  const postsPerPage = 10
+  const postsPerPage = 3
   const numPages = Math.ceil(posts.length / postsPerPage)
 
   // Create blog list pages
@@ -45,8 +50,14 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // Create blog posts
   posts.forEach((post) => {
+    const language = post.language && post.language.slug
+    const link =
+      language && language !== siteMetadata.defaultLanguage
+        ? `${language}/${post.slug}`
+        : post.slug
+
     createPage({
-      path: post.slug,
+      path: link,
       component: blogPost,
       context: {
         slug: post.slug,

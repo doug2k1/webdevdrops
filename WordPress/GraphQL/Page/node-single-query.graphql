@@ -47,6 +47,12 @@ query SINGLE_CONTENT_QUERY($id: ID!) {
     id
     isFrontPage
     isRevision
+    language {
+      id
+      locale
+      name
+      slug
+    }
     lastEditedBy {
       node {
         id
@@ -72,6 +78,9 @@ query SINGLE_CONTENT_QUERY($id: ID!) {
       }
     }
     title
+    translations {
+      id
+    }
     uri
     __typename
   }

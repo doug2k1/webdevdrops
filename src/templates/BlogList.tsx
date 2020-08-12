@@ -1,5 +1,5 @@
 import React from "react"
-import { PageProps, Link, graphql } from "gatsby"
+import { PageProps, graphql } from "gatsby"
 import Layout from "../components/Layout"
 import SEO from "../components/Seo"
 import PostListItem from "../components/PostListItem"
@@ -11,6 +11,7 @@ type Data = {
   site: {
     siteMetadata: {
       title: string
+      defaultLanguage: string
     }
   }
   allWpPost: {
@@ -22,6 +23,13 @@ type Data = {
   }
 }
 
+interface Context {
+  limit: number
+  skip: number
+  numPages: number
+  currentPage: number
+}
+
 const PostList = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -29,7 +37,7 @@ const PostList = styled.div`
   row-gap: ${rhythm(2)};
 `
 
-const BlogList = ({ data, pageContext }: PageProps<Data>) => {
+const BlogList = ({ data, pageContext }: PageProps<Data, Context>) => {
   const siteTitle = data.site.siteMetadata.title
   const posts = data.allWpPost.nodes
   const { currentPage, numPages } = pageContext
@@ -68,6 +76,9 @@ export const pageQuery = graphql`
         excerpt
         title
         date
+        language {
+          slug
+        }
         featuredImage {
           node {
             localFile {

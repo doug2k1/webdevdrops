@@ -43,6 +43,12 @@ query NODE_LIST_QUERY($first: Int!, $after: String) {
       guid
       id
       isRevision
+      language {
+        id
+        locale
+        name
+        slug
+      }
       lastEditedBy {
         node {
           id
@@ -72,6 +78,9 @@ query NODE_LIST_QUERY($first: Int!, $after: String) {
       }
       title
       toPing
+      translations {
+        id
+      }
       uri
       __typename
     }

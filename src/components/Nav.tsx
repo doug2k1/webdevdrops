@@ -39,25 +39,18 @@ const SocialLinks = styled.div`
   }
 `
 
+const links = [
+  {
+    label: "HOME",
+    url: "/",
+  },
+  {
+    label: "SAMPLE PAGE",
+    url: "/",
+  },
+]
+
 export default function Nav() {
-  const data = useStaticQuery(graphql`
-    {
-      allWpMenu(filter: { name: { eq: "main" } }) {
-        nodes {
-          name
-          menuItems {
-            nodes {
-              label
-              url
-            }
-          }
-        }
-      }
-    }
-  `)
-
-  const links = data.allWpMenu.nodes[0].menuItems.nodes
-
   return (
     <NavContainer>
       <StyledNav>

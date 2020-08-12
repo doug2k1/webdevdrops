@@ -4,6 +4,7 @@ import styled, { createGlobalStyle } from "styled-components"
 import Container from "./Container"
 import Footer from "./Footer"
 import Header from "./Header"
+import { useTranslation } from "react-i18next"
 
 interface Props {
   title: string

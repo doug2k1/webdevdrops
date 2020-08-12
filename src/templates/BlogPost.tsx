@@ -14,6 +14,7 @@ import { rhythm, scale } from "../utils/typography"
 import styled from "styled-components"
 import SidebarLink from "../components/SidebarLink"
 import { themeColor } from "../styles/vars"
+import PostTranslations from "../components/PostTranslations"
 
 interface Props {
   data: any
@@ -70,6 +71,11 @@ const BlogPost: FC<Props> = ({ data, pageContext }) => {
               </span>
             </p>
           </header>
+
+          {post.translations && (
+            <PostTranslations translations={post.translations} />
+          )}
+
           <section dangerouslySetInnerHTML={{ __html: post.content }} />
           <hr
             style={{
@@ -142,6 +148,12 @@ export const pageQuery = graphql`
         date
         excerpt
         content
+        translations {
+          slug
+          language {
+            slug
+          }
+        }
         readingTime {
           minutes
         }

@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { useTranslation } from "react-i18next"
 import { rhythm } from "../utils/typography"
 import { themeColor } from "../styles/vars"
 import Container from "./Container"
@@ -46,6 +47,8 @@ const FooterCopyright = styled.div`
 `
 
 export default function Footer() {
+  const { t } = useTranslation()
+
   return (
     <StyledFooter>
       <FooterContainer>
@@ -58,18 +61,18 @@ export default function Footer() {
             />
           </div>
           <FooterLinks>
-            <a href="">Contato</a>
-            <a href="">Política de Privacidade</a>
+            <a href="">{t("contact")}</a>
+            <a href="">{t("privacyPolicy")}</a>
           </FooterLinks>
           <div>&nbsp;</div>
         </FooterCols>
       </FooterContainer>
       <FooterCopyright>
-        © 2010 - {new Date().getFullYear()} | Feito com ♥️, ☕️ e{" "}
+        © 2010 - {new Date().getFullYear()} | {t("footer.copyright")}{" "}
         <a href="https://www.gatsbyjs.org" target="_blank">
           Gatsby
         </a>{" "}
-        por{" "}
+        {t("footer.by")}{" "}
         <a href="https://www.linkedin.com/in/douglasmatoso/" target="_blank">
           Douglas Matoso
         </a>

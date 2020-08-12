@@ -14,6 +14,12 @@ query SINGLE_CONTENT_QUERY($id: ID!) {
     databaseId
     description
     id
+    language {
+      id
+      locale
+      name
+      slug
+    }
     link
     name
     wpParent: parent {
@@ -36,6 +42,9 @@ query SINGLE_CONTENT_QUERY($id: ID!) {
     }
     termGroupId
     termTaxonomyId
+    translations {
+      id
+    }
     uri
     __typename
   }

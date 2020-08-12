@@ -17,6 +17,13 @@ query NON_NODE_QUERY {
     writingSettingsUseSmilies
   }
 
+  defaultLanguage {
+    id
+    locale
+    name
+    slug
+  }
+
   discussionSettings {
     defaultCommentStatus
     defaultPingStatus
@@ -32,6 +39,13 @@ query NON_NODE_QUERY {
     timezone
     title
     url
+  }
+
+  languages {
+    id
+    locale
+    name
+    slug
   }
 
   readingSettings {

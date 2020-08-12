@@ -1,0 +1,12 @@
+{
+  "contact": "Contact",
+  "privacyPolicy": "Privacy Policy",
+  "readIn": {
+    "pt": "Leia em Português",
+    "en": "Read In English"
+  },
+  "footer": {
+    "copyright": "Made with ♥️, ☕️ and",
+    "by": "by"
+  }
+}

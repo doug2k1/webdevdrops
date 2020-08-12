@@ -1,4 +1,6 @@
-- Menus
+- Autor no post
 - Responsivo
 - EN/PT (link no header e texto no topo do artigo, como no Overreacted)
-- Pagination
+- Paginação
+- Posts relacionados
+- Comentários

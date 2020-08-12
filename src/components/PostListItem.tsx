@@ -1,5 +1,5 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link } from "gatsby-plugin-react-i18next"
 import styled from "styled-components"
 import Img from "gatsby-image"
 import { rhythm } from "../utils/typography"
@@ -32,10 +32,11 @@ const PostLink = styled(Link)`
 const PostListItem = ({ post }) => {
   const title = post.title || post.slug
   const postDate = new Date(post.date).toLocaleDateString("pt-BR")
+  const language = post.language?.slug
 
   return (
     <article>
-      <Link to={post.slug}>
+      <Link to={`/${post.slug}`} language={language}>
         {post.featuredImage && (
           <Image
             fluid={post.featuredImage.node.localFile.childImageSharp.fluid}
@@ -43,7 +44,7 @@ const PostListItem = ({ post }) => {
           />
         )}
       </Link>
-      <PostLink to={post.slug} className="post-list-item-title">
+      <PostLink to={`/${post.slug}`} language={language}>
         <Title>{title}</Title>
         <SubTitle>{postDate}</SubTitle>
       </PostLink>

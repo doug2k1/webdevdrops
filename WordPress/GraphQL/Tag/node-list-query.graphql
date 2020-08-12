@@ -5,6 +5,12 @@ query NODE_LIST_QUERY($first: Int!, $after: String) {
       databaseId
       description
       id
+      language {
+        id
+        locale
+        name
+        slug
+      }
       link
       name
       posts(first: 100) {
@@ -20,6 +26,9 @@ query NODE_LIST_QUERY($first: Int!, $after: String) {
       }
       termGroupId
       termTaxonomyId
+      translations {
+        id
+      }
       uri
       __typename
     }
