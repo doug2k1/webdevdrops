@@ -1,3 +1,4 @@
+import { getIntl, LocaleType } from '@/libs/i18n'
 import { ComponentType } from 'react'
 import {
   FaFacebookF,
@@ -6,21 +7,22 @@ import {
   FaTwitter,
   FaWhatsapp,
 } from 'react-icons/fa'
-import { FormattedMessage } from 'react-intl'
 
 interface Props {
   title: string
   url: string
+  locale: LocaleType
 }
 
-export function ShareButtons({ title, url }: Props) {
+export async function ShareButtons({ title, url, locale }: Props) {
+  const intl = await getIntl(locale)
   const encodedTitle = encodeURIComponent(title)
 
   return (
     <section className="text-center">
       <div className="flex flex-wrap items-center">
         <p className="mr-2 font-bold text-gray-500 dark:text-gray-400">
-          <FormattedMessage id="share" />
+          {intl.formatMessage({ id: 'share' })}
         </p>
         <ShareButton
           name="Twitter"

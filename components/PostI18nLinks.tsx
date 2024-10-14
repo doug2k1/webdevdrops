@@ -1,4 +1,4 @@
-import { LocaleType } from '@/libs/i18n'
+import { localePath, LocaleType } from '@/libs/i18n'
 import Link from 'next/link'
 import { FaLanguage } from 'react-icons/fa'
 import { PostTranslations } from '../types/post'
@@ -27,8 +27,7 @@ export function PostI18nLinks({ translations }: Props) {
         return (
           <Link
             key={locale}
-            href={`/${slug}`}
-            locale={locale}
+            href={localePath(`/${slug}`, locale)}
             className="italic"
           >
             {labels[locale as LocaleType]}

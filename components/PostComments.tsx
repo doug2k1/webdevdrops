@@ -1,17 +1,20 @@
+import { getIntl, LocaleType } from '@/libs/i18n'
 import { FaComments, FaTwitter } from 'react-icons/fa'
-import { FormattedMessage } from 'react-intl'
 
 interface Props {
   twitterId?: string | null
+  locale: LocaleType
 }
 
-export function PostComments({ twitterId }: Props) {
+export async function PostComments({ twitterId, locale }: Props) {
+  const intl = await getIntl(locale)
+
   return (
     <section className="mt-12 border-t border-gray-300 p-4 text-center dark:border-gray-600 dark:text-gray-300">
       <h4 className="mb-4 flex items-center justify-center">
         <FaComments className="mr-2 text-2xl text-gray-500" />
         <span className="font-bold text-gray-500 dark:text-gray-400">
-          <FormattedMessage id="comments" />
+          {intl.formatMessage({ id: 'comments' })}
         </span>
       </h4>
 
@@ -22,14 +25,12 @@ export function PostComments({ twitterId }: Props) {
           target="_blank"
           rel="noreferrer"
         >
-          <span>
-            <FormattedMessage id="commentOnTwitter" />
-          </span>
+          <span>{intl.formatMessage({ id: 'commentOnTwitter' })}</span>
           <FaTwitter className="ml-2" />
         </a>
       ) : (
         <p className="text-gray-500 dark:text-gray-400">
-          <FormattedMessage id="disabledComments" />
+          {intl.formatMessage({ id: 'disabledComments' })}
         </p>
       )}
     </section>
