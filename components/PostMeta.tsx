@@ -28,7 +28,7 @@ export function PostMeta({ post }: Props) {
           key={locale}
           rel="alternate"
           hrefLang={locale}
-          href={`${BASE_URL}/${localePath(locale)}${
+          href={`${BASE_URL}/${localePath('', locale)}${
             translations[locale as LocaleType]
           }/`}
         />

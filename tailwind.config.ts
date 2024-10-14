@@ -13,7 +13,7 @@ const config: Config = {
       colors: {
         main: '#5475FB',
       },
-      typography: (theme) => ({
+      typography: ({ theme }: { theme: (key: string) => string }) => ({
         DEFAULT: {
           css: {
             fontSize: '1.1rem',

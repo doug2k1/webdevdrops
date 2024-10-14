@@ -130,6 +130,7 @@ export async function generateStaticParams() {
   const posts = getAllPosts({ fields: ['slug'] })
 
   return posts.map((post) => ({
+    locale: post.language,
     slug: post.slug,
   }))
 }
