@@ -1,0 +1,21 @@
+---
+title: 'Git: Desfazer o último commit'
+date: '2011-06-30'
+coverImage: '/git-desfazer-commit-d410d630f11c/images/git-logo.png'
+---
+
+Acabou de comitar no **Git** e lembrou que faltou alguma alteração, ou foi algum arquivo errado? Fica então a dica:
+
+Faça as alterações necessárias, dê um
+
+git add
+
+mas ao invés de fazer um novo commit, faça:
+
+git commit --amend
+
+Desta forma as alterações serão adicionadas ao commit anterior e você poderá inclusive editar a mensagem.
+
+Vale lembrar que esta dica só serve se você ainda não fez um push. Se tiver feito, vai precisar fazer mesmo outro commit consertando o erro.
+
+Abrass!

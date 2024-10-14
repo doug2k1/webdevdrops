@@ -1,0 +1,155 @@
+---
+title: 'Upload de Arquivos no Node.js com Multer'
+date: '2020-05-17'
+categories:
+  - 'Node.js'
+tags:
+  - 'nodejs'
+coverImage: '/upload-arquivos-node-js-multer/images/node-js-file-upload.jpg'
+---
+
+E aí, devs! Neste post vou mostrar um exemplo simples de upload de arquivos em **Node.js** com **[Express](https://expressjs.com/)**, utilizando o middleware **[Multer](https://github.com/expressjs/multer)**.
+
+<PostImage
+  src="/upload-arquivos-node-js-multer/images/node-js-file-upload.jpg"
+  width="940"
+  height="788"
+  alt="Upload de arquivos no Node.js"
+/>
+
+## Upload de arquivos
+
+Existem várias razões para que se tenha a funcionalidade de upload de arquivos em uma aplicação web. Seja para upload da foto do usuário, imagens para montar uma galeria, vídeos, fazer upload de um arquivo CSV ou Excel para processamento de dados em lote, etc.
+
+## Exemplo: Upload de imagem
+
+Neste exemplo vamos mostrar o upload de uma imagem, mas o processo é o mesmo para qualquer tipo de arquivo.
+
+Nossa pequena aplicação vai ter duas rotas: uma página inicial que vai mostrar um formulário com campo de upload de arquivo, e uma rota `/avatar` que vai receber via `POST` a imagem, que vamos guardar e depois exibir de volta pro usuário.
+
+Vamos usar o framework **Express**, e **EJS** como template engine para montar o HTML das páginas.
+
+Nosso server inicial (server.js):
+
+```javascript
+const express = require('express')
+
+const app = express()
+app.set('view engine', 'ejs')
+app.set('views', './src/views')
+
+app.get('/', function (req, res) {
+  res.render('index')
+})
+
+app.listen(3333, () => {
+  console.log('🚀 Server started on http://localhost:3333')
+})
+```
+
+E nossa view (index.ejs) com o formulário:
+
+```markup
+<form method="post" action="/avatar" enctype="multipart/form-data">
+  <input type="file" name="avatar" accept="image/*">
+  <button type="submit">Upload</button>
+</form>
+```
+
+⚠️ Importante que o `form` tenha o atributo `enctype="multipart/form-data"`, para que o upload seja enviado corretamente.
+
+### Rota de upload
+
+A rota `/avatar`, que vai receber o upload via`post`, vai ficar assim:
+
+```javascript
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
+app.post('/avatar', upload.single('avatar'), function (req, res) {
+  const { filename, size } = req.file
+
+  return res.render('avatar', { image: `/uploads/${filename}`, size })
+})
+```
+
+O **Multer** é um middleware que vai interceptar o upload e salvar o arquivo em uma pasta do disco.
+
+Para um upload básico, a gente só precisa informar o destino onde os arquivos serão salvos: `{ dest: 'uploads/' }`.
+
+No tratamento da rota estamos dizendo que vamos receber apenas um arquivo, cujo `name` do campo no formulário é "avatar": `upload.single("avatar")`
+
+O **Multer** também permite upload de múltiplos arquivos, com `upload.array`.
+
+Com isso o **Multer** disponibiliza na nossa requisição o valor `file`, que contém os dados do arquivo salvo, como nome, localização e tamanho.
+
+### Exibindo a imagem de volta
+
+Veja que na rota a gente renderiza uma view "avatar" passando o caminho do arquivo salvo, `/uploads/${filename}`, que podemos usar em uma tag image: `<img src="<%= image %>">`
+
+Porém, precisamos configurar o Express para servir esta rota `/uploads` como arquivos estáticos:
+
+```javascript
+app.use('/uploads', express.static('uploads'))
+```
+
+### Renomeando arquivos
+
+Um problema que temos aqui é que o arquivo é salvo com o nome original. Se dois usuários enviarem imagens com o mesmo nome, um vai sobrescrever o arquivo do outro.
+
+Podemos resolver isso configurando o **Multer** com uma função para renomear os arquivos, gerando um nome único para cada um.
+
+```javascript
+const { uuid } = require('uuidv4')
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: 'uploads/',
+    filename(req, file, callback) {
+      const fileName = `${uuid()}-${file.originalname}`
+
+      return callback(null, fileName)
+    },
+  }),
+})
+```
+
+Usamos a lib **[uuidv4](https://www.npmjs.com/package/uuidv4)** para gerar um identificador único, que adicionamos no início do nome original do arquivo.
+
+### Alterando o local de salvamento
+
+Até aqui os arquivos estão sendo salvos em uma pasta com o mesmo nome da rota de acesso aos arquivos: `/uploads`, mas podemos salvar em qualquer local, sem precisar alterar a rota pública.
+
+Para isso basta alterar o `destination` na configuração do **Multer** e o mapeamento da rota `/uploads`:
+
+```javascript
+const uploadFolder = path.resolve(__dirname, '../../tmp')
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: uploadFolder,
+  }),
+})
+
+app.use('/uploads', express.static(uploadFolder))
+```
+
+Desta forma podemos alterar a localização dos arquivos no disco sem quebrar as URLs da aplicação.
+
+## Outros armazenamentos
+
+O **Multer** possui outras formas de armazenamento, além do `diskStorage`, que salva os arquivos no disco.
+
+O `memoryStorage` guarda o arquivo na memória, de forma que você pode manipular o arquivo sem precisar salvar. Só tome cuidado com arquivos muito grandes, pra não estourar a memória do servidor.
+
+Além dos storages que o **Multer** oferece, existem opções de terceiros como o **[Multer S3](https://github.com/badunk/multer-s3)**, que salva arquivos no serviço **[Amazon S3](https://aws.amazon.com/pt/s3)**, e **[multer-cloud-storage](https://www.npmjs.com/package/multer-cloud-storage)**, que salva no **[Google Cloud](https://cloud.google.com/)**.
+
+É possível também desenvolver storages customizados. Veja mais detalhes sobre isso em: [https://github.com/expressjs/multer/blob/master/StorageEngine.md](https://github.com/expressjs/multer/blob/master/StorageEngine.md)
+
+## Conclusão
+
+O código completo deste exemplo está aqui: [https://github.com/doug2k1/node-file-upload](https://github.com/doug2k1/node-file-upload)
+
+Veja como ficou:
+
+Dúvidas, sugestões? Comente aí embaixo!

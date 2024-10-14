@@ -1,0 +1,197 @@
+---
+title: '5 Essential Productivity Tools in Web Development'
+date: '2020-04-02'
+tags:
+  - 'productivity'
+  - 'tips'
+coverImage: '/5-essential-productivity-tools-in-web-development/images/web-development-productivity.jpg'
+language: en
+translations:
+  pt-BR: 5-ferramentas-produtividade-desenvolvimento-web
+---
+
+In this post I'll show 5 essential tools to increase your productivity in web development and programming in general.
+
+## 1. [Emmet](https://emmet.io/)
+
+<PostImage
+  src="/5-essential-productivity-tools-in-web-development/images/emmet-banner-1024x384.png"
+  width="1024"
+  height="384"
+  alt="Emmet logo"
+/>
+
+**[Emmet](https://emmet.io/)** speeds up the writing of **HTML** and **CSS** (also works with other formats like **JSX** and **SASS**) through abbreviations in the editor.
+
+### HTML
+
+In **HTML**, for example, if you type the name of a tag and press Tab or Enter, it completes the tag, with opening, closing and attributes. Including placing the cursor on the editing points.
+
+```markup
+p → <p></p>
+a → <a href=""></a>
+```
+
+You can also use **CSS** selectors to create larger blocks.
+
+```html
+#contents>ul.links>li*3 ↓
+
+<div id="contents">
+  <ul class="links">
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+</div>
+```
+
+Another example, with pseudo selectors:
+
+```html
+form>input:text+input:submit ↓
+
+<form action="">
+  <input type="text" name="" id="" />
+  <input type="submit" value="" />
+</form>
+```
+
+And the coolest thing is this: to create the entire initial structure of an **HTML** document, just use `!`
+
+### CSS
+
+In **CSS** it also speeds up a lot! You can write property and values in one fell swoop.
+
+```css
+.selector {
+  /* basic */
+  df → display: flex;
+  dib → display: inline-block;
+  ffa → font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  bt → border-top: 1px solid #000;
+
+  /* with values */
+  m10 → margin: 10px;
+  bt2e → border-top: 2em;
+  p2px4px → padding: 2px 4px;
+}
+```
+
+At first it takes time to memorize the abbreviations, but as time goes on you get more and more productive and saves a few thousand keystrokes in your day-to-day.
+
+🔥 To make your life easier, here is an official cheat sheet with all abbreviations: [https://docs.emmet.io/cheat-sheet/](https://docs.emmet.io/cheat-sheet/)
+
+It's worth noting that **Emmet** has plugins for almost all code editors.
+
+## 2. [Prettier](https://prettier.io/)
+
+<PostImage
+  src="/5-essential-productivity-tools-in-web-development/images/Screen-Shot-2020-04-01-at-15.07.48-1024x397.png"
+  width="1024"
+  height="397"
+  alt="Prettier logo"
+/>
+
+Remember when we spent time formatting the code by hand to make it more readable? Align indentation, add some line breaks, adjust the spacing, change the type of quotes to be consistent …
+
+All this suffering can end, just using an automatic code formatter, such as **[Prettier](https://prettier.io/)**.
+
+It integrates with your editor and formats your code as soon as you save. It's that simple. You can write it all messed up, the way it comes out of your head. Hit save. It's formatted.
+
+It has official support for several languages such as **HTML**, **CSS**, **JS** (and derivatives such as **JSX**, **SASS** and **TypeScript**), and through plugins it also supports **Java**, **PHP**, **SQL**, **Ruby**, **Swift**, among others.
+
+You can customize the formatting rules, if you like, or use the default with zero config.
+
+In addition to configuring the editor to format on save, it is also interesting to add a *[git hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)* to format the code before each _commit_. This ensures that no 💩 (badly formatted) code passes.
+
+## 3. Live reload
+
+This is not a specific tool, but a technique for coding a web page with instant visual feedback on the changes you make to the code.
+
+If you use **[webpack](https://webpack.js.org/)**, you can activate live reload with **[webpack-dev-server](https://webpack.js.org/configuration/dev-server/)**.
+
+Another easy alternative, without **webpack**, is to use **[live-server](https://www.npmjs.com/package/live-server)**. You just need to have **[Node.js](https://nodejs.org/)** with **NPM** installed and run this command in the terminal, in the folder where your **HTML** file is:
+
+```bash
+npx live-server
+```
+
+It will start a local server and open your page with live reload enabled. Thereafter, each file change is reflected instantly on the open page.
+
+And if you have two monitors, or if you have enough space to open the editor and browser side by side, things flow even better.
+
+## 4. **[DevDocs](https://devdocs.io/)**
+
+When we're coding, we spend a lot of time consulting documentation, don't we? So ideally, this process should be as fluid as possible. One tool that helps a lot here is **[DevDocs](https://devdocs.io/)**.
+
+It quickly searches the docs for various libraries and languages. You can enable or disable specific documentation and even enable offline search!
+
+You can even search directly in the **Chrome** address bar. Just start typing the website address, and when **Chrome** suggests, press Tab and enter your search term.
+
+### Alfred for Mac
+
+With the **[Alfred](https://www.alfredapp.com/)** app for **Mac**, you can search **DevDocs** via a global shortcut, without even having to open the browser.
+
+<PostImage
+  src="/5-essential-productivity-tools-in-web-development/images/alfred-devdocs.png"
+  width="620"
+  height="462"
+  alt="Alfred with DevDocs"
+/>
+
+You will need the paid version of the app and this addon: [https://github.com/yannickglt/alfred-devdocs](https://github.com/yannickglt/alfred-devdocs)
+
+## 5. [VS Code](https://code.visualstudio.com/)
+
+Para fechar, vou deixar algumas dicas de produtividade para o ótimo editor de códigos **[VS Code](https://code.visualstudio.com/)**. Se você usa outro editor, provavelmente ele possui estas mesmas funcionalidades, talvez com atalhos diferentes.
+
+To wrap up, I will leave some productivity tips for the **[VS Code](https://code.visualstudio.com/)** editor. If you use another editor, it probably has these same features, perhaps with different shortcuts.
+
+### Multiple editing
+
+One of the most useful features in modern editors is the possibility of having more than one cursor and being able to edit more than one point at the same time.
+
+In **VS Code** you can add more cursors by clicking on different points while holding Alt.
+
+Another way is to select a part of the code and press **Cmd+D** to select the next occurrence of the same text. Each time the shortcut is pressed it searches for the next occurrence and adds it to the selection, keeping a cursor on each occurrence. Then you can change them all at once.
+
+### Go to file
+
+Se você sabe o nome, ou parte dele, é só usar o **Go to File** (Cmd+P no Mac) e começar a digitar parte do nome. Ele faz uma [busca fuzzy](https://en.wikipedia.org/wiki/Approximate_string_matching), portanto, mesmo você não digitando exatamente o nome, ele traz os arquivos que mais se aproximam. Depois é só dar Enter para abrir o arquivo.
+
+Another feature that saves a lot of time, especially in projects with many files, is to go directly to a specific file, without having to search for it in the folder structure.
+
+If you know the name, or part of it, just use **Go to File** (Cmd+P on Mac) and start typing part of the name. It does a [fuzzy search](https://en.wikipedia.org/wiki/Approximate_string_matching), so even if you don't type the name exactly, it returns the closest matches. Then just hit Enter to open the file.
+
+### Find and replace
+
+Searching and replacing text in a file is useful, but searching and replacing in the entire project can save a ton of time!
+
+In **VS Code** just use the sidebar search (Cmd+Shift+F) to search the entire project, and if you expand the arrow on the side it opens the replacement field and even shows a preview of what will be replaced.
+
+<PostImage
+  src="/5-essential-productivity-tools-in-web-development/images/vscode-search-replace-1024x555.png"
+  width="1024"
+  height="555"
+  alt="VS Code search and replace"
+/>
+
+### Split editor
+
+Finally, very useful for editing related files, is the option to split the editor to show different files at the same time. It's nice, for example, to do [TDD](https://www.devmedia.com.br/test-driven-development-tdd-simples-e-pratico/18533) and switch between the test file and the code file itself.
+
+In **VS Code** you can divide it horizontally, vertically, in many different ways.
+
+<PostImage
+  src="/5-essential-productivity-tools-in-web-development/images/vscode-split-editor-1024x674.png"
+  width="1024"
+  height="674"
+  alt="Split editor in VS Code"
+/>
+
+## Conclusion
+
+Those were some tips that, for me, help a lot in productivity. Some things are very personal, but the idea is to always try to improve your workflow.
+
+Do you have other cool tips to improve productivity? Comment!

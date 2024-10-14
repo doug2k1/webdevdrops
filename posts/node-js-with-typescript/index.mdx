@@ -1,0 +1,104 @@
+---
+title: 'Node.js with TypeScript'
+date: '2020-05-03'
+tags:
+  - 'nodejs'
+  - 'typescript'
+coverImage: '/node-js-with-typescript/images/node-typescript.jpg'
+language: en
+translations:
+  pt-BR: node-js-typescript
+---
+
+Hey, folks! In this post I will show you how you can develop in **[Node.js](https://nodejs.org/)** using **[TypeScript](https://www.typescriptlang.org/)** and have the [benefits of this language](https://apiumhub.com/tech-blog-barcelona/top-typescript-advantages/) also in the backend.
+
+## ts-node-dev
+
+To transpile **TypeScript** code to **JavaScript**, we will use **[ts-node-dev](https://www.npmjs.com/package/ts-node-dev)**.
+
+It provides an executable that we will use instead of Node to run TypeScript code. Behind the scenes it will transform TypeScript into JavaScript and execute it using Node itself.
+
+Another nice thing about ts-node-dev is that it also replaces **[nodemon](https://www.npmjs.com/package/nodemon)**, so whenever we change a .ts file it will reload the application to reflect the changes.
+
+## Setup
+
+We will need **ts-node-dev** and the **typescript** itself as development dependencies:
+
+```bash
+npm i -D ts-node-dev typescript
+```
+
+We will also need a config file for the TypeScript compiler. We can generate a default configuration with the command:
+
+```
+npx tsc --init
+```
+
+It will create a `tsconfig.json` at the root of the application. You can customize the options, but the default will work for us.
+
+## Writing the code
+
+With this setup we can now write the application code using .ts files and all TypeScript functionality.
+
+As an example, let's create a “Hello World” with **[Express.js](https://expressjs.com/)**.
+
+We will need to install **express** itself, and also the type definitions for it. Note that **express** is an application dependency, while type definitions are development dependencies.
+
+```bash
+npm i express
+```
+
+```bash
+npm i -D @types/express
+```
+
+Some libraries already provide their own type definitions, so this second installation is not necessary. You will find out if a lib needs it when you try to import it into the code and the editor complains that the type definitions are missing.
+
+For our “Hello, World” I will write this code in an `index.ts` file:
+
+```typescript
+import express, { json } from 'express'
+
+const app = express()
+app.use(json())
+
+app.get('/', (request, response) => {
+  return response.json({ message: 'Hello, TypeScript!' })
+})
+
+app.listen(3000, () => {
+  console.log('🚀 Server started on http://localhost:3000')
+})
+```
+
+Note that we can use **[ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)** (import ... from ...).
+
+## Running the application
+
+To run the application, let's add this `start` script, in `package.json`:
+
+```json
+"start": "ts-node-dev --transpileOnly --ignore-watch node_modules index.ts"
+```
+
+I've added some options to make the transpilation process quicker:
+
+`--transpileOnly` will tell it to just transpile, without doing type checking. This checking can be done in the editor, pointing the errors directly in our code.
+
+`--ignore-watch node_modules` is saying to ignore `node_modules` files, as we are not going to tamper with these files and hope they are already in JavaScript.
+
+## Production
+
+In production, as we want maximum performance, we will use Node directly with the code transpiled in JavaScript. For that we can add a build script:
+
+```json
+"build": "tsc"
+```
+
+It will use the TypeScript compiler to transpile all the .ts code and save the corresponding .js files to disk.
+
+## Concluding
+
+The final code for this example is here: [https://github.com/doug2k1/node-typescript](https://github.com/doug2k1/node-typescript)
+
+TypeScript has many advantages, and the integration with other tools is becoming more mature every day. It is easier to adopt, either on the frontend or backend, and is an interesting option for most projects.

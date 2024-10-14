@@ -1,0 +1,165 @@
+---
+title: 'Fullstack com Node.js, React e GraphQL  - 4: Interface administrativa com Forest Admin (Atualizado 2020)'
+date: '2020-06-21'
+categories:
+  - 'Full Stack'
+tags:
+  - 'full-stack'
+  - 'graphql'
+  - 'nodejs'
+  - 'react'
+coverImage: '/fullstack-node-react-forest-admin-e3b07c142f9a/images/fullstack-4-1.png'
+---
+
+Faaala, pessoal! Neste quarto post da série [**Fullstack com Node.js, React e GraphQL**](/fullstack-node-react-graphql-introducao-2c2f18c757c4) vamos criar a interface administrativa usando [**Forest Admin**](https://www.forestadmin.com/), permitindo fazer o CRUD dos dados (criar, editar, visualizar e remover).
+
+<PostImage
+  src="/fullstack-node-react-forest-admin-e3b07c142f9a/images/fullstack-4-1-1024x558.png"
+  width="1024"
+  height="558"
+  alt=""
+/>
+
+## Forest Admin
+
+[**Forest Admin**](https://www.forestadmin.com/) é um serviço que cria uma interface administrativa a partir dos dados (modelos) da sua aplicação. Esta interface fica hospedada nos servidores da **Forest** e se comunica com a sua aplicação através de uma API REST, também gerada pelo **Forest Admin**.
+
+O serviço é gratuito, mas possui um plano pago com funcionalidades mais avançadas. Vamos usar o plano gratuito mesmo.
+
+## **Atualização 21/06/2020**
+
+No post original nós conectamos o **Forest Admin** à nossa aplicação existente. Hoje esta opção não é mais suportada. O **Forest** gera uma nova aplicação exclusivamente para fornecer a API para a interface administrativa. Ela vai rodar separada do nosso backend express/graphql.
+
+Por um lado esta mudança gera mais trabalho de manutenção, pois vamos precisar manter duas aplicações backend separadas, mas também facilita o setup (ela é gerada automaticamente como veremos a seguir) e permite escalar independente (tipicamente em produção a aplicação que fornece os dados para os usuários finais é mais demandada que a parte administrativa).
+
+## Cadastro no Forest Admin
+
+O processo de cadastro é bem simples, basta acessar [https://www.forestadmin.com](https://www.forestadmin.com/) e clicar em **Install Forest Admin**. Na próxima página você vai criar sua conta.
+
+Na tela seguinte informe o nome que desejar para seu projeto e clique em **Create your project**.
+
+No próximo passo você vai informar os dados do seu banco de dados. No nosso caso escolhemos **postgres** e informamos os dados de acesso ao banco em _localhost_. Não se preocupe, os dados não serão armazenados, ele vai usar apenas para gerar as instruções de instalação.
+
+Usando os dados que definimos na [parte 3](/fullstack-node-react-graphql-postgresql-sequelize-11e646979b27/), fica assim:
+
+<PostImage
+  src="/fullstack-node-react-forest-admin-e3b07c142f9a/images/forest-database-connect-1024x829.png"
+  width="1024"
+  height="829"
+  alt=""
+/>
+
+Na próxima tela escolha **Install with NPM**. Serão mostrados os comandos que precisamos executar. Execute na ordem: primeiro a instalação do `lumber-cli`, depois a geração da aplicação, e depois o `npm start` da aplicação.
+
+Neste ponto a página de cadastro vai tentar comunicar com a aplicação e redirecionar para a sua nova área administrativa.
+
+**Nota:** Se os comandos executaram normalmente, mas a página continua com a mensagem "**Waiting for your backend to run**", você pode ir para https://app.forestadmin.com/projects que seu admin já deve estar rodando.
+
+Para melhor organização eu adicionei a app gerada pelo forest no mesmo repositório da nossa aplicação, em `admin-backend`. Ficando assim:
+
+```
+/
+  admin-backend/
+  backend/
+  frontend/
+```
+
+## Interface administrativa
+
+Na sua área administrativa você vai notar que está no ambiente **Development**. O Forest permite separar a área administrativa de desenvolvimento da de produção. Assim podemos testar funcionalidades sem mexer nos dados de produção.
+
+<PostImage
+  src="/fullstack-node-react-forest-admin-e3b07c142f9a/images/forest-admin-1-1024x400.png"
+  width="1024"
+  height="400"
+  alt=""
+/>
+
+Veja no menu lateral que temos páginas de listagem, criação, edição para cada um de nossos modelos.
+
+### Modelos relacionados
+
+Uma _feature_ muito legal é na hora de cadastrar modelos relacionados. Por exemplo, para criar um **investimento** precisamos informar a qual **corretora** ele pertence. O Forest entende a relação e oferece um campo com auto-complete para selecionar a corretora:
+
+<PostImage
+  src="/fullstack-node-react-forest-admin-e3b07c142f9a/images/forest-admin-2-1024x427.png"
+  width="1024"
+  height="427"
+  alt=""
+/>
+
+### Smart fields
+
+O Forest possui uma _feature_ chamada **Smart Fields**, onde você pode adicionar campos adicionais ao seus modelos, e que vai resolver um problema nosso.
+
+É normal ter o mesmo investimento em diferentes corretoras. Posso ter um valor aplicado no **Tesouro Selic** nas corretoras **Easynvest** e **Rico**, por exemplo. No nosso admin, se eu tentar adicionar uma transação no Tesouro Selic da Rico, o auto-complete do campo de investimento vai ficar assim:
+
+<PostImage
+  src="/fullstack-node-react-forest-admin-e3b07c142f9a/images/forest-admin-3-1024x322.jpg"
+  width="1024"
+  height="322"
+  alt=""
+/>
+
+E aí? Qual é o da Rico e qual é da Easynvest?
+
+Vamos adicionar um campo **Full Name** no investimento, que traz o nome do investimento junto com o da corretora. Para isso basta editar o arquivo _forest/investment.js_, adicionando a seguinte entrada no array `fields`:
+
+```javascript
+const { collection } = require('forest-express-sequelize')
+const models = require('../models/')
+
+collection('investments', {
+  actions: [],
+  fields: [
+    {
+      field: 'fullName',
+      type: 'String',
+      get: (investment) => {
+        return models.brokers
+          .findOne({ where: { id: investment.brokerIdKey } })
+          .then((broker) => {
+            return `${investment.name} (${broker.name})`
+          })
+      },
+    },
+  ],
+  segments: [],
+})
+```
+
+É preciso reiniciar a aplicação para esta mudança surtir efeito.
+
+Agora precisamos dizer ao Forest para usar este campo no auto-complete. Ative o **_Layout Editor_** e clique na engrenagem ao lado de **Investments**. E na opção **_reference field_**, escolher “full name”:
+
+<PostImage
+  src="/fullstack-node-react-forest-admin-e3b07c142f9a/images/forest-admin-4-1024x206.png"
+  width="1024"
+  height="206"
+  alt=""
+/>
+
+Com isso, sempre que o modelo de **investimento** for referenciado em alguma parte da aplicação, você vai ver o **full name**. Assim podemos identificar a qual corretora pertence:
+
+<PostImage
+  src="/fullstack-node-react-forest-admin-e3b07c142f9a/images/forest-admin-5-1024x283.png"
+  width="1024"
+  height="283"
+  alt=""
+/>
+
+## Resultado final
+
+O código do projeto até este ponto está em: [https://github.com/doug2k1/my-money/tree/v8.0.0](https://github.com/doug2k1/my-money/tree/v8.0.0)
+
+Nota: esta tag **v8.0.0**, contém a refatoração do setup do Forest em 2020, portanto ela já inclui os códigos das partes 5, 6, 7 e 8 da série.
+
+## No próximo capítulo
+
+Na próxima parte vamos configurar Integração Contínua com [**Travis CI**](https://travis-ci.org/).
+
+_Stay tuned!_
+
+## Feedbacks?
+
+E aí, o que está achando até agora? Algo que precisa melhorar?

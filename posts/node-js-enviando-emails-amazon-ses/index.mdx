@@ -1,0 +1,206 @@
+---
+title: 'Node.js: Enviando E-mails com Amazon SES'
+date: '2021-01-14'
+categories:
+  - 'Node.js'
+tags:
+  - 'aws'
+  - 'nodejs'
+coverImage: '/node-js-enviando-emails-amazon-ses/images/nodejs-email-amazon-ses.jpg'
+---
+
+Como enviar e-mails em **Node.js** usando o **[Amazon SES](https://aws.amazon.com/pt/ses/)**, desde às configurações no **AWS** até o código para disparar os envios.
+
+<PostImage
+  alt="Node.js: Enviando E-mails com Amazon SES"
+  src="/node-js-enviando-emails-amazon-ses/images/nodejs-email-amazon-ses.jpg"
+  width="1280"
+  height="720"
+/>
+
+O **SES** (_Simple Email Service_) é um serviço de e-mails da **AWS** que pode ser usado tanto para envio de e-mails transacionais em aplicações (confirmação de cadastro, esqueci minha senha, formulário de contato, etc.) quanto para envio de e-mails em massa, como newsletters e afins.
+
+**OBS.:** Este tutorial considera o uso para e-mails transacionais, enviados a um único destinatário por vez. Envio de e-mails em massa estão fora do escopo, e diferentes configurações podem ser necessárias.
+
+## Validar domínio e e-mails
+
+Antes de começar a enviar e-mails pelo SES é preciso adicionar um domínio e um ou mais de endereços de e-mails como remetentes.
+
+### Adicionar e validar domínio
+
+Para adicionar um domínio, vá ao [**SES Management Console**](https://console.aws.amazon.com/ses), em **Domains** > **Verify a New Domain**:
+
+<PostImage
+  alt="Gerenciamento de domínios do SES Management Console"
+  src="/node-js-enviando-emails-amazon-ses/images/ses-add-domain.png"
+  width="599"
+  height="315"
+/>
+
+Insira o domínio (sem www). Você pode marcar a opção **Generate DKIM Settings** para gerar os registros **DKIM**. Clique em **Verify This Domain**:
+
+<PostImage
+  alt="Adicionando um novo domínio"
+  src="/node-js-enviando-emails-amazon-ses/images/ses-verify-domain.png"
+  width="782"
+  height="328"
+/>
+
+**DKIM** - _DomainKeys Identified Mail_ - é um padrão que adiciona uma assinatura aos e-mails enviados a partir de um domínio, e garante que a mensagem foi mesmo enviada a partir daquele domínio e não foi alterada no caminho. Habilitar o DKIM é recomendado, pois melhora a taxa de entrega dos seus e-mails.
+
+Na próxima tela serão exibidos os registros que você deve adicionar nas configurações de DNS do seu domínio (isso deve ser feito onde seu domínio está registrado):
+
+<PostImage
+  alt="Registros DNS a serem adicionados ao domínio"
+  src="/node-js-enviando-emails-amazon-ses/images/ses-domain-records.png"
+  width="869"
+  height="738"
+/>
+
+A última entrada, **Email Receiving Record**, é necessária apenas para usar o SES no recebimento de e-mail. Não vai ser necessária no nosso caso.
+
+Após adicionar as entradas no DNS do seu domínio, podem levar de poucos minutos a algumas horas para propagar e o domínio aparecer como verificado no SES.
+
+### Adicionar e validar e-mail
+
+Vá em **Email Addresses** > **Verify a New Email Address**:
+
+<PostImage
+  alt="Gerenciamento de endereços de e-mail no SES"
+  src="/node-js-enviando-emails-amazon-ses/images/ses-add-email.png"
+  width="612"
+  height="377"
+/>
+
+Adicione um e-mail que será usado como remetente e clique em **Verify This Email Address**.
+
+A **Amazon** vai enviar uma confirmação. Basta clicar no link da mensagem para confirmar.
+
+## Criar chave de acesso
+
+Para acessar os serviços da **AWS** via código, precisamos de uma **chave de acesso**. Vamos criar uma chave permissão ao serviço **SES**.
+
+Para gerenciar usuários e chaves de acessos, vamos ao **[IAM Management Console](https://console.aws.amazon.com/iam)**, em **Usuários** > **Adicionar usuário**:
+
+<PostImage
+  alt="Gerenciamento de usuários no IAM"
+  src="/node-js-enviando-emails-amazon-ses/images/ses-add-user.png"
+  width="612"
+  height="306"
+/>
+
+Digite um **nome de usuário** e escolha **Acesso programático** em **Tipo de acesso**:
+
+<PostImage
+  alt="IAM: adicionando usuário"
+  src="/node-js-enviando-emails-amazon-ses/images/iam-add-user.png"
+  width="1014"
+  height="541"
+/>
+
+Na tela seguinte, de permissões, escolha **Anexar políticas existentes de forma direta**, e **Criar política**.
+
+Vamos criar uma política que permite apenas o envio de e-mails no SES.
+
+Escolha o **Serviço**: SES, Ações: **Gravação** (SendEmail, SendRawEmail) e **Recursos**: Todos os recursos.
+
+<PostImage
+  alt="IAM: criando política para permitir envio de e-mails pelo SES"
+  src="/node-js-enviando-emails-amazon-ses/images/iam-criar-politica.png"
+  width="773"
+  height="557"
+/>
+
+Clique em **Revisar política**, de um nome e clique em **Criar política**:
+
+<PostImage
+  alt="IAM: finalizando a criação da política"
+  src="/node-js-enviando-emails-amazon-ses/images/iam-criar-politica-2.png"
+  width="909"
+  height="577"
+/>
+
+De volta à criação do usuário, procure e selecione a política recém-criada (pode ser necessário clicar no botão de **Atualizar** do lado direito para ver a política):
+
+<PostImage
+  alt="IAM: selecionando a nova política"
+  src="/node-js-enviando-emails-amazon-ses/images/iam-criar-usuario-politica.png"
+  width="979"
+  height="451"
+/>
+
+Clique em **Próximo: Tags**. Aqui você adicionar tags ao usuário para organização.
+
+Clique em **Próximo: Revisar**. Verifique os dados e clique em **Criar usuário**.
+
+Você vai ver o ID e chave de acesso do novo usuário. **Guarde estas informações em um local seguro, pois você não irá ver esta tela novamente!**
+
+**NOTA:** Em uma aplicação, o ideal é que estas informações sensíveis sejam salvas como [variáveis de ambiente](https://pt.wikipedia.org/wiki/Vari%C3%A1vel_de_ambiente), usando uma lib como a **[dotenv](https://www.npmjs.com/package/dotenv)** para gerenciar os valores em diferentes ambientes.
+
+## Usando AWS SDK para enviar e-mails
+
+Feito todo esse setup, o código para de fato enviar e-mails é relativamente simples:
+
+```javascript
+const AWS = require('aws-sdk')
+
+const SES = new AWS.SES({
+  accessKeyId: process.env.AWS_ID,
+  secretAccessKey: process.env.AWS_KEY,
+  region: 'us-east-1',
+})
+
+async function sendTestEmail(to) {
+  const from = 'Name <from@example.com>'
+
+  const params = {
+    Destination: {
+      ToAddresses: [to],
+    },
+    Message: {
+      Body: {
+        Html: {
+          Charset: 'UTF-8',
+          Data: '<p>Node.js and <strong>Amazon SES</strong> test e-mail</p>',
+        },
+      },
+      Subject: {
+        Charset: 'UTF-8',
+        Data: 'This is a test!',
+      },
+    },
+    Source: from,
+  }
+
+  try {
+    await SES.sendEmail(params).promise()
+    console.log('E-mail sent successfully!')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+console.log('Starting...')
+sendTestEmail('recipient@example.com')
+```
+
+Vamos precisar da dependência **[aws-sdk](https://www.npmjs.com/package/aws-sdk)**.
+
+Criamos uma instância da classe `SES`, passando o ID e chave que registramos, e usamos o método assíncrono `sendEmail` para enviar o e-mail. Este método recebe um objeto de parâmetros, onde definimos o remetente, o destinatário, assunto e corpo da mensagem.
+
+Para mais detalhes sobre o uso do **SES** com o SDK, veja a [documentação oficial](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/ses-examples-sending-email.html).
+
+Executando este código, em poucos segundos chega o e-mail na caixa do destinatário:
+
+<PostImage
+  alt="E-mail enviado pelo código de exemplo"
+  src="/node-js-enviando-emails-amazon-ses/images/node-ses-email-message.png"
+  width="498"
+  height="260"
+/>
+
+## Código final
+
+O código deste tutorial está em: [https://github.com/doug2k1/node-email-ses](https://github.com/doug2k1/node-email-ses)
+
+**Comentários? Dúvidas?** Me [mande uma mensagem](https://www.webdevdrops.com/contact/) ou comente aqui embaixo!

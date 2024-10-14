@@ -1,0 +1,155 @@
+---
+title: 'React: Formulários e Validação com React Hook Form'
+date: '2020-05-10'
+categories:
+  - 'React'
+tags:
+  - 'react'
+coverImage: '/react-forms-validacao-react-hook-form/images/react-forms-validation.jpg'
+translations:
+  en: react-forms-and-validations-react-hook-form
+---
+
+Fala, pessoal! Neste post vou mostrar como trabalhar com formulários e validação no **React**, de forma simples e eficiente, usando a biblioteca **[React Hook Form](https://react-hook-form.com/)**.
+
+<PostImage
+  src="/react-forms-validacao-react-hook-form/images/react-forms-validation.jpg"
+  width="940"
+  height="788"
+  alt="React Forms"
+/>
+
+## React Hook Form x Formik x Redux Form
+
+O **React Hook Form** trouxe algumas melhorias em relação a outras bibliotecas de manipulação de formulários no React, como a **[Formik](https://jaredpalmer.com/formik/)** e a **[Redux Form](https://redux-form.com/)**.
+
+Entre estes pontos estão a **validação embutida** (com outras libs você precisa fazer a validação manualmente ou instalar mais uma lib pra isso), **performance** (ela faz menos renders que outras libs ao alterar os campos) e **facilidade de uso** (com a React Hook Form você precisa escrever menos código e a curva de aprendizagem é menor).
+
+E as duas cerejas no bolo: ele funciona com **[React Native](https://reactnative.dev/)**, com poucas alterações, e para quem usa **[TypeScript](https://www.typescriptlang.org/)**, ela já vem com as próprias definições de tipos.
+
+## Exemplo: Formulário de Login
+
+Vamos ver na prática como trabalhar com a React Hook Form construindo um formulário de login.
+
+Pra começar, vamos criar um componente `LoginForm` basicão, com os campos e-mail e senha:
+
+```javascript
+import React from 'react'
+import './LoginForm.css'
+
+const LoginForm = () => {
+  return (
+    <div className="login-form">
+      <form>
+        <label htmlFor="inputEmail">E-mail</label>
+        <input type="email" id="inputEmail" name="email" />
+
+        <label htmlFor="inputPassword">Password</label>
+        <input type="password" id="inputPassword" name="password" />
+
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  )
+}
+
+export default LoginForm
+```
+
+Agora vamos instalar o **React Hook Form**:
+
+```bash
+npm i react-hook-form
+```
+
+E importar o **[hook](https://pt-br.reactjs.org/docs/hooks-intro.html)** `useForm` no nosso componente:
+
+```javascript
+import { useForm } from 'react-hook-form'
+```
+
+Dentre as propriedades que esse hook retorna, vamos precisar de `handleSubmit`, `register` e `errors`:
+
+```javascript
+const { register, handleSubmit, errors } = useForm()
+```
+
+### Registrando os campos
+
+A primeira propriedade, `register`, é uma função que registra os campos. Você precisa registrar cada campo que deseja que seja gerenciado pelo React Hook Form, através da prop `ref` do campo:
+
+```javascript
+<input name="email" ref={register()} />
+```
+
+### Recuperando os dados ao enviar o formulário
+
+A próxima propriedade, `handleSubmit`, é usada para tratar o envio do formulário e capturar os dados preenchidos.
+
+```javascript
+const LoginForm = () => {
+  const { register, handleSubmit, errors } = useForm()
+
+  function onSubmit(data) {
+    console.log('Data submitted: ', data)
+  }
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>//... campos do formulário</form>
+  )
+}
+```
+
+A nossa função `onSubmit` vai receber um objeto com os dados do formulário, e nesse momento podemos enviar os dados para alguma api do backend ou fazer o que quisermos com eles.
+
+### Validando e mostrando os erros
+
+Para adicionar validação nos campos precisamos passar alguns parâmetros para a função register, informando as regras de validação e as mensagens de erro, caso a validação não passe.
+
+Veja como fica nosso campo de e-mail:
+
+```javascript
+<input
+  type="email"
+  name="email"
+  ref={register({
+    required: 'Enter your e-mail',
+    pattern: {
+      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+      message: 'Enter a valid e-mail address',
+    },
+  })}
+/>
+```
+
+Temos duas validações: a de campo obrigatório (`required`) e uma de expressão regular (`pattern`) para validar se o e-mail está no formato certo.
+
+Com isso o React Hook Form já impede que o formulário seja enviado se algum campo falhar na validação.
+
+Para exibir as mensagens de erro para o usuário, vamos usar a outra propriedade do hook: `errors`:
+
+```javascript
+;<input
+  type="email"
+  name="email"
+  ref={register({
+    required: 'Enter your e-mail',
+    pattern: {
+      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+      message: 'Enter a valid e-mail address',
+    },
+  })}
+/>
+
+{
+  errors.email && <p className="error">{errors.email.message}</p>
+}
+```
+
+A propriedade `errors` vai ser preenchida automaticamente com os erros de cada campo, que podemos usar para mostrar uma mensagem abaixo de cada campo com erro. Também poderíamos usar para trocar alguma classe CSS e mudar o estilo dos campos com erro (adicionar um border vermelha, algum ícone, etc).
+
+## Conclusão
+
+O código final deste exemplo está no GitHub: [https://github.com/doug2k1/react-login-form](https://github.com/doug2k1/react-login-form)
+
+Veja abaixo uma demonstração do formulário em ação:

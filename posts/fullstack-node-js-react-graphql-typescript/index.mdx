@@ -1,0 +1,398 @@
+---
+title: 'Fullstack com Node.js, React e GraphQL - 8: Frontend React e TypeScript'
+date: '2019-11-07'
+categories:
+  - 'Full Stack'
+tags:
+  - 'full-stack'
+  - 'react'
+  - 'typescript'
+coverImage: '/fullstack-node-js-react-graphql-typescript/images/fullstack-8-1.jpg'
+---
+
+Fala, galera! Depois de uma longa pausa estamos de volta, e nesta oitava parte da série **[Fullstack com Node.js, React e GraphQL](/fullstack-node-react-graphql-introducao-2c2f18c757c4/)** vamos começar a desenvolver o frontend com **[React](https://reactjs.org/)**, usando a linguagem **[TypeScript](https://www.typescriptlang.org/)**, escrevendo CSS com **[styled-components](https://www.styled-components.com/)** e a biblioteca de componentes **[Material-UI](https://material-ui.com/)**.
+
+<PostImage
+  src="/fullstack-node-js-react-graphql-typescript/images/fullstack-8-1-1024x558.jpg"
+  width="1024"
+  height="558"
+  alt=""
+/>
+
+## Mas antes...
+
+Como o projeto ficou um tempo parado, resolvi atualizar todas as dependências para deixar o projeto atual. Algumas atualizações tinham _breaking changes_, mas atualizei o que foi necessário e está tudo funcionando no repositório.
+
+Uma das principais mudanças foi que o **Apollo Server** agora oferece o **[GraphQL Playground](https://www.apollographql.com/docs/apollo-server/testing/graphql-playground/)**, ao invés do **GraphiQL**, como interface gráfica para testar queries. Mas o funcionamento é praticamente o mesmo.
+
+## Escolha da stack frontend
+
+Como este é o primeiro post que envolve frontend, vou dar uma breve explicação da escolha das tecnologias:
+
+### TypeScript
+
+O uso do **[TypeScript](https://www.typescriptlang.org/)** vem crescendo nos últimos anos (veja abaixo o gráfico de downloads nos últimos 2 anos), e é cada vez mais importante que o desenvolvedor web tenha esse conhecimento no seu arsenal.
+
+<PostImage
+  src="/fullstack-node-js-react-graphql-typescript/images/fullstack-8-2-1024x538.png"
+  width="1024"
+  height="538"
+  alt=""
+/>
+
+Downloads do módulo typescript no NPM (via npmtrends.com)
+
+O **TypeScript** adiciona um pouco mais de complexidade ao setup e deixa o código mais verboso, com a adição das declarações de tipos. Porém isso é compensado pelas vantagens, como detectar bugs ainda durante a codificação, melhorar o auto-complete do editor, facilitar refatorações de código.
+
+### Styled Components
+
+**[styled-components](https://www.typescriptlang.org/)** é uma lib para escrita de CSS que vem em uma crescente, assim como o **TypeScript**. Ela traz o paradigma **CSS-in-JS**, que encoraja o acoplamento do CSS com o HTML e JS de um componente.
+
+Mesmo que isso não pareça uma boa ideia a princípio, ela traz vantagens como:
+
+- Carrega apenas o CSS necessário para os componentes que estão na tela.
+- Elimina conflito de estilos entre componentes.
+- Facilita a manutenção: todo CSS que afeta um componente está junto dele.
+- Facilita criação de estilos dinâmicos, baseados na propriedades e estado do componente.
+
+### Material-UI
+
+Vamos usar o padrão **[Material Design](https://material.io/design/)**, do Google, para facilitar a implementação da parte visual da aplicação.
+
+Dentre as implementações do **Material Design** em componentes React, o **[Material-UI](https://material-ui.com/)** é uma das mais maduras e completas.
+
+## Fazendo o setup
+
+### Babel
+
+Para fazer a _transpilação_ do código **TypeScript** para **JavaScript** (que é o que o navegador entende) vamos usar o **[Babel](https://babeljs.io/)**.
+
+Para isso vamos instalar nas dependências de desenvolvimento:
+
+npm i -D @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript @babel/plugin-proposal-object-rest-spread
+
+Além do _core_ do Babel, estamos instalando:
+
+- **@babel/preset-env**: transforma _features_ mais novas do **JavaScript** para código compatível com navegadores que não suportam nativamente
+- **@babel/preset-react**: transforma código **[JSX](https://pt-br.reactjs.org/docs/introducing-jsx.html)** do **React** em **JavaScript**.
+- **@babel/preset-typescript**: transforma **TypeScript** em **JavaScript**.
+- **@babel/plugin-proposal-object-rest-spread**: adiciona suporte a [object rest spread](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_syntax), que ainda não está na versão oficial do **JavaScript** ([mas está a caminho](https://github.com/tc39/proposal-object-rest-spread))
+
+#### Configuração
+
+Nossa configuração do **Babel**, que fica no arquivo _.babelrc_, é bem simples. Apenas ativamos os _presets_ e o _plugin_ que instalamos:
+
+```json
+{
+  "presets": ["@babel/env", "@babel/typescript", "@babel/react"],
+  "plugins": ["@babel/proposal-object-rest-spread"]
+}
+```
+
+### Webpack
+
+Para usarmos o **[webpack](https://webpack.js.org/)**, vamos instalar as dependências de desenvolvimento:
+
+npm i -D babel-loader webpack webpack-cli webpack-dev-server
+
+🤔 Não sabe pra que serve o **webpack** ou como ele funciona? Leia a série de posts **[Webpack sem Medo](/webpack-sem-medo-introducao-af889eb659e7/)**, onde explico tudo.
+
+O que estamos instalando?
+
+- **babel-loader**: loader que integra com o **Babel** para fazer a transpilação do código.
+- **webpack**: o core do **webpack**
+- **webpack-cli**: cli (interface de linha de comando) do **webpack**, necessária para executar alguns comandos, como fazer o _build_ dos _assets_.
+- **webpack-dev-server**: servidor de desenvolvimento integrado com o **webpack**, para processar os arquivos a medida que vamos desenvolvendo.
+
+#### Configuração
+
+A configuração do **webpack**, no arquivo _webpack.config.js_, fica assim:
+
+```javascript
+const path = require('path')
+
+module.exports = (env) => ({
+  mode: env === 'prod' ? 'production' : 'development',
+
+  entry: './src/index',
+
+  output: {
+    path: path.resolve('dist'),
+    filename: 'bundle.js',
+  },
+
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.json'],
+  },
+
+  module: {
+    rules: [
+      {
+        test: /\.(tsx?)|(js)$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        options: {
+          cacheDirectory: true,
+        },
+      },
+    ],
+  },
+})
+```
+
+Alguns pontos a se notar:
+
+`mode: env === 'prod' ? 'production' : 'development'`  
+Usamos o parâmetro de linha de comando _env_ para setar o modo produção ou desenvolvimento.
+
+`extensions: ['.ts', '.tsx', '.js', '.json']`  
+Adicionamos as extensões .ts e .tsx para trabalhamos com **TypeScript**.
+
+A única regra que temos em `modules` trata os arquivos com extensões .ts, .tsx e .js, passando para o **babel-loader**, que vai cuidar das transformações.
+
+#### NPM scripts
+
+Para facilitar a nossa vida, vamos adicionar dois scripts no _package.json_, o `start` para iniciar o servidor de desenvolvimento e o `build` para compilar em modo de produção:
+
+```json
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack --env prod"
+  }
+```
+
+### TypeScript
+
+Vamos instalar como dependência de desenvolvimento:
+
+```bash
+npm i -D typescript
+```
+
+Esta instalação disponibiliza o executável _tsc_ (**TypeScript** compiler).
+
+#### Configuração
+
+O **TypeScript** usa o arquivo de configuração _tsconfig.json_. Podemos gerar uma versão inicial deste arquivo rodando:
+
+```bash
+npx tsc --init
+```
+
+Ele vai gerar um _tsconfig.json_ com valores default (e mais um monte de comentários explicando resumidamente cada opção).
+
+Nosso tsconfig, após algumas alterações, ficou assim:
+
+```json
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "jsx": "preserve",
+    "strict": true,
+    "esModuleInterop": true
+  }
+}
+```
+
+Fizemos duas alterações na config padrão:
+
+`"target": "esnext"`  
+Deixamos o compilador de **TypeScript** compilar para a versão mais avançada de **JavaScript**. Daí pra frente, para compilar funcionalidades específicas para versões mais compatíveis dos navegadores fica a cargo do **Babel**.
+
+`"jsx": "preserve"`  
+Temos que habilitar o parsing de JSX, mas sem fazer nenhuma alteração. Transformar JSX em JS fica a cargo do **Babel** com o **preset-react**.
+
+### React, Styled Components, Material UI
+
+Agora que preparamos o palco, vamos trazer o atores principais:
+
+```bash
+npm i react react-dom styled-components @material-ui/core
+```
+
+É recomendável instalar também as definições de tipos para essas libs:
+
+```bash
+npm i @types/react @types/react-dom @types/styled-components
+```
+
+🤔 **Porque eu preciso destas instalações extra?**
+
+Muitas libs não possuem suas próprias definições de tipos. Quando importamos um módulo destes em um arquivo **TypeScript**, o compilador assume o tipo `any` para o que está sendo importado.
+
+O tipo `any` significa que pode ser qualquer coisa, ou basicamente que nenhum tipo foi definido. Como estamos em modo _strict_ (definido no _tsconfig_), o compilador requer que os módulos tenham tipos definidos.
+
+Nem todo autor de libs tem interesse em adicionar definições de tipos em suas libs. Para estes casos existe o **[DefinitelyTyped](http://definitelytyped.org/)**, uma iniciativa open-source onde pessoas contribuem com definições de tipos para várias libs. Estas definições da comunidade são publicadas no **NPM** sob o escopo **@types**.
+
+Por isso instalamos os @types... ali em cima. Além de cumprir as exigências do compilador, é mais fácil trabalhar com libs que possuem tipos definidos. As sugestões de auto-complete e as indicações de erro no editor ficam muito mais inteligentes.
+
+Vamos criar um _index.html_:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>React</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="bundle.js"></script>
+  </body>
+</html>
+```
+
+Veja que adicionamos uma referência para a fonte **[Roboto](https://fonts.google.com/specimen/Roboto)**, do **Google Fonts**, que é a fonte utilizada pelo **Material UI**.
+
+Vamos criar também o ponto de entrada para nossa aplicação, o _src/index.tsx_:
+
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+
+ReactDOM.render(<App name="Web Dev Drops" />, document.getElementById('app'))
+```
+
+## O primeiro componente
+
+Vamos criar o componente _src/App.tsx_ que é referenciado no index. Por enquanto este componente vai servir apenas para testar o nosso setup.
+
+Veja o componente inteiro. Na sequência eu explico cada parte.
+
+```tsx
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import Button from '@material-ui/core/Button'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import { StylesProvider } from '@material-ui/core/styles'
+
+const StyledH1 = styled.h1`
+  font-size: 30px;
+  text-transform: uppercase;
+`
+
+type Props = {
+  name: string
+}
+
+const App: React.FC<Props> = ({ name }) => {
+  const [who, setWho] = useState('World')
+
+  return (
+    <StylesProvider injectFirst>
+      <CssBaseline />
+      <StyledH1>React App</StyledH1>
+      <p>
+        Hello {who}! This is {name}!
+      </p>
+      <Button variant="contained" color="primary">
+        Material Button
+      </Button>
+    </StylesProvider>
+  )
+}
+
+export default App
+```
+
+### Styled component
+
+A primeira coisa que ele faz é declarar um componente `StyledH1` usando o **styled-components**.
+
+```javascript
+const StyledH1 = styled.h1`
+  font-size: 30px;
+  text-transform: uppercase;
+`
+```
+
+O que ele faz aqui é criar um componente que renderiza uma tag `h1` com aqueles estilos aplicados.
+
+A magia aqui é que eu posso usar o `StyledH1` várias vezes e ele sempre vai vir com os estilos. Não preciso me preocupar em criar um arquivo .css e importá-lo no componente. Estilos de outros componentes não vão conflitar com este.
+
+### Declarando props com tipos
+
+O próximo passo é declarar as _props_ que o componente recebe, especificando os tipos.
+
+```ts
+type Props = {
+  name: string
+}
+```
+
+O componente `App` só recebe uma _prop_ `name`, do tipo `string`. Com essa declaração o **TypeScript** vai validar se eu tentar passar alguma _prop_ diferente ou com o tipo errado, dando erro na compilação.
+
+### O componente
+
+Por fim, vamos declarar o componente:
+
+```tsx
+const App: React.FC<Props> = ({ name }) => {
+  const [who, setWho] = useState('World');
+
+  ...
+}
+```
+
+Aqui eu declaro um componente funcional (`React.FC`) que recebe as pros declaradas mais acima (`React.FC<Props>`).
+
+Na segunda linha eu declaro uma variável de estado do componente, usando o [hook](https://pt-br.reactjs.org/docs/hooks-intro.html) `useState`.
+
+Na sequência eu retorno o que o componente vai _renderizar_:
+
+```jsx
+return (
+  <StylesProvider injectFirst>
+    <CssBaseline />
+    <StyledH1>React App</StyledH1>
+    <p>
+      Hello {who}! This is {name}!
+    </p>
+    <Button variant="contained" color="primary">
+      Material Button
+    </Button>
+  </StylesProvider>
+)
+```
+
+A primeira tag, `<StylesProvider injectFirst>`, serve para controlar como o **Material UI** vai injetar seus estilos. Com `injectFirst` você consegue sobrescrever com seus próprios estilos se quiser.
+
+`<CssBaseline />` também é do **Material UI** e adiciona um reset de estilos.
+
+Depois a gente usa o nosso componente `StyledH1` com um texto, exibimos a variável de estado `who` e a _prop_ `name`, e no fim adicionamos um botão do **Material UI** pra conferir se ele é renderizado normalmente.
+
+O resultado é este:
+
+<PostImage
+  src="/fullstack-node-js-react-graphql-typescript/images/fullstack-8-3.png"
+  width="644"
+  height="382"
+  alt=""
+/>
+
+Nada muito empolgante, mas conseguimos validar o nosso setup. Na próxima parte vamos começar a criar as telas da nossa aplicação de fato.
+
+## Resultado final
+
+O código do projeto até este ponto está em: [https://github.com/doug2k1/my-money/tree/v7.0.0](https://github.com/doug2k1/my-money/tree/v7.0.0)
+
+## No próximo capítulo
+
+Na próxima parte vamos criar as telas da aplicação, usando o setup de frontend que fizemos hoje.
+
+Stay tuned!
+
+## Feedbacks?
+
+E aí, o que está achando até agora? Algo que precisa melhorar?

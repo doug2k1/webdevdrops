@@ -1,0 +1,216 @@
+---
+title: 'Git on Windows and GitHub: How to Install and Configure'
+date: '2020-04-03'
+tags:
+  - 'git'
+  - 'github'
+coverImage: '/git-on-windows-github-install-configure/images/git-1.png'
+language: en
+translations:
+  pt-BR: git-no-windows-github
+---
+
+In this post I will make a simple tutorial on how to use [**Git**](http://git-scm.com/) on Windows and commit your code to [**GitHub**](http://www.github.com/).
+
+## 1) Install Git on Windows
+
+On the official **Git** website ([http://git-scm.com/](http://git-scm.com/)) click on “**Downloads for Windows**”.
+
+<PostImage
+  src="/git-on-windows-github-install-configure/images/git-windows-1.png"
+  width="584"
+  height="347"
+  alt=""
+/>
+
+Run the downloaded file and go “**Next**” to the “**Select Components**” screen. In this screen I choose the options as in the image:
+
+<PostImage
+  src="/git-on-windows-github-install-configure/images/git-windows-2.png"
+  width="500"
+  height="387"
+  alt=""
+/>
+
+In particular I check the options under “**Windows Explorer integration**”, so I can open the Git command prompt (**[Git Bash](/git-bash-como-instalar-usar/)**) in any folder, just right click and “**Git Bash Here**”. The last option is also interesting, because it installs a better font for the command prompt.
+
+**Note**: Git for Windows comes with its own command prompt (**[Git Bash](/git-bash-como-instalar-usar/)**), which in addition to git commands also provides some Unix commands that can be quite useful (in addition to being much nicer than the standard Windows command prompt) .
+
+On the next screen, I choose the option: "**Use Git from the Windows Command Prompt**".
+
+<PostImage
+  src="/git-on-windows-github-install-configure/images/git-windows-3.png"
+  width="501"
+  height="388"
+  alt=""
+/>
+
+This option allows you to use the `git` command both in Git Bash and in the standard Windows terminal.
+
+The third option adds Unix commands to the Windows terminal, in addition to the git command itself, but some Windows commands will be replaced by Unix commands that have the same name (such as find and sort).
+
+Another important configuration: **line endings**.
+
+<PostImage
+  src="/git-on-windows-github-install-configure/images/git-windows-4.png"
+  width="500"
+  height="387"
+  alt=""
+/>
+
+As you may know Windows and Unix systems (Linux, Mac) have different line breaks in text files. If you write code with line breaks in Windows format, someone else may have problems opening the same file on Linux, and vice versa. This option allows you to normalize this.
+
+The first option converts files to Windows standard when you pull the files, and converts them to Unix format when you commit them to the repository. The second option does not do any conversion when the files arrive, but converts to Unix format when you commit. The third option does not convert at all.
+
+I choose the second one, because I prefer to keep everything in the Unix format (since any good code editor can read files in the Unix standard even if they are on Windows).
+
+That done, "**Next**", "**Finish**" and Git is installed.
+
+## 2) Create a local Git repository and commit your first changes
+
+Let's test it? Create a folder on your computer, right click it and “**Git Bash Here**”.
+
+<PostImage
+  src="/git-on-windows-github-install-configure/images/git-windows-5.png"
+  width="339"
+  height="146"
+  alt=""
+/>
+
+First of all, inform Git your name and e-mail, which will identify your commits. Enter the commands:
+
+```
+git config --global user.name "Your Name"
+git config --global user.email "your_email@email.com"
+```
+
+**Tip**: to copy and paste commands in Git Bash, right click on the terminal screen.
+
+Now we are going to initialize a Git repository in this folder we are in.
+
+```
+git init
+```
+
+<PostImage
+  src="/git-on-windows-github-install-configure/images/git-windows-6.png"
+  width="600"
+  height="107"
+  alt=""
+/>
+
+Did you see this `(master)` text that appeared on the command line? It indicates that you are in a Git repository, on the master branch. Nice, huh?
+
+Let's add an empty file to this repository and commit it. See the sequence of commands:
+
+```
+touch test.txt
+git add .
+git commit -m "First commit"
+```
+
+First we create an empty **test.txt** file. Then we add all the new files (in this case, just test.txt) to the index of the repository, and finally we commit all the files that are in the index and have been modified.
+
+## 3) Push to GitHub
+
+Cool, you have a Git repository on your machine, but how about sharing your codes on GitHub and enjoying all that this community has to offer?
+
+### 3.1) Initial preparation
+
+Go to [https://github.com/](https://github.com/) and click on “**Sign Up**” to create your free account.
+
+Having registered and logged into your account, you now need an **SSH key** to start committing. In Git Bash type:
+
+```
+ssh-keygen -t rsa -C "your_email@email.com"
+```
+
+Enter your e-mail address registered on **GitHub**. Hit Enter on the next question (about the file to be created - let's leave the defaults).
+
+The next question will ask you for a **passphrase**. Create a password and enter it. He will ask for confirmation. Type the password again and Enter. Type now:
+
+```
+notepad ~/.ssh/id_rsa.pub
+```
+
+to open the file that was created in Notepad.
+
+Now on **GitHub**, go to "**Settings**" and then "**SSH and GPG Keys**". Click “**New SSH key**”. Enter a title to identify the computer where the key was generated and in the “**Key**” field, paste all the contents of the file **id_rsa.pub** (which you opened in Notepad)
+
+<PostImage
+  src="/git-on-windows-github-install-configure/images/git-windows-7.png"
+  width="433"
+  height="338"
+  alt=""
+/>
+
+Be careful to copy and paste the entire contents of the file, starting with “ssh-rsa…” and including your email (as in the image). Click on "**Add Key**".
+
+Let's test to see if it worked. In Git Bash type:
+
+```
+ssh -T git@github.com
+```
+
+It will ask if you are sure you want to connect (yes / no). Type **yes** and Enter. In the next question (Enter passphrase …) enter your password (the one you chose when creating the SSH key).
+
+If you receive a message like:
+
+`Hi doug2k1! You’ve successfully authenticated, but GitHub does not provide shell access.`
+
+So everything worked out!
+
+### 3.2) Create the remote repository
+
+On **GitHub** we will create a new repository ("**New Repository**" button on your dashboard). Enter a name without spaces and special characters. The other options do not need to change.
+
+<PostImage
+  src="/git-on-windows-github-install-configure/images/git-windows-8.png"
+  width="728"
+  height="596"
+  alt=""
+/>
+
+You will be taken to the page of your repository, which has no files yet.
+
+**Important!** If the email informed to Git at the beginning of **step 2** is not the one used to register with **GitHub**, redo the command informing the registered email. That way, **GitHub** will be able to link the commits to your account.
+
+In Git Bash (in your local repository folder) type:
+
+```
+git remote add origin git@github.com:login/repository.git
+```
+
+Note that login / repository must be entered as it appears in the URL of your repository, in the example:
+
+[https://github.com/doug2k1/projeto-tutorial](https://github.com/doug2k1/projeto-tutorial)
+
+Now to update **GitHub** with the contents in your local repository, type:
+
+```
+git push -u origin master
+```
+
+Enter your password (for the SSH key) when prompted.
+
+Reload your repository page and now, instead of the initial message, you will see your commits and files.
+
+<PostImage
+  src="/git-on-windows-github-install-configure/images/git-windows-9.png"
+  width="800"
+  height="346"
+  alt=""
+/>
+
+## 4) Conclusion
+
+Even though **Git** originated on **Linux** (Did you know that Linus Torvalds created it?), **Windows** users can also benefit from it, thanks to **Git for Windows**. In addition to **Git** itself being an excellent version control system, the open-source community that populates **GitHub** is vibrant. It's rewarding as finding a code that “saves your skin” and also being able to contribute to a project, make forks, share.
+
+See you next!
+
+## Links
+
+- [Git  - Official Site](http://git-scm.com/)
+- [GitHub](http://github.com/)
+- [Resources to learn Git](https://try.github.io/)
+- [My GitHub page](https://github.com/doug2k1)

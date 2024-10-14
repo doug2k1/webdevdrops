@@ -1,0 +1,130 @@
+---
+title: 'Como Criar um Pull Request no GitHub (Passo a Passo)'
+date: '2020-09-26'
+tags:
+  - 'github'
+  - 'open-source'
+coverImage: '/como-criar-um-pull-request-no-github-passo-a-passo/images/criar-pull-request-github.jpg'
+---
+
+Quer colaborar com um projeto open source no **[GitHub](https://github.com/)**? De repente você encontrou a solução de um bug, tem uma melhoria para propor, ou simplesmente quer incrementar a documentação. A forma correta de fazer isso é através de um **pull request** (ou **PR**).
+
+**Pull request** é uma forma de propor alguma alteração no código de um repositório. Os mantenedores daquele repositório (quem tem permissão de escrita nele), podem revisar a alteração proposta e discutir em cima dela, antes de aprovar a ter aquela alteração de fato incorporada.
+
+## Processo para abrir um pull request no GitHub
+
+### Passo 1: Fazer um fork
+
+O primeiro passo é fazer um **fork** do repositório original. Um fork é basicamente uma cópia do repositório para o seu GitHub. Como você não tem acesso de escrita no repositório original, você faz o fork para fazer as alterações na sua cópia.
+
+Para fazer o fork é só ir no repositório original e procurar pelo botão "**Fork**":
+
+<PostImage
+  src="/como-criar-um-pull-request-no-github-passo-a-passo/images/github-pr-1.png"
+  width="878"
+  height="584"
+  alt="fazendo um fork do repositório"
+/>
+
+Após o fork acontecer, você vai ser redirecionado para a sua cópia do repositório. Você pode confirmar isso pela indicação "**forked from**" lá em cima:
+
+<PostImage
+  src="/como-criar-um-pull-request-no-github-passo-a-passo/images/github-pr-2.png"
+  width="878"
+  height="584"
+  alt="Repositório 'forked'"
+/>
+
+### Passo 2: Clonar seu fork para o seu computador
+
+Agora você vai clonar o seu fork do repositório para que você possa fazer as alterações.
+
+Você pode ver e copiar o endereço para clonar na própria página:
+
+<PostImage
+  src="/como-criar-um-pull-request-no-github-passo-a-passo/images/github-pr-3.png"
+  width="878"
+  height="672"
+  alt="endereço para clonar o repositório"
+/>
+
+> **LEIA TAMBÉM:**
+>
+> [**Git no Windows e GitHub: Como Instalar e Configurar**](/git-no-windows-github/)
+
+Então no seu computador execute no terminal o **git clone**, por exemplo:
+
+```bash
+git clone git@github.com:doug2k1/awesome.git
+```
+
+### Passo 3: Ler o guia de contribuição
+
+Muitos repositórios tem uma **guia de contribuição**, com recomendações a serem seguidas para que sua contribuição seja aceita. Geralmente padrões de codificação, requisitos, cobertura de testes, estrutura do PR, etc.
+
+Estas informações geralmente estão em um arquivo **CONTRIBUTING.md** na raiz do repositório. Leia com atenção para não ter erro.
+
+### Passo 4: Fazer as alterações em uma branch
+
+Agora você vai de fato fazer as alterações que deseja propor.
+
+O ideal é fazer isso em uma branch secundária, e não na própria master/main. Por exemplo, para criar uma nova branch:
+
+```bash
+git checkout -b bug-fix
+```
+
+Faça suas alterações, faça **commit** e depois um **push** para enviar para o GitHub (lembre-se ainda estão na sua cópia do repositório)
+
+### Passo 5: Abrir o pull request
+
+Com as novas alterações, seu repositório está apto a abrir um PR para o repositório original.
+
+Se você olhar lá na sua branch e fez a alteração recentemente, o próprio GitHub vai mostrar um botão para abrir o PR. Você pode usar ele ou o link "**Pull request**" mais abaixo:
+
+<PostImage
+  src="/como-criar-um-pull-request-no-github-passo-a-passo/images/github-pr-4-1024x370.png"
+  width="1024"
+  height="370"
+  alt="botão para abrir o pull request"
+/>
+
+Na próxima tela você vai poder revisar suas alterações e escrever um título e descrição para seu PR.
+
+Descreva certinho quais alterações você está propondo, o que você pretende corrigir ou melhorar.
+
+Alguns repositórios possuem um **template de pull request**, que já vai vir populado no campo de descrição. Se este for o caso, mantenha a formatação do template e preencha as informações solicitadas.
+
+Clique em "**Create pull request**" para criar o PR.
+
+<PostImage
+  src="/como-criar-um-pull-request-no-github-passo-a-passo/images/github-pr-5-1024x702.png"
+  width="1024"
+  height="702"
+  alt="criando o pull request"
+/>
+
+### Passo 6: Acompanhar o pull request
+
+Com o PR aberto, ele vai entrar em fase de **revisão**. Os mantenedores poderão analisar suas alterações, fazer comentários ou até fazer alguma alteração.
+
+Você também pode comentar/responder comentários. Se precisar fazer mais alguma alteração no código, você pode fazer na mesma branch, fazer **commit** e **push**. Essas novas alterações vão entrar automaticamente no PR.
+
+Se estiver tudo ok os mantenedores vão **aceitar o pull request**, e suas alterações serão integradas (**mergeadas**) no repositório original. Seu PR vai ficar com o status "**merged**":
+
+<PostImage
+  src="/como-criar-um-pull-request-no-github-passo-a-passo/images/github-pr-6-1024x412.png"
+  width="1024"
+  height="412"
+  alt="pull request mergeado"
+/>
+
+## Parabéns! 🎉
+
+Se foi seu primeiro pull request, **parabéns**! Viu como é fácil contribuir com um projeto open source?
+
+Seu código vai ganhar o mundo, ajudar outros desenvolvedores, e você ainda ganha uma estrelinha no currículo! ⭐️
+
+Agora que você sabe como abrir um pull request, pode participar do **[Hacktoberfest](https://hacktoberfest.digitalocean.com/)** em Outubro e ganhar uma camiseta!
+
+Até a próxima!

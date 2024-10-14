@@ -1,0 +1,278 @@
+---
+title: 'Fullstack com Node.js, React e GraphQL  – 9: Frontend com Material-UI e Recharts'
+date: '2020-08-22'
+categories:
+  - 'Full Stack'
+tags:
+  - 'full-stack'
+  - 'nodejs'
+  - 'react'
+coverImage: '/fullstack-nodejs-react-graphql-9-material-ui-recharts/images/fullstack-9.jpg'
+---
+
+Fala, pessoal! Chegamos, finalmente, à nona parte da série **[Fullstack com Node.js, React e GraphQL](/fullstack-node-react-graphql-introducao-2c2f18c757c4)**! Nesta parte vamos construir o frontend da aplicação usando **[React](https://reactjs.org/)**, **[Material-UI](https://material-ui.com/)**, **[styled-components](https://styled-components.com/)** e a biblioteca para gráficos **[Recharts](https://recharts.org/)**.
+
+<PostImage
+  src="/fullstack-nodejs-react-graphql-9-material-ui-recharts/images/fullstack-9-1024x576.jpg"
+  width="1024"
+  height="576"
+  alt="Fullstack com Node.js, React e GraphQL  – 9: Frontend com Material-UI e Recharts"
+/>
+
+## O que vamos construir
+
+Nesta parte vamos construir uma interface simples, com apenas duas tela, mas já com uma base para evoluir.
+
+A tela inicial, **Home**, é um dashboard com um resumo dos nossos investimentos e um gráfico mostrando a evolução do patrimônio:
+
+<PostImage
+  src="/fullstack-nodejs-react-graphql-9-material-ui-recharts/images/mymoney-home-1024x611.png"
+  width="1024"
+  height="611"
+  alt=""
+/>
+
+A tela de **Investimentos** mostra uma tabela com todos os investimentos, corretoras e seus respectivos valores:
+
+<PostImage
+  src="/fullstack-nodejs-react-graphql-9-material-ui-recharts/images/mymoney-investments-1024x611.png"
+  width="1024"
+  height="611"
+  alt=""
+/>
+
+## E os dados?
+
+Neste primeiro momento construimos o frontend com dados estáticos. Assim fica mais fácil desenvolver e ver o resultado. No próximo passo vamos conectar com o nosso backend **GraphQL** para trazer os dados reais.
+
+## Componente App
+
+Continuando do [capítulo anterior](/fullstack-node-js-react-graphql-typescript/), onde nós fizemos o setup do frontend, vamos refatorar o componente **App**, que vai ser o componente raiz da aplicação.
+
+Neste componente vamos fazer uma pequena alteração no tema padrão do **Material-UI** para usar essa cor verde aí das imagens como cor principal e adicionar alguns providers para disponibilizar o tema para que possa ser usado nos componentes internos.
+
+```tsx
+// imports removidos para o exemplo ficar mais curto
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: teal[500],
+    },
+    secondary: {
+      main: lime[500],
+    },
+  },
+})
+
+const App: FC = () => {
+  const [navOpen, setNavOpen] = useState(false)
+
+  const toggleNav = (open: boolean) => () => {
+    setNavOpen(open)
+  }
+
+  return (
+    <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <StylesProvider injectFirst>
+          <CssBaseline />
+          <Router>
+            <MainAppBar onMenuClick={toggleNav(true)} />
+            <MainMenu open={navOpen} onClose={toggleNav(false)} />
+            <Page />
+          </Router>
+        </StylesProvider>
+      </ThemeProvider>
+    </MuiThemeProvider>
+  )
+}
+
+export default App
+```
+
+Com o `createMuiTheme` criamos um novo tema, apenas alterando as cores primária e secundária.
+
+Veja que temos dois _providers_ onde passamos o tema: `MuiThemeProvider`, que é o provider do **Material-UI** e `ThemeProvider` que é o provider do **styled-components**. Precisamos dos dois para que as propriedades do tema estejam disponíveis tanto para os componentes do Material-UI quando para nossos componentes, estilizados com styled-components.
+
+O `StylesProvider` vai injetar o CSS padrão do Material-UI na página. O `injectFirst` faz com que ele injete antes do nosso CSS, assim podemos sobrescrever algum estilo se precisar.
+
+O `CSSBaseline` é uma espécie de _CSS reset_ do Material-UI, para resetar alguns estilos padrões do navegador.
+
+Por fim temos os componentes `MainAppBar`, que é a barra verde no topo, o `MainMenu` que é o menu de navegação lateral, e o `Page` que é um componente que vai fazer o roteamento e exibir a página correta de acordo com o endereço. Mais detalhes desses caras abaixo.
+
+## MainAppBar, MainMenu e Page
+
+O `MainAppBar` é um componente que usa o [**AppBar**](https://material-ui.com/components/app-bar/#app-bar) do Material-UI. Fizemos uma pequena customização no estilo, usando styled-components, só pra aumentar o `z-index` e deixá-lo por cima do menu lateral (por padrão ele fica atrás).
+
+```tsx
+// imports removidos
+
+const StyledAppBar = styled(AppBar)`
+  ${({ theme }) => `
+    z-index: ${theme.zIndex.drawer + 1};
+  `}
+`
+
+interface Props {
+  onMenuClick(): void
+}
+
+const MainAppBar: FC<Props> = ({ onMenuClick }) => {
+  return (
+    <StyledAppBar position="relative">
+      <Toolbar>
+        <Hidden mdUp>
+          <IconButton edge="start" color="inherit" onClick={onMenuClick}>
+            <MenuIcon />
+          </IconButton>
+        </Hidden>
+        <Typography variant="h6">My Money</Typography>
+      </Toolbar>
+    </StyledAppBar>
+  )
+}
+
+export default MainAppBar
+```
+
+Veja que no nosso estilo usamos uma propriedade do tema, `theme.zIndex.drawer`, que guarda o `z-index` do menu lateral e acrescentamos + 1 pra garantir que a barra fique por cima.
+
+Outra firula é o botão de abertura do menu (um **IconButton** com o ícone de menu hamburger), que só aparece na versão mobile. No desktop o menu fica sempre aberto. Para fazer ele ficar escondido no desktop, usamos o componente **[Hidden](https://material-ui.com/components/hidden/#hidden)** do Material-UI, com a propriedade `mdUp`, que esconde o que estiver dentro dele quando a largura de tela é acima do médio, ou seja, desktop. (O Material-UI tem definido larguras padrões para desktop, tablet, celular, etc., que você pode customizar, se quiser)
+
+O `MainMenu` usa o **[Drawer](https://material-ui.com/components/drawers/#drawer)** do **Material-UI** para fazer um menu de navegação retrátil no celular. No desktop deixamos ele sempre aberto.
+
+Os links usam o componente **Link** do **[react-router](https://reactrouter.com/)** pra fazer a navegação sem recarregar a página.
+
+Você pode ver o código completo do `MainMenu` [aqui](https://github.com/doug2k1/my-money/blob/v9.0.0/frontend/src/components/MainMenu.tsx).
+
+O componente `Page`, por sua vez, faz apenas o roteamento para exibir os componentes `HomePage` ou `InvestmentsPage` de acordo com a URL.
+
+```tsx
+const StyledMain = styled('main')`
+  ${({ theme }) => `
+    ${theme.breakpoints.up('md')} {
+      margin-left: 256px;
+    }
+  `}
+`
+
+const Page: FC = () => {
+  return (
+    <StyledMain>
+      <Container>
+        <Switch>
+          <Route path="/investments">
+            <InvestmentsPage />
+          </Route>
+          <Route path="/">
+            <HomePage />
+          </Route>
+        </Switch>
+      </Container>
+    </StyledMain>
+  )
+}
+
+export default Page
+```
+
+Veja também que adicionamos uma margem à esquerda no desktop, por causa do menu lateral.
+
+## Recharts
+
+Na `HomePage` usamos a biblioteca **[Recharts](https://recharts.org/)** para exibir um gráfico simples com a evolução do patrimônio no tempo. Ela é uma biblioteca para gráficos bem flexível, que usa **[D3.js](https://d3js.org/)** por baixo dos panos e exporta tudo em componentes **React**.
+
+```tsx
+const chartData = [
+  { date: '2020-08-20T21:26:18.695Z', value: 100 },
+  { date: '2020-07-20T21:26:18.695Z', value: 110 },
+  { date: '2020-06-20T21:26:18.695Z', value: 130 },
+]
+
+;<ResponsiveContainer width="100%" height={400}>
+  <LineChart data={chartData}>
+    <XAxis
+      dataKey="date"
+      tickFormatter={(date) => dateFormatter.format(new Date(date))}
+    />
+    <YAxis
+      tickFormatter={(value) => currencyFormatter.format(value)}
+      width={100}
+    />
+    <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+    <Line type="monotone" dataKey="value" stroke="#8884d8" />
+    <Tooltip
+      labelFormatter={(date) => dateFormatter.format(new Date(date))}
+      formatter={(value, name, props) => {
+        return [currencyFormatter.format(value as number), 'Valor']
+      }}
+    />
+  </LineChart>
+</ResponsiveContainer>
+```
+
+Veja que o **Recharts** exporta cada parte do gráfico (eixo X, eixoY, o grid, a linha e o _tooltip_) como um componente **React**. Com isso você pode montar o gráfico de forma declarativa, com as partes que precisa.
+
+## Formatação de moeda e data
+
+Para a formatação de valor monetário e de data usamos o objeto **[Intl](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Intl)** do próprio **JavaScript**, que possui funções de internacionalização.
+
+```typescript
+const currencyFormatter = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+})
+const dateFormatter = new Intl.DateTimeFormat('pt-BR')
+
+const formattedValue = currencyFormatter.format(1000)
+// => R$ 1.000,00
+
+const formattedDate = dateFormatter.format(new Date())
+// => 11/08/2020
+```
+
+Tanto o `Intl.NumberFormat` quanto o `Intl.DateTimeFormat` aceitam o _locale_ (**pt-BR** no nosso caso) e formatam os valores de acordo com os padrões daquele local.
+
+## InvestmentsPage
+
+Por fim, a tela de investimentos é uma tabela simples, usando o componente **[Table](https://material-ui.com/components/tables/#table)** do **Material-UI**.
+
+```tsx
+const tableData = [
+  { id: 1, investment: 'Tesouro Selic', broker: 'Easynvest', value: 1000 },
+  { id: 2, investment: 'Ações ITSA4', broker: 'Clear', value: 750 },
+  { id: 3, investment: 'Fundo Alaska', broker: 'BTG Pactual', value: 1200 },
+]
+
+;<Table>
+  <TableHead>
+    <TableRow>
+      <TableCell>Investimento</TableCell>
+      <TableCell>Corretora</TableCell>
+      <TableCell align="right">Valor</TableCell>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    {tableData.map((row) => (
+      <TableRow key={row.id}>
+        <TableCell>{row.investment}</TableCell>
+        <TableCell>{row.broker}</TableCell>
+        <TableCell align="right">
+          {currencyFormatter.format(row.value)}
+        </TableCell>
+      </TableRow>
+    ))}
+  </TableBody>
+</Table>
+```
+
+## Resultado final
+
+O código do projeto até este ponto está em: [https://github.com/doug2k1/my-money/tree/v9.0.0](https://github.com/doug2k1/my-money/tree/v9.0.0)
+
+## No próximo capítulo
+
+Na próxima parte vamos conectar nosso frontend com o backend, usando o **[Apollo Client](https://www.apollographql.com/docs/react/)**.
+
+_Stay tuned!_

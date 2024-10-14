@@ -1,0 +1,204 @@
+---
+title: '5 Ferramentas de Produtividade Essenciais no Desenvolvimento Web'
+date: '2020-04-02'
+categories:
+  - 'Ferramentas'
+tags:
+  - 'dicas'
+  - 'produtividade'
+coverImage: '/5-ferramentas-produtividade-desenvolvimento-web/images/produtividade-desenvolvimento-web.jpg'
+translations:
+  en: 5-essential-productivity-tools-in-web-development
+---
+
+Neste post vou mostrar 5 ferramentas essenciais para aumentar sua produtividade no desenvolvimento web e programação em geral.
+
+## 1\. [Emmet](https://emmet.io/)
+
+<PostImage
+  src="/5-ferramentas-produtividade-desenvolvimento-web/images/emmet-banner-1024x384.png"
+  width="1024"
+  height="384"
+  alt="Logo do Emmet"
+/>
+
+O **[Emmet](https://emmet.io/)** acelera a escrita de **HTML** e **CSS** (também funciona com outros formatos como **JSX** e **SASS**) através de abreviações no editor.
+
+### HTML
+
+No **HTML**, por exemplo, se você digita o nome de uma tag e aperta Tab ou Enter, ele completa a tag, com abertura fechamento e atributos. Inclusive colocando o cursor nos pontos de edição.
+
+```markup
+p → <p></p>
+a → <a href=""></a>
+```
+
+Você também pode usar seletores CSS para criar blocos maiores.
+
+```markup
+#conteudo>ul.links>li*3
+
+↓
+
+<div id="conteudo">
+  <ul class="links">
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+</div>
+```
+
+Outro exemplo, com pseudo seletores:
+
+```markup
+form>input:text+input:submit
+
+↓
+
+<form action="">
+  <input type="text" name="" id="">
+  <input type="submit" value="">
+</form>
+```
+
+E o mais legal é este: para criar toda a estrutura inicial de um documento HTML, basta usar `!`. Veja:
+
+### CSS
+
+No **CSS** também ele agiliza um monte! Você pode escrever propriedade e valores em uma tacada só. Veja:
+
+```css
+.seletor {
+  /* básico */
+  df → display: flex;
+  dib → display: inline-block;
+  ffa → font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  bt → border-top: 1px solid #000;
+
+  /* com valores */
+  m10 → margin: 10px;
+  bt2e → border-top: 2em;
+  p2px4px → padding: 2px 4px;
+}
+```
+
+No início demora até ir decorando as abreviações, mas como o tempo você vai ficando cada vez mais produtivo e economiza alguns milhares de toques no teclado no seu dia-a-dia.
+
+🔥 Para facilitar a sua vida, aqui tem um cheat sheet oficial com todas as abreviações: [https://docs.emmet.io/cheat-sheet/](https://docs.emmet.io/cheat-sheet/)
+
+Vale lembrar que o **Emmet** possui plugins para quase todos os editores.
+
+## 2\. [Prettier](https://prettier.io/)
+
+<PostImage
+  src="/5-ferramentas-produtividade-desenvolvimento-web/images/Screen-Shot-2020-04-01-at-15.07.48-1024x397.png"
+  width="1024"
+  height="397"
+  alt="Logo do Prettier"
+/>
+
+Lembra quando a gente perdia tempo formatando o código na mão pra ficar legível? Alinha indentação, adiciona umas quebras de linha, ajusta o espaçamento, troca o tipo de aspas pra ficar consistente...
+
+Aí, depois de todo esse esforço, você fazia um pull e vinha o código do coleguinha todo mal formatado! 🤬
+
+Todo esse sofrimento pode acabar, bastando usar um formatador automático de código, como o **[Prettier](https://prettier.io/)**.
+
+Ele se integra ao seu editor e formata seu código assim que você salva. Simples assim. Pode escrever tudo embolado, do jeito que sair da sua cabeça. Salvou. Tá formatado.
+
+Ele tem suporte oficial para várias linguagens como **HTML**, **CSS**, **JS** (e derivadas como **JSX**, **SASS** e **TypeScript**), e através de plugins suporta também **Java**, **PHP**, **SQL**, **Ruby**, **Swift**, entre outras.
+
+Você pode customizar as regras de formatação, se quiser, ou usar o padrão dele com _zero config_.
+
+Além de configurar o editor para formatar no save, é interessante também adicionar um _[git hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)_ para formatar no _commit_. Assim garante que nenhum código 💩(mal formatado) passe. Aumenta a produtividade e reduz desavenças. Olha aí, que beleza!
+
+## 3\. Live reload
+
+Aqui não é uma ferramenta específica, mas uma técnica de desenvolver uma página web tendo feedback instantâneo das alterações que você faz no código.
+
+Se você usa **[webpack](https://webpack.js.org/)**, você pode ativar o _live reload_ com o **webpack-dev-server**. Inclusive tem um artigo aqui no blog onde mostro como usar: [**Webpack sem Medo — Parte 3: Plugins e Dev Server**](/webpack-sem-medo-parte-3-plugins-e-dev-server-86b6e003657c/)
+
+Outra alternativa fácil, sem **webpack**, é usar o **[live-server](https://www.npmjs.com/package/live-server)**. Você só precisa ter o **[Node.js](https://nodejs.org/)** com **NPM** instalado e rodar este comando no terminal, na pasta onde está seu arquivo **HTML**:
+
+```bash
+npx live-server
+```
+
+Ele vai subir um servidor local e abrir sua página com o _live reload_ ativado. A partir daí, cada alteração nos arquivos é refletida instantaneamente na página aberta.
+
+E se você tem dois monitores, ou tem espaço suficiente para abrir o editor e o navegador lado a lado, a coisa flui ainda melhor.
+
+## 4\. **[DevDocs](https://devdocs.io/)**
+
+Quando estamos codando, gastamos boa parte do tempo consultando documentações, não é mesmo? Então o ideal é que este processo seja o mais fluído possível. Uma ferramenta que ajuda muito aqui é o **[DevDocs](https://devdocs.io/)**.
+
+Ele possui uma busca rápida, que busca ao mesmo tempo em várias documentações. Você pode habilitar ou desabilitar documentações específicas e até habilitar a busca offline!
+
+Você pode até buscar direto na barra de endereço do **Chrome**. Basta começar a digitar o endereço do site, e quando o **Chrome** sugerir, aperte Tab e digite seu termo de busca.
+
+### Mac e Alfred
+
+Com o app **[Alfred](https://www.alfredapp.com/)**, para **Mac**, dá pra buscar no **DevDocs** através de um atalho global, sem precisar nem abrir o browser.
+
+<PostImage
+  src="/5-ferramentas-produtividade-desenvolvimento-web/images/alfred-devdocs.png"
+  width="620"
+  height="462"
+  alt="Alfred com DevDocs"
+/>
+
+Você vai precisar da versão paga do app e deste addon: [https://github.com/yannickglt/alfred-devdocs](https://github.com/yannickglt/alfred-devdocs)
+
+Certamente deve ter alguma alternativa parecida no **Windows** e **Linux**. Se alguém souber, comenta aí!
+
+## 5\. [VS Code](https://code.visualstudio.com/)
+
+Para fechar, vou deixar algumas dicas de produtividade para o ótimo editor de códigos **[VS Code](https://code.visualstudio.com/)**. Se você usa outro editor, provavelmente ele possui estas mesmas funcionalidades, talvez com atalhos diferentes.
+
+### Edição múltipla
+
+Uma das funcionalidades mais úteis nos editores modernos é a possibilidade de ter mais de um cursor e poder editar mais de um ponto ao mesmo tempo.
+
+No **VS Code** você pode adicionar mais cursores clicando em diferentes pontos enquanto segura Alt.
+
+Outra forma é selecionando uma parte do código e apertando **Cmd+D** para selecionar a próxima ocorrência do mesmo texto. Cada vez que o atalho é pressionado ele procura pela próxima ocorrência e adiciona à seleção, mantendo um cursor em cada ocorrência. Depois você pode alterar todas de uma vez.
+
+### Go to file
+
+Outra funcionalidade que salva muito tempo, principalmente em projetos com muitos arquivos, é ir direto para um arquivo específico, sem precisar procurá-lo na estrutura de pastas.
+
+Se você sabe o nome, ou parte dele, é só usar o **Go to File** (Cmd+P no Mac) e começar a digitar parte do nome. Ele faz uma [busca fuzzy](https://en.wikipedia.org/wiki/Approximate_string_matching), portanto, mesmo você não digitando exatamente o nome, ele traz os arquivos que mais se aproximam. Depois é só dar Enter para abrir o arquivo.
+
+### Find and replace
+
+Buscar e substituir um texto em um arquivo já é útil, agora buscar e substituir em todo o projeto é uma tremenda mão na roda!
+
+No **VS Code** basta usar a busca na barra lateral (Cmd+Shift+F) para buscar em todo o projeto, e se você expandir a setinha na lateral ele abre o campo de substituição e até mostra uma prévia do que vai ser substituído, pra você ter certeza.
+
+<PostImage
+  src="/5-ferramentas-produtividade-desenvolvimento-web/images/vscode-search-replace-1024x555.png"
+  width="1024"
+  height="555"
+  alt="Busca e substituição no VS Code"
+/>
+
+### Split editor
+
+Por fim, muito útil para editar arquivos relacionados, é a opção de dividir o editor para mostrar diferentes arquivos ao mesmo tempo. É legal, por exemplo, para fazer [TDD](https://www.devmedia.com.br/test-driven-development-tdd-simples-e-pratico/18533) e ficar chaveando entre o arquivo de teste e o arquivo da funcionalidade em si.
+
+No **VS Code** dá pra dividir na horizontal, vertical, de várias maneiras diferentes.
+
+<PostImage
+  src="/5-ferramentas-produtividade-desenvolvimento-web/images/vscode-split-editor-1024x674.png"
+  width="1024"
+  height="674"
+  alt="Split editor no VS Code"
+/>
+
+## Conclusão
+
+Estas foram algumas dicas que, pra mim, ajudam muito na produtividade. Algumas coisas são muito pessoais, mas a ideia é procurar sempre melhorar seu workflow.
+
+Tem outras dicas legais para melhorar a produtividade? Comenta aí!
+
+\[\]'s

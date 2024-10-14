@@ -1,0 +1,365 @@
+---
+title: 'Série Fullstack - 11: Testes no Frontend com React Testing Library'
+date: '2020-12-20'
+categories:
+  - 'Full Stack'
+tags:
+  - 'frontend'
+  - 'full-stack'
+  - 'react'
+  - 'testes'
+coverImage: '/fullstack-11-testes-frontend-react-testing-library/images/fullstack-11-cover-1024x576.jpg'
+---
+
+E aí, pessoal! Nesta parte 11 da série **[Fullstack com Node.js, React e GraphQL](/fullstack-node-react-graphql-introducao-2c2f18c757c4)** vamos adicionar testes no _frontend_ da aplicação usando a lib **[React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)**.
+
+<PostImage
+  src="/fullstack-11-testes-frontend-react-testing-library/images/fullstack-11-cover-1024x576.jpg"
+  width="1024"
+  height="576"
+  alt="Fullstack com Node.js, React e GraphQL - Parte 11"
+/>
+
+## Pirâmide ou Troféu?
+
+Um consenso na comunidade de desenvolvimento de software é dividir os testes automatizados em forma de **pirâmide**:
+
+<PostImage
+  src="/fullstack-11-testes-frontend-react-testing-library/images/pyramid.png"
+  width="800"
+  height="500"
+  alt="pirâmide de testes (2e2 no top, integração no meio e unitários na base)"
+/>
+
+Pirâmide de testes
+
+Temos menos testes **E2E** (end-to-end), que testam a aplicação de ponta-a-ponta, integrando _frontend_ e _backend_, pois são mais lentos para rodar e mais difíceis de manter.
+
+No meio temos **testes de integração**, que testam componentes de forma integrada, mas _mockando_ (ou simulando) partes mais lentas como chamadas de rede.
+
+Na base, **testes unitários**, que testam componentes de forma isolada, sendo mais rápido para executar, portanto permitindo termos mais destes testes.
+
+Esta estrutura faz muito sentido, mas ela se baseia em uma premissa de que os testes mais amplos (integração e E2E) são mais custosos e lentos. No entanto, as ferramentas estão evoluindo e derrubando esta premissa em muitos casos.
+
+Por isso, o **[Kent C. Dodds](https://kentcdodds.com/)** (autor do **React Testing Library**) propõe uma distribuição diferente, o **Troféu de Testes**:
+
+<PostImage
+  src="/fullstack-11-testes-frontend-react-testing-library/images/testing-trophy.jpeg"
+  width="340"
+  height="344"
+  alt="Troféu de testes. End to end no topo, pequeno. Integração no meio, maior parte. Unit abaixo, pequeno. Estáticos na base, grande."
+/>
+
+Troféu de testes
+
+Aqui há uma deformação na pirâmide, deixando a parte de **testes de integração** bem maior, pois, com ferramentas como o **RTL** (React Testing Library), são relativamente rápidos de escrever e executar, e trazem mais **confiança** do que testes unitários.
+
+Na base ele adiciona **testes estáticos**, com ferramentas como **[ESLint](https://eslint.org/)** e **[TypeScript](https://www.typescriptlang.org/)**, que verificam seu código antes mesmo de executar e ajudam a prevenir bugs.
+
+Todo o racional por trás desta proposta está no artigo: **[Write tests. Not too many. Mostly integration.](https://kentcdodds.com/blog/write-tests)** (Escreva testes. Não muitos. Mais de integração.)
+
+Vamos seguir esta ideia aqui na nossa aplicação.
+
+## Setup das ferramentas
+
+No projeto de _frontend_ vamos instalar as dependências de desenvolvimento:
+
+```bash
+npm i -D jest @types/jest msw @testing-library/react @testing-library/jest-dom
+```
+
+Instalamos o **[Jest](https://jestjs.io/)**, que é o framework que vai executar os testes, o **[MSW](https://mswjs.io/) (Mock Service Worker)** para _mockar_ as chamadas de _backend_, e o próprio **[RTL](https://testing-library.com/docs/react-testing-library/intro)**, juntamente o **[jest-dom](https://testing-library.com/docs/ecosystem-jest-dom/)** para facilitar na verificação dos elementos na tela.
+
+### Mockando o backend
+
+Nos testes de integração nós não vamos acessar o _backend_, mas vamos usar o **MSW** para simular a resposta do servidor. Isso torna a execução mais rápida e permite simular diferentes respostas.
+
+Vamos criar um um servidor **GraphQL** _fake_ no arquivo _/src/tests/server.ts_:
+
+```typescript
+import { graphql } from 'msw'
+import { setupServer } from 'msw/node'
+
+const handlers = [
+  graphql.query('HomePageQuery', (req, res, ctx) => {
+    return res(
+      ctx.data({
+        investments: [
+          {
+            balance: 100,
+            invested: 50,
+          },
+          {
+            balance: 200,
+            invested: 100,
+          },
+        ],
+      })
+    )
+  }),
+
+  graphql.query('ChartQuery', (req, res, ctx) => {
+    return res(
+      ctx.data({
+        // dados para testes
+      })
+    )
+  }),
+
+  graphql.query('InvestmentsPageQuery', (req, res, ctx) => {
+    return res(
+      ctx.data({
+        // dados para testes
+      })
+    )
+  }),
+]
+
+export const server = setupServer(...handlers)
+```
+
+Veja que definimos _handlers_ com resposta padrão para cada _query_ que nossa aplicação possui, mas podemos sobrescrever estas respostas em testes específicos para testar diferentes cenários.
+
+No arquivo _/src/tests/setup.ts_ vamos adicionar chamadas para iniciar o servidor fake antes dos testes (`beforeAll`), resetar os _handlers_ após cada teste (`afterEach`) e desligar o servidor ao final de todos os testes (`afterAll`):
+
+```typescript
+import 'regenerator-runtime/runtime'
+import '@testing-library/jest-dom'
+import { server } from './server'
+
+beforeAll(() => {
+  server.listen()
+})
+
+afterEach(() => {
+  server.resetHandlers()
+})
+
+afterAll(() => {
+  server.close()
+})
+```
+
+Por fim adicionamos na configuração do **Jest** (_jest-config.js_) a instrução para ele executar este arquivo de setup:
+
+```typescript
+module.exports = {
+  setupFilesAfterEnv: ['./src/tests/setup.ts'],
+  coveragePathIgnorePatterns: ['/node_modules/', '/tests/'],
+}
+```
+
+## Escrevendo os testes
+
+Antes de começar, de fato, a escrever os testes, vamos criar um componente utilitário para adicionar os _providers_ ao componente que estivermos testando, para conseguir fazer o _render_ destes componentes sem problemas:
+
+```typescript
+// src/tests/utils.tsx
+import React, { PropsWithChildren, ReactElement } from 'react'
+import { render } from '@testing-library/react'
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+} from '@apollo/client'
+import fetch from 'cross-fetch'
+import { ThemeProvider } from 'styled-components'
+import { theme } from '../theme'
+import { MuiThemeProvider } from '@material-ui/core'
+
+const client = new ApolloClient({
+  link: new HttpLink({
+    uri: 'http://localhost:5000/graphql',
+    fetch,
+  }),
+  cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'ignore',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    },
+  },
+})
+
+const Providers = ({ children }: PropsWithChildren<{}>) => {
+  return (
+    <ApolloProvider client={client}>
+      <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      </MuiThemeProvider>
+    </ApolloProvider>
+  )
+}
+
+const customRender = (ui: ReactElement, options = {}) => {
+  return render(ui, { wrapper: Providers, ...options })
+}
+
+// re-export everything
+export * from '@testing-library/react'
+
+// override render method
+export { customRender as render }
+```
+
+Explicando:
+
+Criamos uma instância do **ApolloClient** com o cache desabilitado para um teste não interferir no outro. Também passamos o `fetch` da biblioteca **[cross-fetch](https://github.com/lquixada/cross-fetch)**, para que o **MSW** consiga interceptar as chamadas.
+
+Criamos um componente `Providers`, para adicionar todos os providers.
+
+Por fim re-exportamos as funções do **RTL** com o `render` customizado para adicionar o `Providers` em todos os componentes testados.
+
+### Agora sim, escrevendo os testes
+
+Seguindo a ideia de escrever mais testes de integração, vamos testar cada página (**Home** e **Investimentos**) e testar a navegação principal através do componente **App**.
+
+Testes da **Home**:
+
+```typescript
+import React from 'react'
+import { graphql } from 'msw'
+import { render, screen } from '../utils'
+import HomePage from '../../pages/HomePage'
+import { server } from '../server'
+
+describe('Home Page', () => {
+  describe('when data is loading', () => {
+    it('shows loading message', () => {
+      // given
+      render(<HomePage />)
+
+      // then
+      expect(screen.getByText('Carregando...')).toBeVisible()
+    })
+  })
+
+  describe('when data loads successfully', () => {
+    it('shows cards', async () => {
+      // given
+      render(<HomePage />)
+      await screen.findByTestId('card-patrimony')
+
+      // then
+      expect(screen.getByTestId('card-patrimony')).toHaveTextContent('R$300.00')
+      expect(screen.getByTestId('card-profit-percent')).toHaveTextContent(
+        '100%'
+      )
+      expect(screen.getByTestId('card-profit')).toHaveTextContent('R$150.00')
+    })
+
+    it('shows chart', async () => {
+      // given
+      render(<HomePage />)
+      await screen.findByTestId('chart')
+
+      // then
+      expect(screen.getByTestId('chart')).toBeVisible()
+    })
+  })
+
+  describe('when data fails to load', () => {
+    it('shows an error message', async () => {
+      // given
+      server.use(
+        graphql.query('HomePageQuery', (req, res, ctx) => {
+          return res(ctx.status(403))
+        })
+      )
+
+      render(<HomePage />)
+      const errorElement = await screen.findByTestId('error')
+
+      // then
+      expect(errorElement).toBeVisible()
+    })
+  })
+})
+```
+
+Testamos cada cenário de retorno do servidor: dados carregando, dados carregados com sucesso e falha no carregamento.
+
+Com o **MSW**, o render inicialmente traz o componente em estado "carregando". Para verificar o componente com os dados carregados, precisamos fazer um `await` em um dos elementos da tela:
+
+```typescript
+render(<HomePage />)
+await screen.findByTestId('card-patrimony')
+```
+
+Veja que usamos muitos `getByTestId` para selecionar elementos na tela pelo atributo `data-testid`. Esta é outra recomendação do **RTL**. Usar um atributo específico para testes é mais confiável do que usar classes, por exemplo, que podem mudar de acordo com o CSS.
+
+Para testar o estado de erro, sobrescrevemos o _handler_ do **MSW** dentro do teste, para simular o erro no servidor:
+
+```typescript
+server.use(
+  graphql.query('HomePageQuery', (req, res, ctx) => {
+    return res(ctx.status(403))
+  })
+)
+```
+
+Os outros testes são muito parecidos. Você pode conferir no [código final](https://github.com/doug2k1/my-money/tree/v11.0.0).
+
+### Cobertura
+
+Com estes testes conseguimos uma boa cobertura de quase 100% em todo o código:
+
+<PostImage
+  src="/fullstack-11-testes-frontend-react-testing-library/images/fullstack-11-test-coverage-1-1024x625.png"
+  width="1024"
+  height="625"
+  alt="Taxa de cobertura dos testes (95% do código)"
+/>
+
+Cobertura dos testes
+
+## Integração com Travis CI
+
+Pra terminar, vamos adicionar as verificações de _frontend_ ao **[Travis CI](https://travis-ci.org/)**.
+
+Vamos separar as verificações de _frontend_ e _backend_ em dois **_jobs_** que rodam em paralelo. Nosso _.travis.yml_ fica assim:
+
+```yaml
+language: node_js
+node_js:
+  - '12.18.1'
+cache:
+  directories:
+    - 'node_modules'
+services:
+  - postgresql
+
+jobs:
+  include:
+    - before_install:
+        - cd backend
+      before_script:
+        - cp config/database.ci.js config/database.js
+        - psql -c 'create database mymoney_ci_test;' -U postgres
+      script:
+        - npm run prettier:check
+        - npm run lint
+        - npm run test
+    - before_install:
+        - cd frontend
+      script:
+        - npm run prettier:check
+        - npm run check-types
+        - npm run lint
+        - npm run test
+```
+
+## Resultado final
+
+O código do projeto até este ponto está em: [https://github.com/doug2k1/my-money/tree/v11.0.0](https://github.com/doug2k1/my-money/tree/v11.0.0)
+
+## No próximo capítulo
+
+Na próxima parte vamos mandar nossa aplicação para **produção**!
+
+_Stay tuned!_

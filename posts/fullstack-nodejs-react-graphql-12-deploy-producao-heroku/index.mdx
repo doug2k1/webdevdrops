@@ -1,0 +1,248 @@
+---
+title: 'Fullstack com Node.js, React e GraphQL - 12: Deploy em Produção com Heroku'
+date: '2021-01-07'
+categories:
+  - 'Full Stack'
+tags:
+  - 'full-stack'
+  - 'nodejs'
+coverImage: '/fullstack-nodejs-react-graphql-12-deploy-producao-heroku/images/post-fs-12.jpg'
+---
+
+E aí, pessoal! Nesta parte 12 da série **[Fullstack com Node.js, React e GraphQL](https://www.webdevdrops.com/fullstack-node-react-graphql-introducao-2c2f18c757c4/)** vamos colocar a aplicação em produção usando o **[Heroku](https://www.heroku.com/)**.
+
+O **Heroku** possui um plano gratuito, com limitações, que vai ser suficiente para o nosso estudo.
+
+<img
+  src="/fullstack-nodejs-react-graphql-12-deploy-producao-heroku/images/post-fs-12.jpg"
+  width="1280"
+  height="720"
+  alt="Fullstack com Node.js, React e GraphQL - 12: Deploy em Produção com Heroku"
+/>
+
+## Configurando o Heroku
+
+Precisamos, primeiramente, fazer um cadastro gratuito no [site do **Heroku**](https://www.heroku.com/).
+
+### Instalando o CLI
+
+Vamos precisar também instalar o CLI (ferramenta de linha de comando) do Heroku. O CLI permite fazer toda a configuração direto no terminal.
+
+No site tem as [instruções para baixar e instalar o CLI](https://devcenter.heroku.com/articles/heroku-cli). É bem simples: no Windows é só baixar o instalador, ou usar **brew** no Mac ou **snap** no Linux.
+
+### Login e criando a aplicação
+
+Antes de começar a usar o CLI, é preciso fazer o login. Na linha de comando, digite:
+
+```bash
+heroku login
+```
+
+Ele vai abrir uma aba no navegador para você fazer o login, e depois disso você estará logado também no terminal.
+
+Vamos agora criar uma nova aplicação no Heroku. Na raiz do projeto, digite:
+
+```bash
+heroku create nome-do-app
+```
+
+Onde `nome-do-app` é um nome único para identificar sua aplicação. No meu caso, usei:
+
+```bash
+heroku create matoso-money
+```
+
+Com isso o endereço de produção fica [http://matoso-money.herokuapp.com](http://matoso-money.herokuapp.com)
+
+Vamos também adicionar um banco de dados **PostgreSQL** na aplicação com:
+
+```bash
+heroku addons:create heroku-postgresql:hobby-dev
+```
+
+Essa instância "**hobby dev**" é gratuita.
+
+## Preparando a aplicação
+
+Antes de fazer o primeiro deploy, precisamos ajustar algumas coisas na aplicação.
+
+### Backend
+
+Vamos ajustar a **configuração de conexão com o banco de dados** em produção, alterando o arquivo `/config/database.js`, na entrada `production`:
+
+```javascript
+production: {
+    use_env_variable: 'DATABASE_URL',
+    dialectOptions: {
+      ssl: { rejectUnauthorized: false },
+    },
+  },
+```
+
+O **Heroku** vai fornecer esta variável de ambiente `DATABASE_URL` pra gente.
+
+Precisamos também **alterar o script de inicialização** no `package.json`. O Heroku, por padrão usa `npm start` para executar a aplicação. Vamos deixar o `start` executando o `node` direto e adicionar um script `dev` para continuar usando o `nodemon` em desenvolvimento.
+
+```json
+ "scripts": {
+    "start": "node src/index",
+    "dev": "nodemon src/index",
+...
+```
+
+### Frontend
+
+No frontend precisamos deixar o endereço da API dinâmico. Hoje está _hardcoded_ como `http://localhost:5000/graphql`.
+
+Vamos usar o **[dotenv](https://www.npmjs.com/package/dotenv)**, assim como no backend:
+
+```bash
+npm i -D dotenv
+```
+
+Adicionamos um arquivo `.env` na raiz com o conteúdo:
+
+```
+API_URL=http://localhost:5000/graphql
+```
+
+Este arquivo será usado apenas em desenvolvimento. Em produção vamos ler as variáveis de ambiente definidas no Heroku.
+
+No `src/index.tsx`, onde inicializamos o **Apollo Client**, podemos usar a variável:
+
+```tsx
+const client = new ApolloClient({
+  uri: process.env.API_URL,
+  cache: new InMemoryCache(),
+})
+```
+
+Para que esta variável seja definida no código precisamos alterar as configurações do **Webpack**. Como a execução do frontend acontece no navegador do usuário, o único momento em que as variáveis de ambiente existem é na hora da build, que é feita pelo **Webpack**.
+
+Vamos usar o **DefinePlugin** (que já faz parte do **Webpack**) para passar as variáveis de ambiente para o código:
+
+```javascript
+// webpack.config.js
+const dotenv = require('dotenv');
+const webpack = require('webpack');
+
+const envVars = dotenv.config().parsed;
+...
+  plugins: [
+    ...
+    new webpack.DefinePlugin({
+      'process.env.API_URL': JSON.stringify(
+        process.env.API_URL || (envVars && envVars.API_URL)
+      ),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }),
+  ],
+```
+
+Veja que usamos `process.env.API_URL`, se estiver definida (estará na build de produção), caso contrário usamos os valores do `.env`.
+
+Por fim, vamos alterar o local de saída da build de frontend:
+
+```javascript
+// webpack.config.js
+...
+output: {
+    path: path.resolve('../backend/public/app'),
+    filename: '[name].[hash].js',
+    publicPath: '/app',
+  },
+...
+```
+
+Vamos salvar os arquivos na pasta `public/app` dentro da aplicação de backend. Em produção o Heroku vai executar a aplicação de backend, e toda a parte de frontend vai ficar disponível no endereço [http://matoso-money.herokuapp.com/app](http://matoso-money.herokuapp.com/app)
+
+### Raiz da aplicação
+
+O Heroku espera que uma aplicação **Node.js** tenha um `package.json` na raiz. Vamos criar um com `npm init -y`. Ele terá apenas os scripts básicos para construir e executar a aplicação:
+
+```json
+{
+  "name": "my-money",
+  "version": "1.0.0",
+  "scripts": {
+    "prebuild": "npm ci --prefix backend && npm ci --dev --prefix frontend",
+    "build": "npm run build --prefix frontend && npm run db:migrate --prefix backend",
+    "start": "npm start --prefix backend"
+  },
+  "engines": {
+    "node": "14.x.x"
+  }
+}
+```
+
+O **start** vai disparar o `npm start` da aplicação de backend. O build vai rodar o `build` da aplicação e frontend e também rodar o `db:migrate` no backend, para rodar as _migrations_ do **Sequelize** e atualizar a estrutura do banco de produção, se necessário.
+
+Antes do **build**, com o **prebuild**, instalamos as dependências de ambas aplicações.
+
+Usamos este arquivo também para definir a versão do **Node.js** no campo **engine**.
+
+## Variáveis de ambiente no Heroku
+
+Para finalizar, precisamos definir as variáveis de ambiente no **Heroku**. Você pode fazer isso lá no dashboard da sua aplicação. Vá em "Settings" > "Config Vars" e clique em "Reveal Config Vars":
+
+<img
+  src="/fullstack-nodejs-react-graphql-12-deploy-producao-heroku/images/heroku-config-vars.png"
+  width="1682"
+  height="1052"
+  alt="Variáveis de ambiente no Heroku"
+/>
+
+Explicando:
+
+**API_URL**: URL do servidor graphql.  
+**DATABASE_URL**: URL de conexão ao banco de dados. Esta é automaticamente fornecida pelo Heroku.  
+**GOOGLE_OAUTH_ALLOWED_USER**: E-mail que tem permissão de acesso à aplicação. Atualmente nossa app é mono-usuário. Podemos evoluir isso no futuro e deixar multi-usuário.  
+**GOOGLE_OAUTH_CLIENT_ID** e **GOOGLE_OAUTH_CLIENT_SECRET**: Identificação da aplicação para integração com login via **Google OAuth**. Vamos pegar estes valores no **Google Cloud** já já.  
+**NODE_ENV**: Identifica o ambiente de execução do Node.js. Neste caso, "production".  
+**SESSION_KEY**: String aleatória, que será a chave da sessão.  
+**SITE_URL**: URL da própria aplicação.
+
+Para pegar as chaves de acesso do **Google OAuth**, acesse [https://console.cloud.google.com/](https://console.cloud.google.com/), escolha a aplicação no dropdown no topo (aplicação que criamos na parte 7: [Fullstack com Node.js, React e GraphQL - 7: Autenticação com Passport.js](https://www.webdevdrops.com/fullstack-node-react-graphql-autenticacao-passport/)), acesse "APIs e serviços" > "Credenciais":
+
+<img
+  src="/fullstack-nodejs-react-graphql-12-deploy-producao-heroku/images/console-google-cloud.png"
+  width="1392"
+  height="874"
+  alt="Credenciais no Google Cloud"
+/>
+
+Clique em "prod", na lista "IDs do cliente OAuth 2.0", e veja os campos **ID do cliente** e **Chave secreta do cliente**. Copie estes valores para as variáveis **GOOGLE_OAUTH_CLIENT_ID** e **GOOGLE_OAUTH_CLIENT_SECRET**.
+
+Verifique também as URIs em **Origens JavaScript autorizadas** e **URIs de redirecionamento autorizados**. Devem estar apontando para o endereço da aplicação no Heroku.
+
+## Primeiro deploy
+
+Agora sim! Tudo pronto para o primeiro deploy!
+
+O Heroku adiciona o repositório remoto "**heroku**" na sua configuração de Git. Então, para fazer o deploy, basta fazer push para a branch master deste repositório:
+
+```bash
+git push heroku master
+```
+
+O Heroku vai rodar os scripts de install e build, e se tudo der certo, vai atualizar a aplicação em produção.
+
+Você pode abrir a aplicação à partir do terminal com:
+
+```bash
+heroku open
+```
+
+## E ao Admin?
+
+Inicialmente planejamos nossa aplicação para usar o **[Forest Admin](https://www.forestadmin.com/)** como área administrativa para adicionar os dados no banco. Mas com as mudanças recentes, que agora exige uma aplicação separada para o admin (antes ele ficava junto da aplicação backend), vamos mudar este plano.
+
+Na próxima parte vamos adicionar telas na própria aplicação para fazer **CRUD** (criar, visualizar, atualizar e remover) dos dados, com formulários e _mutations_ do **GraphQL**.
+
+Assim faz mais sentido, até do ponto de vista de usabilidade.
+
+## Resultado final
+
+O código completo da aplicação até este ponto está em: [https://github.com/doug2k1/my-money/releases/tag/v12.0.0](https://github.com/doug2k1/my-money/releases/tag/v12.0.0)
+
+\[\]'s

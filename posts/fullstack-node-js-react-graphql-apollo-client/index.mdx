@@ -1,0 +1,258 @@
+---
+title: 'Fullstack com Node.js, React e GraphQL  – 10: Apollo Client'
+date: '2020-12-05'
+categories:
+  - 'Full Stack'
+tags:
+  - 'full-stack'
+  - 'graphql'
+  - 'nodejs'
+  - 'react'
+coverImage: '/fullstack-node-js-react-graphql-apollo-client/images/fullstack-10-apollo-client.jpg'
+---
+
+Fala, pessoal! Nesta parte 10 da série  **[Fullstack com Node.js, React e GraphQL](/fullstack-node-react-graphql-introducao-2c2f18c757c4)** vamos finalmente integrar o **backend** e o **frontend**, usando o **[Apollo Client](https://www.apollographql.com/docs/react/)** para buscar os dados no servidor e fornecê-los para os componentes **React**.
+
+<PostImage
+  src="/fullstack-node-js-react-graphql-apollo-client/images/fullstack-10-apollo-client-1024x576.jpg"
+  width="1024"
+  height="576"
+  alt="Fullstack com Node.js, React e GraphQL  – 10: Apollo Client"
+/>
+
+## Integração da autenticação
+
+Antes de começar a usar o **Apollo Client** precisamos integrar a autenticação no front e back.
+
+Hoje, no ambiente de desenvolvimento, temos que dar `npm start` em duas aplicações: o **frontend** e **backend**. Cada uma roda em uma porta (backend em 5000 e frontend em 5001).
+
+### Rodando tudo na porta 5000
+
+Vamos adicionar um **http proxy** no backend para que o frontend fique disponível em **http://localhost:5000/app**.
+
+Instalamos no backend a dependência:
+
+```bash
+npm i http-proxy-middleware
+```
+
+E habilitamos na rota **/app**:
+
+```javascript
+// proxy
+app.use(
+  '/app',
+  authMiddleware({ redirect: true }),
+  createProxyMiddleware({ target: 'http://localhost:5001', changeOrigin: true })
+)
+```
+
+Com essa configuração tudo que for acessado dentro da rota **/app**, internamente vai ser buscado em **http://localhost:5001**, todo o nosso _frontend_, incluindo os _assets_.
+
+Veja que, antes do _midleware_ de **proxy**, adicionamos o _middleware_ de **autenticação**, portanto esta rota fica protegida. Se tentar acessá-la sem estar logado, ele redireciona para a raiz, onde vai ter a tela de login.
+
+### Tela de login
+
+Adicionamos uma tela estática de login no _backend_, em **public/login/index.html**:
+
+<PostImage
+  src="/fullstack-node-js-react-graphql-apollo-client/images/fullstack-10-4-1024x616.jpg"
+  width="1024"
+  height="616"
+  alt="tela de login"
+/>
+
+O botão **login** manda para **/auth/google**, que dispara o fluxo de login pelo **Google**.
+
+### Rota raiz e logout
+
+Por fim, atualizamos a rota raiz para redirecionar para **/app** se estiver logado ou **/login**, caso contrário:
+
+```javascript
+app.get('/', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.redirect('/app')
+  } else {
+    res.redirect('/login')
+  }
+})
+```
+
+Para sair da aplicação, basta ter um link para **/auth/logout**, que dispara o fluxo de logout.
+
+## Apollo Client
+
+O **[Apollo Client](https://www.apollographql.com/docs/react/)** é a parte do **Apollo** que fica no **frontend**. Ele vai enviar _queries_ ao nosso servidor **GraphQL** e prover os dados para os componentes **React**.
+
+Temos que instalar os pacotes no projeto de frontend:
+
+```bash
+npm install @apollo/client graphql
+```
+
+No _index.ts_ fazemos a inicialização da lib, dizendo onde está o servidor **GraphQL** e como cachear os dados (por padrão a gente usa o cache em memória).
+
+Devemos também adicionar o `ApolloProvider` em volta do componente **App**, para que toda a aplicação tenha acesso ao contexto do Apollo Client:
+
+```typescript
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+
+const client = new ApolloClient({
+  uri: 'http://localhost:5000/graphql',
+  cache: new InMemoryCache(),
+})
+
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
+  document.getElementById('app')
+)
+```
+
+### Fazendo as queries para buscar os dados
+
+Com o Apollo Client configurado, podemos fazer _queries_ nos nossos componentes para buscar dados no servidor.
+
+Vamos começar com estes cards na _home_:
+
+<PostImage
+  src="/fullstack-node-js-react-graphql-apollo-client/images/fullstack-10-1-1024x314.png"
+  width="1024"
+  height="314"
+  alt="cards de patrimônio, rentabilidade e lucro"
+/>
+
+Primeiro a gente declara uma _query_ fora do componente usando a função `gql`:
+
+```typescript
+import { gql, useQuery } from '@apollo/client'
+
+const balancesQuery = gql`
+  query {
+    investments {
+      balance
+      invested
+    }
+  }
+`
+```
+
+Esta _query_ busca todos os **investimentos**, trazendo o saldo atual e o total investido de cada um.
+
+Já dentro do componente a gente usa o _hook_ `useQuery` do Apollo para pegar os dados resultantes desta _query_:
+
+```typescript
+const { loading, data, error } = useQuery<{
+  investments: { balance: number; invested: number }[]
+}>(balancesQuery)
+```
+
+Veja que o `useQuery` permite especificar o tipo de dado que a _query_ deve retornar através do parâmetro de tipo `{ investments: { balance: number; invested: number }[]; }`
+
+O hook `useQuery` retorna três informações:  
+\- **loading**: booleano indicando se a requisição com o servidor ainda está em andamento  
+\- **error**: caso a requisição tenha retornado um erro  
+\- **data**: resultado da _query_ caso a requisição tenha ocorrido com sucesso
+
+Com isso podemos tratar cada caso. No nosso caso, fizemos um tratamento bem simples do **loading** e **error** para ilustrar:
+
+```typescript
+if (loading) {
+  return <p>Carregando...</p>
+}
+
+if (error) {
+  return <p>{error.toString()}</p>
+}
+```
+
+Como o data vai trazer os valores por investimento, vamos somar tudo para exibir nos cards o patrimônio total e fazer os cálculos de lucro e rentabilidade.
+
+A gente poderia fazer esse cálculo no backend, mas como não são complexos, vamos fazer no client mesmo.
+
+```typescript
+// saldo total da carteira
+const totalBalance =
+  data?.investments.reduce((prev, cur) => prev + cur.balance, 0) || 0
+// valor investido total
+const totalInvested =
+  data?.investments.reduce((prev, cur) => prev + cur.invested, 0) || 0
+// lucro em R$
+const profit = totalBalance - totalInvested
+// rentabilidade em %
+const profitMargin = profit / totalInvested
+```
+
+Note que usamos [optional chaining](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Optional_chaining) - `data?.investments` - pois para o **TypeScript** `data` pode não estar definido. Como já tratamos os casos de `loading` e `error`, neste ponto podemos assumir que `data` terá algum valor.
+
+Feito isso podemos exibir os valores em um componente `Card` que criamos:
+
+```jsx
+<Card title="Patrimônio" value={totalBalance} />
+```
+
+Para o gráfico na _home_ a ideia é a mesma:
+
+<PostImage
+  src="/fullstack-node-js-react-graphql-apollo-client/images/fullstack-10-2-1024x507.png"
+  width="1024"
+  height="507"
+  alt="gráfico de evolução dos investimentos"
+/>
+
+A _query_ para isso vai trazer os nomes e atualizações de saldo dos investimentos:
+
+```typescript
+const investmentsQuery = gql`
+  query {
+    investments {
+      id
+      name
+      balanceUpdates(order: [["date", "ASC"]]) {
+        date
+        amount
+      }
+    }
+  }
+`
+```
+
+Por fim, a tabela com informações dos investimentos é bem simples:
+
+<PostImage
+  src="/fullstack-node-js-react-graphql-apollo-client/images/fullstack-10-3-1024x315.png"
+  width="1024"
+  height="315"
+  alt="tabela de investimentos"
+/>
+
+A _query_ traz nome, saldo e valor investido de cada investimento, bem como o nome da corretora:
+
+```typescript
+const investmentsQuery = gql`
+  query {
+    investments {
+      id
+      name
+      broker {
+        name
+      }
+      balance
+      invested
+    }
+  }
+`
+```
+
+Olha aí a beleza do **GraphQL**. Pedimos exatamente os dados que precisamos, inclusive dados relacionados, como o nome da corretora de cada investimento, e o _backend_ retorna exatamente isso, nem mais, nem menos.
+
+## Resultado final
+
+O código do projeto até este ponto está em: [https://github.com/doug2k1/my-money/tree/v10.0.0](https://github.com/doug2k1/my-money/tree/v10.0.0)
+
+## No próximo capítulo
+
+Na próxima parte vamos adicionar **testes** no nosso frontend.
+
+_Stay tuned!_

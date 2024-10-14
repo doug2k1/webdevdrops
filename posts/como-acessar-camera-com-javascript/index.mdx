@@ -1,0 +1,157 @@
+---
+title: 'Como Acessar Câmera com JavaScript (Frontal e Traseira)'
+date: '2020-05-30'
+categories:
+  - 'JavaScript'
+tags:
+  - 'javascript'
+coverImage: '/como-acessar-camera-com-javascript/images/javascript-camera.jpg'
+translations:
+  en: how-to-access-device-cameras-with-javascript
+---
+
+E aí, pessoal! Neste post vou mostrar como acessar as câmeras do dispositivo em uma página web, via **JavaScript**, com suporte a múltiplos browsers e sem a necessidade de bibliotecas externas.
+
+<PostImage
+  src="/como-acessar-camera-com-javascript/images/javascript-camera.jpg"
+  width="940"
+  height="788"
+  alt=""
+/>
+
+## Como ter acesso à câmera
+
+Para acessar a câmera (e/ou microfone) do usuário usamos a [**API MediaStream**](https://developer.mozilla.org/en-US/docs/Web/API/Media_Streams_API) do **JavaScript**. Esta API permite acessar o vídeo e áudio capturado por estes dispositivos através de [streams](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream).
+
+O primeiro passo é verificar se o navegador dá suporte a esta API:
+
+```javascript
+if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+  // ok, o navegador tem suporte
+}
+```
+
+O suporte é até decente nos navegadores modernos (nada de Internet Explorer).
+
+## Capturando o stream de vídeo
+
+Para capturar o stream de vídeo, ou seja, a sequência de quadros que está sendo gerada pela câmera, usamos o método `getUserMedia` do objeto `mediaDevices`.
+
+Este método recebe um objeto com os tipos de mídia que estamos requisitando (video ou audio) e alguns requisitos. Para começar podemos passar apenas `{ video: true }` para pegar o vídeo da câmera.
+
+```javascript
+const videoStream = await navigator.mediaDevices.getUserMedia({ video: true })
+```
+
+Esta chamada vai pedir ao usuário uma permissão para acessar a câmera. Caso o usuário negue, ela lança uma exceção e não retorna o stream. Portanto ela deve ser feita dentro de um bloco [try/catch](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/try...catch) para tratar esta negação.
+
+<PostImage
+  src="/como-acessar-camera-com-javascript/images/camera-permission.png"
+  width="716"
+  height="362"
+  alt="Popup de permissão para acessar a câmera"
+/>
+
+Veja que ele retorna uma [Promise](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise), então tem que usar o [async/await](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/funcoes_assincronas) ou o `then`.
+
+## Requisitos de vídeo
+
+Podemos melhorar os requisitos do vídeo passando informações sobre a resolução desejada e limites de mínimo e máximo:
+
+```javascript
+const constraints = {
+  video: {
+    width: {
+      min: 1280,
+      ideal: 1920,
+      max: 2560,
+    },
+    height: {
+      min: 720,
+      ideal: 1080,
+      max: 1440,
+    },
+  },
+}
+
+const videoStream = await navigator.mediaDevices.getUserMedia(constraints)
+```
+
+Assim o stream vem na proporção correta de largura e altura. Se for um celular em modo retrato ele cuida de inverter as dimensões.
+
+## Exibindo o vídeo na página
+
+Ok, agora que temos o stream, o que podemos fazer com ele?
+
+Podemos exibir o vídeo na página, em um elemento , por exemplo:
+
+```javascript
+// considerando que existe um elemento
+// <video autoplay id="video"></video>
+// na página
+const video = document.querySelector('#video')
+const videoStream = await navigator.mediaDevices.getUserMedia(constraints)
+video.srcObject = videoStream
+```
+
+Note o atributo `autoplay` na tag `video`. Sem ele você precisa chamar `video.play()` para começar a exibir a imagem de fato.
+
+## Acessando as câmeras frontal e traseira do celular
+
+Por padrão o `getUserMedia` vai usar o dispositivo padrão de gravação de vídeo do sistema. No caso de um celular com duas câmeras, ele usa a câmera frontal.
+
+Para acessar a câmera traseira, devemos incluir `facingMode: "environment"` nos requisitos de vídeo:
+
+```javascript
+const constraints = {
+  video: {
+    width: { ... },
+    height: { ... },
+    facingMode: "environment"
+  },
+};
+```
+
+O padrão é `facingMode: "user"`, que é a câmera frontal.
+
+**Um ponto de atenção**: se você quiser alterar a câmera com o vídeo iniciado, é preciso parar o stream atual antes de substituir pelo stream da outra câmera:
+
+```javascript
+videoStream.getTracks().forEach((track) => {
+  track.stop()
+})
+```
+
+## Tirando screenshots
+
+Outra coisa legal que dá pra fazer é capturar imagens (_screenshots_) do vídeo.
+
+Você pode desenhar o _frame_ atual do vídeo em um [canvas](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Canvas), por exemplo:
+
+```javascript
+// considerando que já existe um elemento
+// <canvas id="canvas"></canvas>
+// na página
+const canvas = document.querySelector('#canvas')
+canvas.width = video.videoWidth
+canvas.height = video.videoHeight
+canvas.getContext('2d').drawImage(video, 0, 0)
+```
+
+Você pode ainda passar o conteúdo do canvas para um elemento .
+
+No exemplo que criei para este tutorial, adicionei um botão que cria imagens dinamicamente a partir do canvas e adiciona na página. Algo assim:
+
+```javascript
+const img = document.createElement('img')
+img.src = canvas.toDataURL('image/png')
+screenshotsContainer.prepend(img)
+```
+
+## Conclusão
+
+Veja como ficou o exemplo rodando aqui: [https://doug2k1.github.io/javascript-camera/](https://doug2k1.github.io/javascript-camera/)
+
+E o código-fonte completo está aqui: [https://github.com/doug2k1/javascript-camera](https://github.com/doug2k1/javascript-camera)
+
+**Este post foi útil? Compartilhe nas suas redes pra dar aquela força.** 😉

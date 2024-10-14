@@ -1,0 +1,233 @@
+---
+title: 'Node.js e Banco de Dados: ORM, Query Builder, driver nativo'
+date: '2020-06-12'
+categories:
+  - 'Node.js'
+tags:
+  - 'banco-de-dados'
+  - 'nodejs'
+coverImage: '/nodejs-banco-de-dados-orm-query-builder-driver-nativo/images/nodejs-database.jpg'
+---
+
+E aí, pessoal! Existem diferentes formas de se comunicar com banco de dados em **Node.js**, com diferentes níveis de abstração: **driver nativo**, **query builder** e **ORM**. Neste post vou mostrar exemplos e as diferenças entre elas.
+
+<PostImage
+  src="/nodejs-banco-de-dados-orm-query-builder-driver-nativo/images/nodejs-database-1024x576.jpg"
+  width="1024"
+  height="576"
+  alt="Node.js e Banco de Dados: ORM, Query Builder, driver nativo"
+/>
+
+Estes padrões existem em várias linguagens, mas vou mostrar exemplos em **Node.js**, acessando um banco de dados **[PostgreSQL](https://www.postgresql.org/)**.
+
+## Driver nativo
+
+Este é o nível mais baixo, ou seja, mais próximo do banco de dados. Você se conecta ao banco de dados, escreve **_queries_ SQL** em forma de _string_ e manda o banco executar. A execução das _queries_ é uma operação assíncrona, portanto retornam uma **[Promise](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise)**.
+
+Para trabalhar com **PostgreSQL** neste nível em Node.js a biblioteca mais popular é o **[node-postgres (pg)](https://node-postgres.com/)**. Veja um exemplo a seguir.
+
+Conexão com o banco:
+
+```javascript
+const { Client } = require('pg')
+
+const client = new Client({
+  user: 'dbuser',
+  host: 'localhost',
+  database: 'mydb',
+  password: '123456',
+  port: 5432,
+})
+
+await client.connect()
+```
+
+Inserindo um registro:
+
+```javascript
+await client.query('INSERT INTO users(name, email) VALUES($1, $2)', [
+  'PG User',
+  'pg@email.com',
+])
+```
+
+Buscando o mesmo registro através do email:
+
+```javascript
+const res = await client.query("SELECT * FROM users WHERE email='pg@email.com'")
+
+console.log(res.rows)
+/*
+[
+  {
+    id: '4ea4aedd-9d76-44ad-906d-c24a1845ffae',
+    name: 'PG User',
+    email: 'pg@email.com'
+  }
+]
+*/
+```
+
+## Query builder
+
+Um nível de abstração acima está o **query builder**. A principal diferença é que aqui você escreve as _queries_ programaticamente, usando funções, e a biblioteca se encarrega de gerar a _query_ nativa.
+
+Uma vantagem desta abordagem é que a biblioteca trata possíveis diferenças de sintaxe entre diferentes bancos de dados. Isso permite que você troque o banco de sua aplicação com mais facilidade, fazendo pouca ou nenhuma alteração no código.
+
+Uma das bibliotecas de query builder mais populares no Node.js é a **[Knex](http://knexjs.org/)**. Veja abaixo como ela funciona.
+
+Conexão com o banco:
+
+```javascript
+const knex = require('knex')
+const config = require('../../knexfile.js').development
+const db = knex(config)
+```
+
+O **Knex** recomenda colocar as configurações de conexão em um arquivo `knexfile.js`, separadas por ambiente. Isto permite separar e gerenciar melhor o banco de desenvolvimento, testes e produção. Você pode até usar diferentes bancos por ambiente (**[SQLite](https://www.sqlite.org/index.html)** em desenvolvimento e **[PostgreSQL](https://www.postgresql.org/)** em produção, por exemplo).
+
+Inserindo um registro:
+
+```javascript
+await db('users').insert({ name: 'Knex User', email: 'knex@email.com' })
+```
+
+Buscando o registro:
+
+```javascript
+const rows = await db.from('users').select().where({ email: 'knex@email.com' })
+
+console.log(rows)
+/*
+[
+  {
+    id: '66b9c3ea-8270-4a73-bf12-aed96434ebcf',
+    name: 'Knex User',
+    email: 'knex@email.com'
+  }
+]
+*/
+```
+
+Veja que em nenhum momento escrevemos _queries_ SQL nativas. Usamos apenas funções e objetos para construir a _query_.
+
+O **Knex** até permite escrever queries nativas para os casos que isso seja necessário.
+
+Outra funcionalidade que bibliotecas neste nível já oferecem são as **_[migrations](https://en.wikipedia.org/wiki/Schema_migration)_**, que são mecanismos para registrar as alterações feitas na estrutura do banco durante o projeto (adição, remoção ou alteração de colunas ou tabelas), permitindo "voltar no tempo" e desfazer alguma alteração, ou aplicar as alterações em um banco novo.
+
+## ORM
+
+**Object-Relational Mapping** (Mapeamento Objeto-Relacional), como o nome implica, é um padrão onde se mapeia a estrutura relacional do banco em objetos na linguagem em questão. Tabelas viram objetos, linhas viram atributos do objeto e relações entre tabela se transformam em relações entre objetos. Este é o nível mais alto de abstração. Você não precisa nem pensar em _queries_ SQL. Mas toda abstração tem seu preço, como falarei mais embaixo.
+
+Algumas ferramentas fazem este mapeamento de forma mais automática, analisando a estrutura do banco, outras exigem que você o faça manualmente.
+
+A biblioteca **ORM** mais popular no Node.js é a **[Sequelize](https://sequelize.org/)**.
+
+Para trabalhar com nossa tabela `users`, precisamos fazer o mapeamento dela com uma classe `User`. Na sintaxe do **Sequelize** fica assim:
+
+```javascript
+const User = sequelize.define(
+  'user',
+  {
+    name: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+  },
+  { timestamps: false }
+)
+```
+
+Uma facilidade do **Sequelize** é que ele permite definir a classe no JS antes e usar o comando `sync` para alterar ou criar a estrutura no banco para sincronizar com o objeto.
+
+Com o mapeamento definido, veja como ficam as operações.
+
+Inserindo um registro:
+
+```javascript
+const user = await User.create({
+  name: 'Sequelize User',
+  email: 'sequelize@email.com',
+})
+```
+
+O método `create` vai fazer duas operações: criar uma instância da classe `User` e salvar os dados no banco. Você também pode fazer estas operações separadamente:
+
+```javascript
+// cria a instância
+const user = User.build({
+  name: 'Sequelize User',
+  email: 'sequelize@email.com',
+})
+
+// persiste no banco
+await user.save()
+```
+
+Buscando o registro:
+
+```javascript
+const user = await User.findOne({ where: { email: 'sequelize@email.com' } })
+
+console.log(user.toJSON())
+/*
+{
+  id: 'ef5659de-9d35-4bff-a435-5b9679c914e3',
+  name: 'Sequelize User',
+  email: 'sequelize@email.com'
+}
+*/
+```
+
+Veja que o método estático `findOne` (assim como os outros métodos de consulta) retorna um objeto da classe `User`. Para exibir como JSON precisei usar o método `toJSON()`.
+
+Outra abstração que um **ORM** faz é sobre as relações entre entidades. Vamos supor que no nosso exemplo um **usuário** possa ter vários **posts** relacionados a ele. No **Sequelize**, na hora de buscar um usuário eu posso dizer para ele fazer uma busca "gulosa" (_eager loading_) e já trazer também os posts. Ficaria assim:
+
+```javascript
+const user = await User.findOne({
+  where: { email: 'sequelize@email.com' },
+  include: Post,
+})
+```
+
+Com isso, o objeto `user` teria um atributo `user.posts` onde eu teria acesso aos posts daquele usuário (como um array de objetos da classe `Post`).
+
+Por fim, vale ressaltar que o **Sequelize** também tem suporte a **_migrations_**.
+
+Aqui no blog temos um outro post com um exemplo mais completo de uso do **Sequelize** em uma aplicação:
+
+**[Fullstack com Node.js, React e GraphQL  – 3: PostgreSQL e Sequelize](/fullstack-node-react-graphql-postgresql-sequelize-11e646979b27/)**
+
+## E aí? Qual é o melhor?
+
+A resposta é o famoso **depende**.
+
+O driver nativo é mais indicado para casos específicos, por exemplo, se você estiver desenvolvendo uma biblioteca (seu próprio **query builder** ou **ORM**). O **Knex** e o **Sequelize** usam as libs nativas por trás.
+
+Você pode pensar que o **ORM** é melhor, pois abstrai mais os detalhes do banco. Mas como comentei acima, toda abstração tem seu preço.
+
+### Performance
+
+Uma biblioteca **ORM** visa facilitar a vida do desenvolvedor e ser flexível para atender vários contextos diferentes. Em alguns casos, a _query_ gerada pela biblioteca pode não ser tão eficiente quanto uma _query_ feita manualmente, principalmente quando envolve relacionamento. Alguns cuidados devem ser tomados para se evitar estes problemas.
+
+### Esconder a tecnologia por trás
+
+Este é justamente o objetivo de uma abstração, certo? Esconder os detalhes e apresentar uma forma mais amigável para se trabalhar.
+
+**Sim, mas o problema acontece quando o desenvolvedor pula etapas e usa uma abstração sem entender o que aquilo abstrai, a tecnologia por trás.**
+
+A gente vê o tempo todo: desenvolvedores aprendendo um framework JavaScript, sem aprender o JavaScript, ou aprendendo a usar um ORM, sem compreender como um banco de dados funciona.
+
+Como saber se meu ORM está gerando uma **_query_ SQL** ineficiente seu eu não sei nada sobre **SQL**?
+
+Além do mais, conhecer a tecnologia base me ajuda a escolher a melhor abstração e se eu preciso trocar de uma biblioteca pra outra o aprendizado vai ser mais rápido, pois a base é a mesma.
+
+## Conclusão
+
+Aqui tem um código com os três exemplos, caso queira experimentar: [https://github.com/doug2k1/nodejs-database](https://github.com/doug2k1/nodejs-database)
+
+Espero que este post tenha sido útil. Se gostou, compartilhe nas suas redes sociais pra dar aquela força! 😉
