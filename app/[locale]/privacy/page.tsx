@@ -1,3 +1,4 @@
+import i18nConfig from '@/i18nConfig'
 import { getIntl, LocaleType } from '@/libs/i18n'
 import { ReactNode } from 'react'
 
@@ -441,3 +442,9 @@ content['en'] = (
     </p>
   </>
 )
+
+export async function generateStaticParams() {
+  return i18nConfig.locales.map((locale) => ({
+    locale,
+  }))
+}

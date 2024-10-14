@@ -1,5 +1,4 @@
-import { MDXRemoteSerializeResult } from 'next-mdx-remote'
-import { LocaleType } from '../lib/i18n'
+import { LocaleType } from '@/libs/i18n'
 
 export type PostTranslations = Record<LocaleType, string>
 
@@ -12,7 +11,6 @@ export interface Post {
   coverImage?: string
   excerpt?: string
   content?: string
-  mdxSource: MDXRemoteSerializeResult
   tags?: string[]
   language: LocaleType
   translations: PostTranslations

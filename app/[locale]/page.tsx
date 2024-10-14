@@ -1,5 +1,6 @@
 import { Pagination } from '@/components/Pagination'
 import { PostList } from '@/components/PostList'
+import i18nConfig from '@/i18nConfig'
 import { getAllPosts, getNumPages } from '@/libs/api'
 import { getIntl, LocaleType } from '@/libs/i18n'
 
@@ -31,4 +32,10 @@ export default function Home({ params: { locale } }: Props) {
       <Pagination page={1} total={numPages} locale={locale} />
     </>
   )
+}
+
+export async function generateStaticParams() {
+  return i18nConfig.locales.map((locale) => ({
+    locale,
+  }))
 }
