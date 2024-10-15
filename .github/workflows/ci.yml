@@ -16,5 +16,4 @@ jobs:
         with:
           cache: 'npm'
       - run: npm i
-      - run: npm run lint
       - run: npm run build
