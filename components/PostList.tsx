@@ -12,12 +12,18 @@ export function PostList({ posts, page }: Props) {
 
   return (
     <>
-      <div className="md:mb-8 md:grid md:grid-cols-2 md:gap-8">
+      <div
+        className="md:mb-8 md:grid md:grid-cols-2 md:gap-8"
+        data-testid="featured-posts"
+      >
         {featuredPosts.map((post) => (
           <PostListItem post={post} key={post.slug} />
         ))}
       </div>
-      <div className="md:grid md:grid-cols-3 md:gap-8">
+      <div
+        className="md:grid md:grid-cols-3 md:gap-8"
+        data-testid="older-posts"
+      >
         {otherPosts.map((post) => (
           <PostListItem post={post} key={post.slug} />
         ))}

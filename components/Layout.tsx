@@ -84,7 +84,10 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
       </noscript>
 
       <div className="flex min-h-screen flex-col">
-        <header className="mb-8 bg-main dark:bg-blue-900">
+        <header
+          className="mb-8 bg-main dark:bg-blue-900"
+          data-testid="main-layout"
+        >
           <Container className="flex items-center justify-between">
             <Link href="/" className="inline-block">
               <Image
