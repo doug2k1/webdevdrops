@@ -10,7 +10,7 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "test:e2e:open": "start-server-and-test dev http://localhost:3000 cy:open",
-    "test:e2e:run": "start-server-and-test dev http://localhost:3000 cy:run"
+    "test:e2e:run": "start-server-and-test start http://localhost:3000 cy:run"
   },
   "dependencies": {
     "@mdx-js/mdx": "^3.0.1",
