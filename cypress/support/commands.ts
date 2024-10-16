@@ -37,3 +37,31 @@
 // }
 
 import '@testing-library/cypress/add-commands'
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Cypress {
+    interface Chainable {
+      assertMeta(property: string, content: string): Chainable<void>
+      assertHeadLink(rel: string, href: string, sizes?: string): Chainable<void>
+    }
+  }
+}
+
+Cypress.Commands.add('assertMeta', (property: string, content: string) => {
+  cy.get(`head meta[property="${property}"]`).should(
+    'have.attr',
+    'content',
+    content
+  )
+})
+
+Cypress.Commands.add(
+  'assertHeadLink',
+  (rel: string, href: string, sizes?: string) => {
+    const selector = sizes
+      ? `head link[rel="${rel}"][sizes="${sizes}"]`
+      : `head link[rel="${rel}"]`
+    cy.get(selector).should('have.attr', 'href', href)
+  }
+)

@@ -1,18 +1,3 @@
-const assertMeta = (property: string, content: string) => {
-  cy.get(`head meta[property="${property}"]`).should(
-    'have.attr',
-    'content',
-    content
-  )
-}
-
-const assertHeadLink = (rel: string, href: string, sizes?: string) => {
-  const selector = sizes
-    ? `head link[rel="${rel}"][sizes="${sizes}"]`
-    : `head link[rel="${rel}"]`
-  cy.get(selector).should('have.attr', 'href', href)
-}
-
 describe('Home page', () => {
   it('renders the list of posts', () => {
     cy.visit('/')
@@ -32,36 +17,40 @@ describe('Home page', () => {
       'content',
       'Desenvolvimento Web - Artigos, Tutoriais, Dicas'
     )
-    assertMeta('og:locale', 'pt-BR')
-    assertMeta(
+    cy.assertMeta('og:locale', 'pt-BR')
+    cy.assertMeta(
       'og:title',
       'Web Dev Drops | Desenvolvimento Web - Artigos, Tutoriais, Dicas'
     )
-    assertMeta(
+    cy.assertMeta(
       'og:description',
       'Desenvolvimento Web - Artigos, Tutoriais, Dicas'
     )
-    assertMeta('og:site_name', 'Web Dev Drops')
-    assertMeta(
+    cy.assertMeta('og:site_name', 'Web Dev Drops')
+    cy.assertMeta(
       'og:image',
-      `${Cypress.config('baseUrl')}/images/webdevdrops-logo-500.png`
+      'https://www.webdevdrops.com/images/webdevdrops-logo-500.png'
     )
     cy.get('head meta[name="twitter:card"]').should(
       'have.attr',
       'content',
       'summary'
     )
-    assertHeadLink('icon', '/images/cropped-logo-wdd-transp-32x32.png', '32x32')
-    assertHeadLink(
+    cy.assertHeadLink(
+      'icon',
+      '/images/cropped-logo-wdd-transp-32x32.png',
+      '32x32'
+    )
+    cy.assertHeadLink(
       'icon',
       '/images/cropped-logo-wdd-transp-192x192.png',
       '192x192'
     )
-    assertHeadLink(
+    cy.assertHeadLink(
       'apple-touch-icon',
       '/images/cropped-logo-wdd-transp-180x180.png'
     )
-    assertHeadLink(
+    cy.assertHeadLink(
       'msapplication-TileImage',
       '/images/cropped-logo-wdd-transp-270x270.png'
     )
@@ -78,11 +67,14 @@ describe('Home page', () => {
       'content',
       'Web Development - Articles, Tutorials, Tips'
     )
-    assertMeta('og:locale', 'en')
-    assertMeta(
+    cy.assertMeta('og:locale', 'en')
+    cy.assertMeta(
       'og:title',
       'Web Dev Drops | Web Development - Articles, Tutorials, Tips'
     )
-    assertMeta('og:description', 'Web Development - Articles, Tutorials, Tips')
+    cy.assertMeta(
+      'og:description',
+      'Web Development - Articles, Tutorials, Tips'
+    )
   })
 })

@@ -2,6 +2,7 @@ import { Pagination } from '@/components/Pagination'
 import { PostList } from '@/components/PostList'
 import i18nConfig from '@/i18nConfig'
 import { getAllPosts, getNumPages } from '@/libs/api'
+import { BASE_URL } from '@/libs/consts'
 import { getIntl, LocaleType } from '@/libs/i18n'
 import { Metadata } from 'next'
 
@@ -17,7 +18,7 @@ export async function generateMetadata({
   const siteSlogan = intl.formatMessage({ id: 'siteSlogan' })
   const title = `${siteName} | ${siteSlogan}`
   const description = siteSlogan
-  const image = '/images/webdevdrops-logo-500.png'
+  const image = `${BASE_URL}/images/webdevdrops-logo-500.png`
 
   return {
     title,

@@ -19,7 +19,7 @@ export async function ShareButtons({ title, url, locale }: Props) {
   const encodedTitle = encodeURIComponent(title)
 
   return (
-    <section className="text-center">
+    <section className="text-center" data-testid="post-share-buttons">
       <div className="flex flex-wrap items-center">
         <p className="mr-2 font-bold text-gray-500 dark:text-gray-400">
           {intl.formatMessage({ id: 'share' })}

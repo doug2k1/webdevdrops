@@ -16,7 +16,7 @@ export async function PostInfo({
   const intl = await getIntl(locale)
 
   return (
-    <div className="mb-8 flex items-center text-sm">
+    <div className="mb-8 flex items-center text-sm" data-testid="post-info">
       <Image
         className="mr-2 rounded-full"
         style={{ marginTop: 0, marginBottom: 0 }}

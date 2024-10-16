@@ -6,9 +6,11 @@ import { PostInfo } from '@/components/PostInfo'
 import { PostLink } from '@/components/PostLink'
 import { ShareButtons } from '@/components/ShareButtons'
 import { getAllPosts, getPostBySlug } from '@/libs/api'
+import { BASE_URL } from '@/libs/consts'
 import { LocaleType } from '@/libs/i18n'
 import '@/styles/highlight-js/atom-one-dark.css'
 import { compile, run, RunOptions } from '@mdx-js/mdx'
+import { Metadata } from 'next'
 import Link from 'next/link'
 import { ClassAttributes, Fragment, ImgHTMLAttributes } from 'react'
 import { FaTag } from 'react-icons/fa'
@@ -33,7 +35,9 @@ const components = {
   a: PostLink,
 }
 
-export async function generateMetadata({ params: { slug } }: Props) {
+export async function generateMetadata({
+  params: { slug },
+}: Props): Promise<Metadata> {
   const post = getPostBySlug({
     slug: slug,
     fields: [
@@ -51,6 +55,20 @@ export async function generateMetadata({ params: { slug } }: Props) {
 
   return {
     title,
+    openGraph: {
+      type: 'article',
+      url: post.link,
+      title,
+      images: post.coverImage
+        ? [
+            {
+              url: `${BASE_URL}${post.coverImage}` || '',
+              width: 1280,
+              height: 720,
+            },
+          ]
+        : [],
+    },
   }
 }
 
@@ -99,7 +117,7 @@ export default async function PostPage({ params: { locale, slug } }: Props) {
           <MDXContent components={components} />
 
           {post.tags!.length > 0 ? (
-            <div>
+            <div data-testid="post-tags">
               <p>
                 <FaTag className="inline text-gray-500" />{' '}
                 <span className="font-bold text-gray-500">Tags:</span>{' '}
