@@ -1,5 +1,4 @@
 import { getIntl, LocaleType } from '@/libs/i18n'
-import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import Script from 'next/script'
@@ -47,7 +46,7 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
 
   return (
     <>
-      <Head>
+      {/* <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <link
           rel="icon"
@@ -67,7 +66,7 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
           name="msapplication-TileImage"
           content="/images/cropped-logo-wdd-transp-270x270.png"
         />
-      </Head>
+      </Head> */}
       <Script
         async
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7263844920704645"

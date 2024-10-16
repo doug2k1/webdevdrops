@@ -3,18 +3,53 @@ import { PostList } from '@/components/PostList'
 import i18nConfig from '@/i18nConfig'
 import { getAllPosts, getNumPages } from '@/libs/api'
 import { getIntl, LocaleType } from '@/libs/i18n'
+import { Metadata } from 'next'
 
 interface Props {
   params: { locale: LocaleType }
 }
 
-export async function generateMetadata({ params: { locale } }: Props) {
+export async function generateMetadata({
+  params: { locale },
+}: Props): Promise<Metadata> {
   const intl = await getIntl(locale)
+  const siteName = 'Web Dev Drops'
   const siteSlogan = intl.formatMessage({ id: 'siteSlogan' })
-  const title = `Web Dev Drops | ${siteSlogan}`
+  const title = `${siteName} | ${siteSlogan}`
+  const description = siteSlogan
+  const image = '/images/webdevdrops-logo-500.png'
 
   return {
     title,
+    description,
+    openGraph: {
+      locale,
+      title,
+      description,
+      siteName,
+      images: [{ url: image, alt: siteName, width: 500, height: 150 }],
+    },
+    twitter: {
+      card: 'summary',
+    },
+    icons: [
+      {
+        url: '/images/cropped-logo-wdd-transp-32x32.png',
+        sizes: '32x32',
+      },
+      {
+        url: '/images/cropped-logo-wdd-transp-192x192.png',
+        sizes: '192x192',
+      },
+      {
+        url: '/images/cropped-logo-wdd-transp-180x180.png',
+        rel: 'apple-touch-icon',
+      },
+      {
+        url: '/images/cropped-logo-wdd-transp-270x270.png',
+        rel: 'msapplication-TileImage',
+      },
+    ],
   }
 }
 
