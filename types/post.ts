@@ -13,7 +13,7 @@ export interface Post {
   content?: string
   tags?: string[]
   language: LocaleType
-  translations: PostTranslations
+  translations?: PostTranslations
   twitterPost?: string
   categories?: string[]
 }

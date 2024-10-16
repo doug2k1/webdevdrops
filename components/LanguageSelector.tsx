@@ -8,12 +8,14 @@ export function LanguageSelector() {
       <Link
         href="/en/"
         className="p-2 text-white text-opacity-100 hover:text-opacity-80"
+        data-testid="lang-selector-en"
       >
         English
       </Link>
       <Link
-        href="/pt-BR/"
+        href="/"
         className="p-2 text-white text-opacity-100 hover:text-opacity-80"
+        data-testid="lang-selector-ptbr"
       >
         Português
       </Link>

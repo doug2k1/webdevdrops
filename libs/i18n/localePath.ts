@@ -1,6 +1,4 @@
-import { LocaleType } from './types'
+import i18nConfig from '@/i18nConfig'
 
-export const defaultLocale: LocaleType = 'pt-BR'
-
-export const localePath = (path: string, locale: string) =>
-  locale === defaultLocale ? path : `${locale}${path}`
+export const localePath = (locale: string, path: string) =>
+  locale === i18nConfig.defaultLocale ? path : `/${locale}${path}`

@@ -27,7 +27,7 @@ export function PostI18nLinks({ translations }: Props) {
         return (
           <Link
             key={locale}
-            href={localePath(`/${slug}`, locale)}
+            href={localePath(locale, `/${slug}`)}
             className="italic"
           >
             {labels[locale as LocaleType]}

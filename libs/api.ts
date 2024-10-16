@@ -1,9 +1,10 @@
+import i18nConfig from '@/i18nConfig'
 import fs from 'fs'
 import matter from 'gray-matter'
 import path from 'path'
 import { Post, PostKey } from '../types/post'
 import { BASE_URL } from './consts'
-import { defaultLocale, LocaleType } from './i18n'
+import { LocaleType } from './i18n'
 
 const postsDirectory = path.resolve(process.cwd(), 'posts')
 
@@ -46,7 +47,7 @@ export function getPostBySlug({
         break
       case 'link':
         const lang =
-          data.language && data.language !== defaultLocale
+          data.language && data.language !== i18nConfig.defaultLocale
             ? `${data.language}/`
             : ''
         post.link = `${BASE_URL}/${lang}${slug}/`
@@ -71,7 +72,7 @@ export function getPostBySlug({
   })
 
   // always return language and translations
-  post.language = data.language || defaultLocale
+  post.language = data.language || i18nConfig.defaultLocale
   post.translations = data.translations || {}
 
   return post as Post
@@ -97,6 +98,12 @@ export function getAllPosts({
       (post1.modified || post1.date!) > (post2.modified || post2.date!) ? -1 : 1
     )
 
+  console.log(
+    slugs.map((slug) =>
+      getPostBySlug({ slug, fields: [...fields, 'date', 'modified'] })
+    )
+  )
+
   if (page) {
     posts = slicePage(posts, page)
   }
@@ -105,7 +112,7 @@ export function getAllPosts({
 }
 
 export function getNumPages({
-  language = defaultLocale,
+  language = i18nConfig.defaultLocale,
 }: {
   language: LocaleType
 }) {
@@ -135,7 +142,7 @@ export function getAllTags({ language }: { language?: LocaleType } = {}) {
 
 export function getNumPagesForTag({
   tag,
-  language = defaultLocale,
+  language = i18nConfig.defaultLocale,
 }: {
   tag: string
   language: LocaleType

@@ -1,4 +1,4 @@
-import { getIntl, LocaleType } from '@/libs/i18n'
+import { getIntl, localePath, LocaleType } from '@/libs/i18n'
 import Image from 'next/image'
 import Link from 'next/link'
 import Script from 'next/script'
@@ -46,32 +46,6 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
 
   return (
     <>
-      {/* <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <link
-          rel="icon"
-          href="/images/cropped-logo-wdd-transp-32x32.png"
-          sizes="32x32"
-        />
-        <link
-          rel="icon"
-          href="/images/cropped-logo-wdd-transp-192x192.png"
-          sizes="192x192"
-        />
-        <link
-          rel="apple-touch-icon"
-          href="/images/cropped-logo-wdd-transp-180x180.png"
-        />
-        <meta
-          name="msapplication-TileImage"
-          content="/images/cropped-logo-wdd-transp-270x270.png"
-        />
-      </Head> */}
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7263844920704645"
-        crossOrigin="anonymous"
-      />
       <Script src="/js/gtm.js" />
       <noscript>
         <iframe
@@ -88,7 +62,11 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
           data-testid="main-layout"
         >
           <Container className="flex items-center justify-between">
-            <Link href="/" className="inline-block">
+            <Link
+              href={localePath(locale, '/')}
+              className="inline-block"
+              data-testid="logo-link"
+            >
               <Image
                 className="m-0"
                 width="250"
@@ -99,7 +77,7 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
             </Link>
           </Container>
 
-          <Nav />
+          <Nav locale={locale} />
         </header>
 
         <Container>
@@ -121,9 +99,10 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
             <div className="mb-4">
               {footerLinks.map(({ href, label }) => (
                 <Link
-                  href={href}
+                  href={localePath(locale, href)}
                   key={href}
                   className="p-2 text-white hover:text-opacity-80"
+                  data-testid={`footer-${label}`}
                 >
                   {intl.formatMessage({ id: label })}
                 </Link>

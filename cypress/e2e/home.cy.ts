@@ -77,4 +77,40 @@ describe('Home page', () => {
       'Web Development - Articles, Tutorials, Tips'
     )
   })
+
+  it('renders correct links in pt-BR', () => {
+    cy.visit('/')
+
+    cy.findByTestId('logo-link').should('have.attr', 'href', '/')
+    cy.findAllByTestId('nav-home').first().should('have.attr', 'href', '/')
+    cy.findAllByTestId('nav-contact')
+      .first()
+      .should('have.attr', 'href', '/contact')
+    cy.findByTestId('footer-contact').should('have.attr', 'href', '/contact')
+    cy.findByTestId('footer-privacyPolicy').should(
+      'have.attr',
+      'href',
+      '/privacy'
+    )
+    cy.findByTestId('lang-selector-ptbr').should('have.attr', 'href', '/')
+    cy.findByTestId('lang-selector-en').should('have.attr', 'href', '/en')
+  })
+
+  it.only('renders correct links in en', () => {
+    cy.visit('/en')
+
+    cy.findByTestId('logo-link').should('have.attr', 'href', '/en')
+    cy.findAllByTestId('nav-home').first().should('have.attr', 'href', '/en')
+    cy.findAllByTestId('nav-contact')
+      .first()
+      .should('have.attr', 'href', '/en/contact')
+    cy.findByTestId('footer-contact').should('have.attr', 'href', '/en/contact')
+    cy.findByTestId('footer-privacyPolicy').should(
+      'have.attr',
+      'href',
+      '/en/privacy'
+    )
+    cy.findByTestId('lang-selector-ptbr').should('have.attr', 'href', '/')
+    cy.findByTestId('lang-selector-en').should('have.attr', 'href', '/en')
+  })
 })

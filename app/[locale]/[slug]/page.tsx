@@ -5,6 +5,7 @@ import { PostImage } from '@/components/PostImage'
 import { PostInfo } from '@/components/PostInfo'
 import { PostLink } from '@/components/PostLink'
 import { ShareButtons } from '@/components/ShareButtons'
+import i18nConfig from '@/i18nConfig'
 import { getAllPosts, getPostBySlug } from '@/libs/api'
 import { BASE_URL } from '@/libs/consts'
 import { LocaleType } from '@/libs/i18n'
@@ -52,9 +53,23 @@ export async function generateMetadata({
     ],
   })
   const title = `${post.title} | Web Dev Drops`
+  const languages = Object.entries(post.translations || {}).reduce(
+    (prev: Record<string, string>, [locale, path]) => {
+      prev[locale] = `${BASE_URL}/${
+        locale === i18nConfig.defaultLocale ? '' : `${locale}/`
+      }${path}/`
+
+      return prev
+    },
+    {}
+  )
 
   return {
     title,
+    alternates: {
+      canonical: post.link,
+      languages,
+    },
     openGraph: {
       type: 'article',
       url: post.link,
@@ -74,6 +89,24 @@ export async function generateMetadata({
       creator: '@webdevdrops',
       site: '@webdevdrops',
     },
+    icons: [
+      {
+        url: '/images/cropped-logo-wdd-transp-32x32.png',
+        sizes: '32x32',
+      },
+      {
+        url: '/images/cropped-logo-wdd-transp-192x192.png',
+        sizes: '192x192',
+      },
+      {
+        url: '/images/cropped-logo-wdd-transp-180x180.png',
+        rel: 'apple-touch-icon',
+      },
+      {
+        url: '/images/cropped-logo-wdd-transp-270x270.png',
+        rel: 'msapplication-TileImage',
+      },
+    ],
   }
 }
 
