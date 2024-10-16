@@ -38,7 +38,23 @@ export function DarkModeToggle() {
   )
 
   if (!mounted) {
-    return null
+    return (
+      <>
+        {modes.map((mode) => {
+          return (
+            <button
+              key={mode.key}
+              className={
+                'mx-2 py-4 text-2xl text-white text-opacity-20  focus:outline-none sm:py-2'
+              }
+              disabled
+            >
+              {mode.icon}
+            </button>
+          )
+        })}
+      </>
+    )
   }
 
   return (
