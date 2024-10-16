@@ -1,7 +1,6 @@
 import { getIntl, localePath, LocaleType } from '@/libs/i18n'
 import Image from 'next/image'
 import Link from 'next/link'
-import Script from 'next/script'
 import { PropsWithChildren } from 'react'
 import {
   FaCoffee,
@@ -13,6 +12,7 @@ import {
 import { Container } from './Container'
 import { LanguageSelector } from './LanguageSelector'
 import { Nav } from './Nav'
+import { TrackingScripts } from './TrackingScripts'
 
 const footerLinks = [
   { href: '/contact', label: 'contact' },
@@ -46,15 +46,7 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
 
   return (
     <>
-      <Script src="/js/gtm.js" />
-      <noscript>
-        <iframe
-          src="https://www.googletagmanager.com/ns.html?id=GTM-KQPDQCS"
-          height="0"
-          width="0"
-          className="invisible hidden"
-        ></iframe>
-      </noscript>
+      <TrackingScripts />
 
       <div className="flex min-h-screen flex-col">
         <header
