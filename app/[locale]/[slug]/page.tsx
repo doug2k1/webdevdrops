@@ -69,6 +69,11 @@ export async function generateMetadata({
           ]
         : [],
     },
+    twitter: {
+      card: 'summary_large_image',
+      creator: '@webdevdrops',
+      site: '@webdevdrops',
+    },
   }
 }
 
@@ -82,6 +87,7 @@ export default async function PostPage({ params: { locale, slug } }: Props) {
     fields: [
       'title',
       'date',
+      'modified',
       'slug',
       'link',
       'content',
@@ -99,10 +105,22 @@ export default async function PostPage({ params: { locale, slug } }: Props) {
   )
 
   const { default: MDXContent } = await run(code, { ...runtime } as RunOptions)
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: post.title,
+    image: [`${BASE_URL}${post.coverImage}` || ''],
+    datePublished: post.date,
+    dateModified: post.modified,
+  }
 
   return (
     <>
       <div>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <article className="prose mx-auto dark:prose-dark">
           <h1>{post.title}</h1>
 
