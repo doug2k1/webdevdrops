@@ -23,8 +23,6 @@ export function ContactForm() {
     }
   }, [formState.status])
 
-  console.log({ formState })
-
   return (
     <>
       <form ref={formRef} action={formAction}>

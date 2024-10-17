@@ -1,13 +1,13 @@
 'use server'
 
 import { ContactFormState } from '@/types/contact'
-import AWS from 'aws-sdk'
+import { SendEmailCommandInput, SES } from '@aws-sdk/client-ses'
 
-AWS.config.update({ region: 'us-east-1' })
-
-const SES = new AWS.SES({
-  accessKeyId: process.env.SES_ID,
-  secretAccessKey: process.env.SES_KEY,
+const SESInstance = new SES({
+  credentials: {
+    accessKeyId: process.env.SES_ID || '',
+    secretAccessKey: process.env.SES_KEY || '',
+  },
   region: 'us-east-1',
 })
 
@@ -22,7 +22,7 @@ export const sendContactMessage = async (
     throw new Error('Missing contact env values')
   }
 
-  const params: AWS.SES.SendEmailRequest = {
+  const params: SendEmailCommandInput = {
     Destination: {
       ToAddresses: [to!],
     },
@@ -43,7 +43,7 @@ export const sendContactMessage = async (
   }
 
   try {
-    await SES.sendEmail(params).promise()
+    await SESInstance.sendEmail(params)
 
     return {
       status: 'SUCCESS',
