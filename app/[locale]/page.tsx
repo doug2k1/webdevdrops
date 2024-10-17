@@ -5,6 +5,7 @@ import { getAllPosts, getNumPages } from '@/libs/api'
 import { BASE_URL } from '@/libs/consts'
 import { getIntl, LocaleType } from '@/libs/i18n'
 import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 
 interface Props {
   params: { locale: LocaleType; page?: string }
@@ -62,6 +63,10 @@ export default function Home({ params: { locale, page } }: Props) {
     fields: ['title', 'modified', 'date', 'slug', 'coverImage', 'categories'],
     language: locale as LocaleType,
   })
+
+  if (posts.length === 0) {
+    return notFound()
+  }
 
   return (
     <>

@@ -6,6 +6,19 @@ describe('Home page', () => {
     cy.findByTestId('older-posts').should('exist')
   })
 
+  it('renders second page of posts', () => {
+    cy.visit('/', { headers: { 'accept-language': 'pt-BR' } })
+    cy.findByText(/próxima página/i).click()
+
+    cy.url().should('equal', '/page/2')
+    cy.findByTestId('main-layout').should('exist')
+    cy.findByTestId('older-posts').should('exist')
+
+    cy.findByText(/página anterior/i).click()
+
+    cy.url().should('equal', '/')
+  })
+
   it('renders page metadata in pt-BR', () => {
     cy.visit('/')
     cy.title().should(
@@ -96,7 +109,7 @@ describe('Home page', () => {
     cy.findByTestId('lang-selector-en').should('have.attr', 'href', '/en')
   })
 
-  it.only('renders correct links in en', () => {
+  it('renders correct links in en', () => {
     cy.visit('/en')
 
     cy.findByTestId('logo-link').should('have.attr', 'href', '/en')
