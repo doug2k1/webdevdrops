@@ -1,4 +1,5 @@
 import i18nConfig from '@/i18nConfig'
+import { defaultAppIcons } from '@/libs/consts'
 import { getIntl, LocaleType } from '@/libs/i18n'
 import { ReactNode } from 'react'
 
@@ -8,14 +9,15 @@ interface Props {
 
 export async function generateMetadata({ params: { locale } }: Props) {
   const intl = await getIntl(locale)
-  const title = `Web Dev Drops | ${intl.formatMessage({ id: 'privacyPolicy' })}`
+  const title = `${intl.formatMessage({ id: 'privacyPolicy' })} | Web Dev Drops`
 
   return {
     title,
+    icons: defaultAppIcons,
   }
 }
 
-export default async function Privacy({ params: { locale } }: Props) {
+export default async function PrivacyPage({ params: { locale } }: Props) {
   const intl = await getIntl(locale)
 
   const text = content[locale || 'pt-BR']

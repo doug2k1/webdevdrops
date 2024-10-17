@@ -28,6 +28,11 @@ export function getPostBySlug({
   fields?: PostKey[]
 }) {
   const fullPath = path.join(postsDirectory, `${slug}/index.mdx`)
+
+  if (!fs.existsSync(fullPath)) {
+    return null
+  }
+
   const fileContents = fs.readFileSync(fullPath, 'utf8')
   const { data, content } = matter(fileContents)
 
@@ -93,6 +98,7 @@ export function getAllPosts({
     .map((slug) =>
       getPostBySlug({ slug, fields: [...fields, 'date', 'modified'] })
     )
+    .filter((post) => post !== null)
     .filter((post) => (language ? post.language === language : true))
     .sort((post1, post2) =>
       (post1.modified || post1.date!) > (post2.modified || post2.date!) ? -1 : 1
@@ -114,6 +120,7 @@ export function getNumPages({
 
   const posts = slugs
     .map((slug) => getPostBySlug({ slug, fields: ['language'] }))
+    .filter((post) => post !== null)
     .filter((post) => post.language === language)
 
   return Math.ceil((posts.length + 1) / PAGE_SIZE)
@@ -124,6 +131,7 @@ export function getAllTags({ language }: { language?: LocaleType } = {}) {
 
   const posts: Post[] = slugs
     .map((slug) => getPostBySlug({ slug, fields: ['tags'] }))
+    .filter((post) => post !== null)
     .filter((post) => (language ? post.language === language : true))
 
   const tags = posts.reduce<string[]>((allTags, post) => {
@@ -145,6 +153,7 @@ export function getNumPagesForTag({
 
   const posts = slugs
     .map((slug) => getPostBySlug({ slug, fields: ['tags', 'language'] }))
+    .filter((post) => post !== null)
     .filter(
       (post) => post.language === language && (post.tags || []).includes(tag)
     )

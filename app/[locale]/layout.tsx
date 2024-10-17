@@ -2,7 +2,7 @@ import { Layout } from '@/components/Layout'
 import { LocaleType, ServerIntlProvider } from '@/libs/i18n'
 import { ThemeProvider } from 'next-themes'
 import { PropsWithChildren } from 'react'
-import '../globals.css'
+import '../../styles/globals.css'
 
 interface Props {
   params: { locale: LocaleType }

@@ -7,12 +7,13 @@ import { PostLink } from '@/components/PostLink'
 import { ShareButtons } from '@/components/ShareButtons'
 import i18nConfig from '@/i18nConfig'
 import { getAllPosts, getPostBySlug } from '@/libs/api'
-import { BASE_URL } from '@/libs/consts'
+import { BASE_URL, defaultAppIcons } from '@/libs/consts'
 import { LocaleType } from '@/libs/i18n'
 import '@/styles/highlight-js/atom-one-dark.css'
 import { compile, run, RunOptions } from '@mdx-js/mdx'
 import { Metadata } from 'next'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { ClassAttributes, Fragment, ImgHTMLAttributes } from 'react'
 import { FaTag } from 'react-icons/fa'
 import * as runtime from 'react/jsx-runtime'
@@ -52,6 +53,11 @@ export async function generateMetadata({
       'twitterPost',
     ],
   })
+
+  if (!post) {
+    return {}
+  }
+
   const title = `${post.title} | Web Dev Drops`
   const languages = Object.entries(post.translations || {}).reduce(
     (prev: Record<string, string>, [locale, path]) => {
@@ -89,24 +95,7 @@ export async function generateMetadata({
       creator: '@webdevdrops',
       site: '@webdevdrops',
     },
-    icons: [
-      {
-        url: '/images/cropped-logo-wdd-transp-32x32.png',
-        sizes: '32x32',
-      },
-      {
-        url: '/images/cropped-logo-wdd-transp-192x192.png',
-        sizes: '192x192',
-      },
-      {
-        url: '/images/cropped-logo-wdd-transp-180x180.png',
-        rel: 'apple-touch-icon',
-      },
-      {
-        url: '/images/cropped-logo-wdd-transp-270x270.png',
-        rel: 'msapplication-TileImage',
-      },
-    ],
+    icons: defaultAppIcons,
   }
 }
 
@@ -129,6 +118,11 @@ export default async function PostPage({ params: { locale, slug } }: Props) {
       'twitterPost',
     ],
   })
+
+  if (!post) {
+    return notFound()
+  }
+
   const { minutes } = readingTime(post.content || '')
   const code = String(
     await compile(post.content || '', {
