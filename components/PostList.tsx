@@ -17,7 +17,7 @@ export function PostList({ posts, page }: Props) {
         data-testid="featured-posts"
       >
         {featuredPosts.map((post) => (
-          <PostListItem post={post} key={post.slug} />
+          <PostListItem post={post} key={post.slug} featured />
         ))}
       </div>
       <div

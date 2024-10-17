@@ -76,8 +76,8 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
             <Image
               src={`/images/webdevdrops-logo-500.png`}
               alt="Web Dev Drops"
-              width="125"
-              height="37"
+              width="120"
+              height="36"
               className="mb-4 inline-block"
             />
 

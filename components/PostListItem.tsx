@@ -5,9 +5,10 @@ import { PostCategory } from './PostCategory'
 
 interface Props {
   post: Post
+  featured?: boolean
 }
 
-export function PostListItem({ post }: Props) {
+export function PostListItem({ post, featured }: Props) {
   const image = post.coverImage
 
   return (
@@ -23,7 +24,8 @@ export function PostListItem({ post }: Props) {
               alt={post.title || ''}
               className="object-cover transition-transform hover:scale-105"
               fill
-              sizes="100vw"
+              sizes={`(max-width: 768px) 100vw, ${featured ? '50vw' : '33vw'}`}
+              priority={featured}
             />
           ) : null}
         </div>
