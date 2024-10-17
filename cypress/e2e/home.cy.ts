@@ -7,16 +7,16 @@ describe('Home page', () => {
   })
 
   it('renders second page of posts', () => {
-    cy.visit('/', { headers: { 'accept-language': 'pt-BR' } })
+    cy.visit('/')
     cy.findByText(/próxima página/i).click()
 
-    cy.url().should('equal', '/page/2')
+    cy.url().should('equal', `${Cypress.config('baseUrl')}/page/2`)
     cy.findByTestId('main-layout').should('exist')
     cy.findByTestId('older-posts').should('exist')
 
     cy.findByText(/página anterior/i).click()
 
-    cy.url().should('equal', '/')
+    cy.url().should('equal', `${Cypress.config('baseUrl')}/`)
   })
 
   it('renders page metadata in pt-BR', () => {

@@ -18,3 +18,10 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+beforeEach(() => {
+  cy.intercept({ resourceType: /document|fetch/ }, (req) => {
+    // set browser request language to pt-BR
+    req.headers['accept-language'] = 'pt-BR'
+  })
+})
