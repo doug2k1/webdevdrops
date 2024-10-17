@@ -7,7 +7,7 @@ import { getIntl, LocaleType } from '@/libs/i18n'
 import { Metadata } from 'next'
 
 interface Props {
-  params: { locale: LocaleType }
+  params: { locale: LocaleType; page?: string }
 }
 
 export async function generateMetadata({
@@ -54,18 +54,19 @@ export async function generateMetadata({
   }
 }
 
-export default function Home({ params: { locale } }: Props) {
+export default function Home({ params: { locale, page } }: Props) {
   const numPages = getNumPages({ language: locale as LocaleType })
+  const pageNumber = page ? parseInt(page, 10) : 1
   const posts = getAllPosts({
-    page: 1,
+    page: pageNumber,
     fields: ['title', 'modified', 'date', 'slug', 'coverImage', 'categories'],
     language: locale as LocaleType,
   })
 
   return (
     <>
-      <PostList posts={posts} page={1} />
-      <Pagination page={1} total={numPages} locale={locale} />
+      <PostList posts={posts} page={pageNumber} />
+      <Pagination page={pageNumber} total={numPages} locale={locale} />
     </>
   )
 }

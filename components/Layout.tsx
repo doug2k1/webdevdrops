@@ -2,13 +2,8 @@ import { getIntl, localePath, LocaleType } from '@/libs/i18n'
 import Image from 'next/image'
 import Link from 'next/link'
 import { PropsWithChildren } from 'react'
-import {
-  FaCoffee,
-  FaFacebook,
-  FaHeart,
-  FaTwitter,
-  FaYoutube,
-} from 'react-icons/fa'
+import { FaCoffee, FaFacebook, FaHeart, FaYoutube } from 'react-icons/fa'
+import { FaXTwitter } from 'react-icons/fa6'
 import { Container } from './Container'
 import { LanguageSelector } from './LanguageSelector'
 import { Nav } from './Nav'
@@ -26,9 +21,9 @@ const socialLinks = [
     title: 'YouTube Web Dev Drops',
   },
   {
-    Icon: FaTwitter,
-    href: 'https://twitter.com/webdevdrops',
-    title: 'Twitter @webdevdrops',
+    Icon: FaXTwitter,
+    href: 'https://x.com/webdevdrops',
+    title: 'X @webdevdrops',
   },
   {
     Icon: FaFacebook,
