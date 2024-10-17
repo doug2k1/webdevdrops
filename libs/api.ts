@@ -98,12 +98,6 @@ export function getAllPosts({
       (post1.modified || post1.date!) > (post2.modified || post2.date!) ? -1 : 1
     )
 
-  console.log(
-    slugs.map((slug) =>
-      getPostBySlug({ slug, fields: [...fields, 'date', 'modified'] })
-    )
-  )
-
   if (page) {
     posts = slicePage(posts, page)
   }
@@ -112,7 +106,7 @@ export function getAllPosts({
 }
 
 export function getNumPages({
-  language = i18nConfig.defaultLocale,
+  language = i18nConfig.defaultLocale as LocaleType,
 }: {
   language: LocaleType
 }) {
@@ -142,7 +136,7 @@ export function getAllTags({ language }: { language?: LocaleType } = {}) {
 
 export function getNumPagesForTag({
   tag,
-  language = i18nConfig.defaultLocale,
+  language = i18nConfig.defaultLocale as LocaleType,
 }: {
   tag: string
   language: LocaleType

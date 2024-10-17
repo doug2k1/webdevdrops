@@ -1,3 +1,6 @@
+'use client'
+
+import { setLocaleCookie } from '@/libs/i18n'
 import Link from 'next/link'
 import { FaLanguage } from 'react-icons/fa'
 
@@ -9,6 +12,7 @@ export function LanguageSelector() {
         href="/en/"
         className="p-2 text-white text-opacity-100 hover:text-opacity-80"
         data-testid="lang-selector-en"
+        onClick={() => setLocaleCookie('en')}
       >
         English
       </Link>
@@ -16,6 +20,7 @@ export function LanguageSelector() {
         href="/"
         className="p-2 text-white text-opacity-100 hover:text-opacity-80"
         data-testid="lang-selector-ptbr"
+        onClick={() => setLocaleCookie('pt-BR')}
       >
         Português
       </Link>

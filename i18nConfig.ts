@@ -1,8 +1,11 @@
-import { LocaleType } from './libs/i18n'
+import { i18nRouter } from 'next-i18n-router'
 
-const i18nConfig = {
+type I18nConfig = Parameters<typeof i18nRouter>['1']
+
+const i18nConfig: I18nConfig = {
   locales: ['pt-BR', 'en'],
-  defaultLocale: 'pt-BR' as LocaleType,
+  defaultLocale: 'pt-BR',
+  serverSetCookie: 'never',
 }
 
 export default i18nConfig

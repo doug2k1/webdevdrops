@@ -1,9 +1,10 @@
 import { localePath, LocaleType } from '@/libs/i18n'
 import Link from 'next/link'
-import { FaChevronRight, FaLanguage } from 'react-icons/fa'
+import { FaChevronRight } from 'react-icons/fa'
 import { FormattedMessage } from 'react-intl'
 import { Container } from './Container'
 import { DarkModeToggle } from './DarkModeToggle'
+import { NavLanguageToggle } from './NavLanguageToggle'
 
 const navLinks = [
   { href: '/', label: 'home' },
@@ -41,31 +42,7 @@ export function NavContents({ className, locale }: Props) {
           </Link>
         ))}
 
-        {!locale || locale === 'pt-BR' ? (
-          <Link
-            href="/en/"
-            className="flex items-center justify-between border-b border-solid border-white/25 px-2 py-4 uppercase text-white text-opacity-80 hover:text-opacity-100 sm:border-none sm:py-2"
-          >
-            <span className="flex items-center">
-              <FaLanguage className="mr-2 text-2xl text-white text-opacity-50" />
-              <span>Posts in English</span>
-            </span>
-            <FaChevronRight className="sm:hidden" />
-          </Link>
-        ) : null}
-
-        {locale === 'en' ? (
-          <Link
-            href="/"
-            className="flex items-center justify-between border-b border-solid border-white/25 px-2 py-4 uppercase text-white text-opacity-80 hover:text-opacity-100 sm:border-none sm:py-2"
-          >
-            <span className="flex items-center">
-              <FaLanguage className="mr-2 text-2xl text-white text-opacity-50" />
-              <span>Posts em Português</span>
-            </span>
-            <FaChevronRight className="sm:hidden" />
-          </Link>
-        ) : null}
+        <NavLanguageToggle locale={locale} />
       </nav>
 
       <div className="flex items-center justify-center">
