@@ -124,7 +124,24 @@ describe('Home page', () => {
       'href',
       '/en/privacy'
     )
-    cy.findByTestId('lang-selector-ptbr').should('have.attr', 'href', '/')
+    cy.findByTestId('lang-selector-ptbr').should('have.attr', 'href', '/pt-BR')
     cy.findByTestId('lang-selector-en').should('have.attr', 'href', '/en')
+  })
+
+  it('toggles the language on language selector click', () => {
+    cy.visit('/')
+    cy.findByTestId('lang-selector-en').click()
+
+    cy.url().should('equal', `${Cypress.config('baseUrl')}/en`)
+    cy.findAllByText(/posts em português/i)
+      .first()
+      .should('exist')
+
+    cy.findByTestId('lang-selector-ptbr').click()
+
+    cy.url().should('equal', `${Cypress.config('baseUrl')}/`)
+    cy.findAllByText(/posts in english/i)
+      .first()
+      .should('exist')
   })
 })

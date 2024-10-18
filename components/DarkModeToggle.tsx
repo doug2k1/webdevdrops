@@ -1,30 +1,17 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import { useCallback, useEffect, useState } from 'react'
-import { BiLaptop, BiMoon, BiSun } from 'react-icons/bi'
-import { useIntl } from 'react-intl'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 
-const modes = [
-  {
-    key: 'light',
-    icon: <BiSun />,
-    label: 'themeLight',
-  },
-  {
-    key: 'dark',
-    icon: <BiMoon />,
-    label: 'themeDark',
-  },
-  {
-    key: 'system',
-    icon: <BiLaptop />,
-    label: 'themeSystem',
-  },
-]
+interface Props {
+  modes: readonly {
+    key: 'light' | 'dark' | 'system'
+    icon: ReactNode
+    label: string
+  }[]
+}
 
-export function DarkModeToggle() {
-  const intl = useIntl()
+export function DarkModeToggle({ modes }: Props) {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -67,7 +54,7 @@ export function DarkModeToggle() {
           <button
             key={mode.key}
             className={`${activeClasses} mx-2 py-4 text-2xl text-white hover:text-opacity-100 focus:outline-none sm:py-2`}
-            title={intl.formatMessage({ id: mode.label })}
+            title={mode.label}
             onClick={() => handleDarkModeChange(mode.key)}
           >
             {mode.icon}

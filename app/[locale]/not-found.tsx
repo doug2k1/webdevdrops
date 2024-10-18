@@ -1,12 +1,13 @@
 'use client'
 
 import { defaultAppIcons } from '@/libs/consts'
-import { getIntl, LocaleType } from '@/libs/i18n'
+import { LocaleType } from '@/libs/i18n/types'
 import { Metadata } from 'next'
+import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 import { useParams } from 'next/navigation'
 import { ReactNode } from 'react'
 import { FaExclamationTriangle } from 'react-icons/fa'
-import { useIntl } from 'react-intl'
 
 interface Props {
   params: { locale: LocaleType }
@@ -15,8 +16,8 @@ interface Props {
 export async function generateMetadata({
   params: { locale },
 }: Props): Promise<Metadata> {
-  const intl = await getIntl(locale)
-  const title = `${intl.formatMessage({ id: 'pageNotFound' })} | Web Dev Drops`
+  const t = await getTranslations({ locale })
+  const title = `${t('pageNotFound')} | Web Dev Drops`
 
   return {
     title,
@@ -25,15 +26,15 @@ export async function generateMetadata({
 }
 
 export default function NotFound() {
+  const t = useTranslations()
   const { locale } = useParams()
   const text = content[(locale as LocaleType) || 'pt-BR']
-  const intl = useIntl()
 
   return (
     <div className="prose dark:prose-dark">
       <h1>
         <FaExclamationTriangle className="inline text-2xl text-gray-500" />{' '}
-        {intl.formatMessage({ id: 'pageNotFound' })}
+        {t('pageNotFound')}
       </h1>
 
       {text}

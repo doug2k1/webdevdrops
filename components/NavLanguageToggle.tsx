@@ -1,21 +1,19 @@
-'use client'
-
-import { LocaleType, setLocaleCookie } from '@/libs/i18n'
-import Link from 'next/link'
+import { Link } from '@/libs/i18n/routing'
+import { useLocale } from 'next-intl'
 import { FaChevronRight, FaLanguage } from 'react-icons/fa'
 
-interface Props {
-  locale: LocaleType
-}
+export function NavLanguageToggle() {
+  const locale = useLocale()
 
-export function NavLanguageToggle({ locale }: Props) {
   return (
     <>
       {!locale || locale === 'pt-BR' ? (
         <Link
-          href="/en/"
+          href="/"
+          locale="en"
           className="flex items-center justify-between border-b border-solid border-white/25 px-2 py-4 uppercase text-white text-opacity-80 hover:text-opacity-100 sm:border-none sm:py-2"
-          onClick={() => setLocaleCookie('en')}
+          // onClick={() => setLocaleCookie('en')}
+          data-testid="nav-lang-selector-en"
         >
           <span className="flex items-center">
             <FaLanguage className="mr-2 text-2xl text-white text-opacity-50" />
@@ -28,8 +26,10 @@ export function NavLanguageToggle({ locale }: Props) {
       {locale === 'en' ? (
         <Link
           href="/"
+          locale="pt-BR"
           className="flex items-center justify-between border-b border-solid border-white/25 px-2 py-4 uppercase text-white text-opacity-80 hover:text-opacity-100 sm:border-none sm:py-2"
-          onClick={() => setLocaleCookie('pt-BR')}
+          // onClick={() => setLocaleCookie('pt-BR')}
+          data-testid="nav-lang-selector-ptbr"
         >
           <span className="flex items-center">
             <FaLanguage className="mr-2 text-2xl text-white text-opacity-50" />

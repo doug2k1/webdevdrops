@@ -1,6 +1,0 @@
-export { ServerIntlProvider } from './components/ServerIntlProvider'
-export { getIntl } from './intl'
-export { localePath } from './localePath'
-export { messages } from './messages'
-export { setLocaleCookie } from './setLocaleCookie'
-export type { LocaleType } from './types'

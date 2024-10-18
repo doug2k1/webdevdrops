@@ -1,12 +1,13 @@
-import { getIntl, localePath, LocaleType } from '@/libs/i18n'
+import { Link } from '@/libs/i18n/routing'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
-import Link from 'next/link'
 import { PropsWithChildren } from 'react'
-import { FaCoffee, FaFacebook, FaHeart, FaYoutube } from 'react-icons/fa'
+import { FaFacebook, FaYoutube } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
 import { Container } from './Container'
 import { LanguageSelector } from './LanguageSelector'
 import { Nav } from './Nav'
+import { NavContents } from './NavContents'
 import { TrackingScripts } from './TrackingScripts'
 
 const footerLinks = [
@@ -32,12 +33,8 @@ const socialLinks = [
   },
 ]
 
-interface Props {
-  locale: LocaleType
-}
-
-export async function Layout({ locale, children }: PropsWithChildren<Props>) {
-  const intl = await getIntl(locale)
+export function Layout({ children }: PropsWithChildren) {
+  const t = useTranslations()
 
   return (
     <>
@@ -49,11 +46,7 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
           data-testid="main-layout"
         >
           <Container className="flex items-center justify-between">
-            <Link
-              href={localePath(locale, '/')}
-              className="inline-block"
-              data-testid="logo-link"
-            >
+            <Link href="/" className="inline-block" data-testid="logo-link">
               <Image
                 className="m-0"
                 width="250"
@@ -65,7 +58,10 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
             </Link>
           </Container>
 
-          <Nav locale={locale} />
+          <Nav
+            contents={<NavContents className="hidden sm:flex" />}
+            mobileContents={<NavContents />}
+          />
         </header>
 
         <Container>
@@ -87,12 +83,12 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
             <div className="mb-4">
               {footerLinks.map(({ href, label }) => (
                 <Link
-                  href={localePath(locale, href)}
+                  href={href}
                   key={href}
                   className="p-2 text-white hover:text-opacity-80"
                   data-testid={`footer-${label}`}
                 >
-                  {intl.formatMessage({ id: label })}
+                  {t(label)}
                 </Link>
               ))}
             </div>
@@ -113,13 +109,12 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
 
             <p className="align-middle text-gray-400">
               © {new Date().getFullYear()} -{' '}
-              {intl.formatMessage(
-                { id: 'footerMessage' },
+              {/* {t('footerMessage',
                 {
                   icon1: <FaHeart className="inline-block text-lg" />,
                   icon2: <FaCoffee className="inline-block text-lg" />,
                 }
-              )}
+              )} */}
             </p>
           </Container>
         </footer>

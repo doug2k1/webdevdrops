@@ -1,10 +1,10 @@
-import i18nConfig from '@/i18nConfig'
+import { i18nConfig } from '@/libs/i18n/config'
+import { LocaleType } from '@/libs/i18n/types'
 import fs from 'fs'
 import matter from 'gray-matter'
 import path from 'path'
 import { Post, PostKey } from '../types/post'
 import { BASE_URL } from './consts'
-import { LocaleType } from './i18n'
 
 const postsDirectory = path.resolve(process.cwd(), 'posts')
 

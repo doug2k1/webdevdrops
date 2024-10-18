@@ -1,19 +1,15 @@
-import { getIntl, LocaleType } from '@/libs/i18n'
+import { useFormatter, useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { FaCalendar, FaClock } from 'react-icons/fa'
 
 interface Props {
   modifiedDate: string
   readingMinutes?: number
-  locale: LocaleType
 }
 
-export async function PostInfo({
-  modifiedDate,
-  readingMinutes,
-  locale,
-}: Props) {
-  const intl = await getIntl(locale)
+export function PostInfo({ modifiedDate, readingMinutes }: Props) {
+  const t = useTranslations()
+  const format = useFormatter()
 
   return (
     <div className="mb-8 flex items-center text-sm" data-testid="post-info">
@@ -35,8 +31,7 @@ export async function PostInfo({
           <div className="flex items-center">
             <FaCalendar className="mr-1 text-gray-700 dark:text-gray-400" />
             <span className="text-gray-500 dark:text-gray-400">
-              {intl.formatMessage({ id: 'updatedAt' })}{' '}
-              {new Intl.DateTimeFormat(locale).format(new Date(modifiedDate))}
+              {t('updatedAt')} {format.dateTime(new Date(modifiedDate))}
             </span>
           </div>
 
@@ -44,10 +39,7 @@ export async function PostInfo({
             <div className="flex items-center">
               <FaClock className="mr-1 text-gray-700 dark:text-gray-400" />
               <span className="text-gray-500 dark:text-gray-400">
-                {intl.formatMessage(
-                  { id: 'readingTime' },
-                  { min: Math.ceil(readingMinutes) }
-                )}
+                {t('readingTime', { min: Math.ceil(readingMinutes) })}
               </span>
             </div>
           )}

@@ -5,14 +5,15 @@ import { PostImage } from '@/components/PostImage'
 import { PostInfo } from '@/components/PostInfo'
 import { PostLink } from '@/components/PostLink'
 import { ShareButtons } from '@/components/ShareButtons'
-import i18nConfig from '@/i18nConfig'
 import { getAllPosts, getPostBySlug } from '@/libs/api'
 import { BASE_URL, defaultAppIcons } from '@/libs/consts'
-import { LocaleType } from '@/libs/i18n'
+import { i18nConfig } from '@/libs/i18n/config'
+import { Link } from '@/libs/i18n/routing'
+import { LocaleType } from '@/libs/i18n/types'
 import '@/styles/highlight-js/atom-one-dark.css'
 import { compile, run, RunOptions } from '@mdx-js/mdx'
 import { Metadata } from 'next'
-import Link from 'next/link'
+import { unstable_setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { ClassAttributes, Fragment, ImgHTMLAttributes } from 'react'
 import { FaTag } from 'react-icons/fa'
@@ -104,6 +105,7 @@ interface Props {
 }
 
 export default async function PostPage({ params: { locale, slug } }: Props) {
+  unstable_setRequestLocale(locale)
   const post = getPostBySlug({
     slug: slug,
     fields: [
@@ -154,7 +156,6 @@ export default async function PostPage({ params: { locale, slug } }: Props) {
           <PostInfo
             modifiedDate={post.modified || post.date!}
             readingMinutes={minutes}
-            locale={locale}
           />
 
           <PostI18nLinks translations={post.translations} />
@@ -181,10 +182,10 @@ export default async function PostPage({ params: { locale, slug } }: Props) {
             </div>
           ) : null}
 
-          <ShareButtons title={post.title!} url={post.link!} locale={locale} />
+          <ShareButtons title={post.title!} url={post.link!} />
         </article>
       </div>
-      <PostComments twitterId={post.twitterPost} locale={locale} />
+      <PostComments twitterId={post.twitterPost} />
     </>
   )
 }

@@ -1,10 +1,11 @@
 import { Pagination } from '@/components/Pagination'
 import { PostList } from '@/components/PostList'
-import i18nConfig from '@/i18nConfig'
 import { getAllPosts, getNumPages } from '@/libs/api'
 import { BASE_URL, defaultAppIcons } from '@/libs/consts'
-import { getIntl, LocaleType } from '@/libs/i18n'
+import { i18nConfig } from '@/libs/i18n/config'
+import { LocaleType } from '@/libs/i18n/types'
 import { Metadata } from 'next'
+import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 
 interface Props {
@@ -14,9 +15,9 @@ interface Props {
 export async function generateMetadata({
   params: { locale },
 }: Props): Promise<Metadata> {
-  const intl = await getIntl(locale)
+  const t = await getTranslations({ locale })
   const siteName = 'Web Dev Drops'
-  const siteSlogan = intl.formatMessage({ id: 'siteSlogan' })
+  const siteSlogan = t('siteSlogan')
   const title = `${siteName} | ${siteSlogan}`
   const description = siteSlogan
   const image = `${BASE_URL}/images/webdevdrops-logo-500.png`
@@ -38,7 +39,8 @@ export async function generateMetadata({
   }
 }
 
-export default function Home({ params: { locale, page } }: Props) {
+export default function HomePage({ params: { locale, page } }: Props) {
+  unstable_setRequestLocale(locale)
   const numPages = getNumPages({ language: locale as LocaleType })
   const pageNumber = page ? parseInt(page, 10) : 1
   const posts = getAllPosts({
@@ -54,7 +56,7 @@ export default function Home({ params: { locale, page } }: Props) {
   return (
     <>
       <PostList posts={posts} page={pageNumber} />
-      <Pagination page={pageNumber} total={numPages} locale={locale} />
+      <Pagination page={pageNumber} total={numPages} />
     </>
   )
 }

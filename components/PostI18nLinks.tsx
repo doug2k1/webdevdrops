@@ -1,7 +1,7 @@
 'use client'
 
-import { localePath, LocaleType, setLocaleCookie } from '@/libs/i18n'
-import Link from 'next/link'
+import { Link } from '@/libs/i18n/routing'
+import { LocaleType } from '@/libs/i18n/types'
 import { FaLanguage } from 'react-icons/fa'
 import { PostTranslations } from '../types/post'
 
@@ -29,9 +29,10 @@ export function PostI18nLinks({ translations }: Props) {
         return (
           <Link
             key={locale}
-            href={localePath(locale, `/${slug}`)}
+            href={`/${slug}`}
+            locale={locale as LocaleType}
             className="italic"
-            onClick={() => setLocaleCookie(locale as LocaleType)}
+            // onClick={() => setLocaleCookie(locale as LocaleType)}
           >
             {labels[locale as LocaleType]}
           </Link>

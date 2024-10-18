@@ -1,16 +1,15 @@
 'use client'
 
-import { LocaleType } from '@/libs/i18n'
-import { useCallback, useState } from 'react'
+import { ReactNode, useCallback, useState } from 'react'
 import AnimateHeight from 'react-animate-height'
 import { FaBars, FaTimes } from 'react-icons/fa'
-import { NavContents } from './NavContents'
 
 interface Props {
-  locale: LocaleType
+  contents: ReactNode
+  mobileContents: ReactNode
 }
 
-export function Nav({ locale }: Props) {
+export function Nav({ contents, mobileContents }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const handleMenuClick = useCallback(() => {
@@ -28,10 +27,8 @@ export function Nav({ locale }: Props) {
         {menuOpen ? <FaTimes /> : <FaBars />}
       </a>
 
-      <NavContents className="hidden sm:flex" locale={locale} />
-      <AnimateHeight height={height} className="sm:hidden">
-        <NavContents locale={locale} />
-      </AnimateHeight>
+      {contents}
+      <AnimateHeight height={height}>{mobileContents}</AnimateHeight>
     </>
   )
 }

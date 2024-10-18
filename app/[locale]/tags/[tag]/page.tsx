@@ -1,9 +1,10 @@
 import { Pagination } from '@/components/Pagination'
 import { PostList } from '@/components/PostList'
-import i18nConfig from '@/i18nConfig'
 import { getAllPostsForTag, getAllTags, getNumPagesForTag } from '@/libs/api'
-import { LocaleType } from '@/libs/i18n'
+import { i18nConfig } from '@/libs/i18n/config'
+import { LocaleType } from '@/libs/i18n/types'
 import { Metadata } from 'next'
+import { unstable_setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { FaTag } from 'react-icons/fa'
 import { generateMetadata as generateMetadataHome } from '../../page'
@@ -23,6 +24,7 @@ export async function generateMetadata({
 }
 
 export default function TagPage({ params: { locale, tag, page } }: Props) {
+  unstable_setRequestLocale(locale)
   const numPages = getNumPagesForTag({
     tag,
     language: locale,
@@ -48,7 +50,6 @@ export default function TagPage({ params: { locale, tag, page } }: Props) {
       <Pagination
         page={pageNumber}
         total={numPages}
-        locale={locale}
         basePath={`/tags/${tag}`}
       />
     </>

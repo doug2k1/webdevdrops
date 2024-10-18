@@ -1,11 +1,11 @@
-import i18nConfig from '@/i18nConfig'
 import { getNumPages } from '@/libs/api'
-import { LocaleType } from '@/libs/i18n'
-import Home, { generateMetadata as generateMetadataHome } from '../../page'
+import { i18nConfig } from '@/libs/i18n/config'
+import { LocaleType } from '@/libs/i18n/types'
+import HomePage, { generateMetadata as generateMetadataHome } from '../../page'
 
 export const generateMetadata = generateMetadataHome
 
-export default Home
+export default HomePage
 
 export async function generateStaticParams() {
   const params: { locale: string; page: string }[] = []

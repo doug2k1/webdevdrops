@@ -1,27 +1,25 @@
-import { getIntl, LocaleType } from '@/libs/i18n'
-import cx from 'classnames'
-import Link from 'next/link'
+import { Link } from '@/libs/i18n/routing'
+import { clsx } from 'clsx/lite'
+import { useTranslations } from 'next-intl'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { twMerge } from 'tailwind-merge'
 
 interface Props {
   page: number
   total: number
   basePath?: string
-  locale: LocaleType
 }
 
-export async function Pagination({
-  page = 1,
-  total,
-  basePath = '',
-  locale,
-}: Props) {
-  const intl = await getIntl(locale)
+export function Pagination({ page = 1, total, basePath = '' }: Props) {
+  const t = useTranslations()
   const wrapperBaseClasses = 'flex items-center mt-8'
-  const wrapperClasses = cx(wrapperBaseClasses, {
-    'justify-between': page > 1 && page < total,
-    'justify-end': page === 1,
-  })
+  const wrapperClasses = twMerge(
+    clsx(
+      wrapperBaseClasses,
+      page > 1 && page < total && 'justify-between',
+      page === 1 && 'justify-end'
+    )
+  )
 
   const linkClasses =
     'flex items-center bg-main px-4 py-4 rounded text-white hover:opacity-80 sm:py-2'
@@ -34,17 +32,13 @@ export async function Pagination({
           className={linkClasses}
         >
           <FaChevronLeft className="sm:mr-2" />{' '}
-          <span className="hidden sm:block">
-            {intl.formatMessage({ id: 'prevPage' })}
-          </span>
+          <span className="hidden sm:block">{t('prevPage')}</span>
         </Link>
       ) : null}
 
       {page < total ? (
         <Link href={`${basePath}/page/${page + 1}`} className={linkClasses}>
-          <span className="hidden sm:block">
-            {intl.formatMessage({ id: 'nextPage' })}
-          </span>{' '}
+          <span className="hidden sm:block">{t('nextPage')}</span>{' '}
           <FaChevronRight className="sm:ml-2" />
         </Link>
       ) : null}

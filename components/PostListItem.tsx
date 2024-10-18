@@ -1,5 +1,5 @@
+import { Link } from '@/libs/i18n/routing'
 import Image from 'next/image'
-import Link from 'next/link'
 import { Post } from '../types/post'
 import { PostCategory } from './PostCategory'
 

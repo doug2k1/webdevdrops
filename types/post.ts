@@ -1,4 +1,4 @@
-import { LocaleType } from '@/libs/i18n'
+import { LocaleType } from '@/libs/i18n/types'
 
 export type PostTranslations = Record<LocaleType, string>
 

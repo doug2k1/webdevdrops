@@ -1,6 +1,8 @@
-import i18nConfig from '@/i18nConfig'
 import { defaultAppIcons } from '@/libs/consts'
-import { getIntl, LocaleType } from '@/libs/i18n'
+import { i18nConfig } from '@/libs/i18n/config'
+import { LocaleType } from '@/libs/i18n/types'
+import { useTranslations } from 'next-intl'
+import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 import { ReactNode } from 'react'
 
 interface Props {
@@ -8,8 +10,8 @@ interface Props {
 }
 
 export async function generateMetadata({ params: { locale } }: Props) {
-  const intl = await getIntl(locale)
-  const title = `${intl.formatMessage({ id: 'privacyPolicy' })} | Web Dev Drops`
+  const t = await getTranslations({ locale })
+  const title = `${t('privacyPolicy')} | Web Dev Drops`
 
   return {
     title,
@@ -17,14 +19,15 @@ export async function generateMetadata({ params: { locale } }: Props) {
   }
 }
 
-export default async function PrivacyPage({ params: { locale } }: Props) {
-  const intl = await getIntl(locale)
+export default function PrivacyPage({ params: { locale } }: Props) {
+  unstable_setRequestLocale(locale)
+  const t = useTranslations()
 
   const text = content[locale || 'pt-BR']
 
   return (
     <article className="prose dark:prose-dark">
-      <h1>{intl.formatMessage({ id: 'privacyPolicy' })}</h1>
+      <h1>{t('privacyPolicy')}</h1>
 
       {text}
     </article>

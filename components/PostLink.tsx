@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/libs/i18n/routing'
 import { PropsWithChildren } from 'react'
 
 export function PostLink({

@@ -1,8 +1,17 @@
+'use client'
+
 import { useFormStatus } from 'react-dom'
 import { FaPaperPlane } from 'react-icons/fa'
-import { FormattedMessage } from 'react-intl'
 
-export const ContactFormSubmitButton = () => {
+interface Props {
+  sendingMessage: string
+  sendMessage: string
+}
+
+export const ContactFormSubmitButton = ({
+  sendingMessage,
+  sendMessage,
+}: Props) => {
   const { pending } = useFormStatus()
 
   return (
@@ -12,11 +21,10 @@ export const ContactFormSubmitButton = () => {
       disabled={pending}
     >
       {pending ? (
-        <FormattedMessage id="contactSending" />
+        sendingMessage
       ) : (
         <>
-          <FormattedMessage id="contactSend" />{' '}
-          <FaPaperPlane className="ml-2" />
+          {sendMessage} <FaPaperPlane className="ml-2" />
         </>
       )}
     </button>
