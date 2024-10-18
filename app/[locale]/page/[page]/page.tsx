@@ -15,11 +15,11 @@ export async function generateStaticParams() {
 
     const pages = []
 
-    for (let i = 1; i <= numPages; i++) {
+    for (let i = 2; i <= numPages; i++) {
       pages.push(i.toString())
     }
 
-    return pages.forEach((page) => {
+    pages.forEach((page) => {
       params.push({
         locale,
         page,

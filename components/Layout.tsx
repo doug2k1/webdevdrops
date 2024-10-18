@@ -60,6 +60,7 @@ export async function Layout({ locale, children }: PropsWithChildren<Props>) {
                 height="75"
                 src={`/images/webdevdrops-logo-500.png`}
                 alt="Web Dev Drops"
+                priority
               />
             </Link>
           </Container>
