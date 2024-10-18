@@ -4,7 +4,6 @@ import { PostI18nLinks } from '@/components/PostI18nLinks'
 import { PostImage } from '@/components/PostImage'
 import { PostInfo } from '@/components/PostInfo'
 import { PostLink } from '@/components/PostLink'
-import { ShareButtons } from '@/components/ShareButtons'
 import { getAllPosts, getPostBySlug } from '@/libs/api'
 import { BASE_URL, defaultAppIcons } from '@/libs/consts'
 import { i18nConfig } from '@/libs/i18n/config'
@@ -181,8 +180,6 @@ export default async function PostPage({ params: { locale, slug } }: Props) {
               </p>
             </div>
           ) : null}
-
-          <ShareButtons title={post.title!} url={post.link!} />
         </article>
       </div>
       <PostComments twitterId={post.twitterPost} />

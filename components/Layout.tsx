@@ -2,7 +2,7 @@ import { Link } from '@/libs/i18n/routing'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { PropsWithChildren } from 'react'
-import { FaFacebook, FaYoutube } from 'react-icons/fa'
+import { FaCoffee, FaFacebook, FaHeart, FaYoutube } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
 import { Container } from './Container'
 import { LanguageSelector } from './LanguageSelector'
@@ -109,12 +109,19 @@ export function Layout({ children }: PropsWithChildren) {
 
             <p className="align-middle text-gray-400">
               © {new Date().getFullYear()} -{' '}
-              {/* {t('footerMessage',
-                {
-                  icon1: <FaHeart className="inline-block text-lg" />,
-                  icon2: <FaCoffee className="inline-block text-lg" />,
-                }
-              )} */}
+              {t.rich('footerMessage', {
+                icon1: () => <FaHeart className="inline-block text-lg" />,
+                icon2: () => <FaCoffee className="inline-block text-lg" />,
+                a: (chunk) => (
+                  <Link
+                    href="https://www.linkedin.com/in/douglasmatoso/"
+                    target="_blank"
+                    className="text-white hover:text-opacity-80"
+                  >
+                    {chunk}
+                  </Link>
+                ),
+              })}
             </p>
           </Container>
         </footer>

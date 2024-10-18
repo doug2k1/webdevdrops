@@ -4,7 +4,7 @@
   "courses": "Cursos Gratuitos",
   "contact": "Contato",
   "privacyPolicy": "Política de Privacidade",
-  "footerMessage": "Feito com {icon1} e {icon2} por Douglas Matoso",
+  "footerMessage": "Feito com <icon1></icon1> e <icon2></icon2> por <a>Douglas Matoso</a>",
   "readingTime": "Leitura: {min} min.",
   "updatedAt": "Atualizado em",
   "comments": "Comentários",

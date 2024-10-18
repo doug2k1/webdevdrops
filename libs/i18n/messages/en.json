@@ -4,7 +4,7 @@
   "courses": "Free Courses",
   "contact": "Contact",
   "privacyPolicy": "Privacy Policy",
-  "footerMessage": "Built with {icon1} and {icon2} by Douglas Matoso",
+  "footerMessage": "Built with <icon1></icon1> and <icon2></icon2> by <a>Douglas Matoso</a>",
   "readingTime": "Reading time: {min} min.",
   "updatedAt": "Updated at",
   "comments": "Comments",
