@@ -30,6 +30,7 @@ export function Pagination({ page = 1, total, basePath = '' }: Props) {
         <Link
           href={basePath + (page > 2 ? `/page/${page - 1}` : '/')}
           className={linkClasses}
+          aria-label={t('prevPage')}
         >
           <FaChevronLeft className="sm:mr-2" />{' '}
           <span className="hidden sm:block">{t('prevPage')}</span>
@@ -37,7 +38,11 @@ export function Pagination({ page = 1, total, basePath = '' }: Props) {
       ) : null}
 
       {page < total ? (
-        <Link href={`${basePath}/page/${page + 1}`} className={linkClasses}>
+        <Link
+          href={`${basePath}/page/${page + 1}`}
+          className={linkClasses}
+          aria-label={t('nextPage')}
+        >
           <span className="hidden sm:block">{t('nextPage')}</span>{' '}
           <FaChevronRight className="sm:ml-2" />
         </Link>

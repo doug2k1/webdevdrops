@@ -25,5 +25,6 @@
   "nextPage": "Next page",
   "prevPage": "Previous page",
   "noPostsForTag": "No posts with the tag {tag}",
-  "share": "Share!"
+  "share": "Share!",
+  "postListItemAlt": "Illustrative image for the post"
 }

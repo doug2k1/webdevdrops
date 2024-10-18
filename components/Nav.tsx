@@ -20,12 +20,12 @@ export function Nav({ contents, mobileContents }: Props) {
 
   return (
     <>
-      <a
+      <button
         className="absolute right-0 top-0 mr-[18px] mt-[18px] rounded border border-solid border-white p-2 text-xl text-white opacity-80 sm:hidden"
         onClick={handleMenuClick}
       >
         {menuOpen ? <FaTimes /> : <FaBars />}
-      </a>
+      </button>
 
       {contents}
       <AnimateHeight height={height}>{mobileContents}</AnimateHeight>

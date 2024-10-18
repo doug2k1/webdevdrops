@@ -17,7 +17,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
   const messages = await getMessages()
 
   return (
-    <html suppressHydrationWarning>
+    <html suppressHydrationWarning lang={locale}>
       <body className="bg-white antialiased dark:bg-gray-900">
         <ThemeProvider attribute="class">
           <NextIntlClientProvider messages={messages}>
