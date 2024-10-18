@@ -23,6 +23,7 @@ export function Nav({ contents, mobileContents }: Props) {
       <button
         className="absolute right-0 top-0 mr-[18px] mt-[18px] rounded border border-solid border-white p-2 text-xl text-white opacity-80 sm:hidden"
         onClick={handleMenuClick}
+        aria-label="Toggle main navigation"
       >
         {menuOpen ? <FaTimes /> : <FaBars />}
       </button>
