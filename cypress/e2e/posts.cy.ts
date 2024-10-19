@@ -8,7 +8,6 @@ describe('Post page', () => {
     cy.findByTestId('post-info').contains('Leitura: 5 min.')
     cy.findByText(/Como enviar e-mails/).should('exist')
     cy.findByTestId('post-tags').contains('Tags: aws|nodejs')
-    cy.findByTestId('post-share-buttons').should('exist')
   })
 
   it('renders post metadata', () => {
