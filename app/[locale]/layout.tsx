@@ -1,4 +1,5 @@
 import { Layout } from '@/components/Layout'
+import { ProgressBarProvider } from '@/components/ProgressBarProvider'
 import { LocaleType } from '@/libs/i18n/types'
 import '@/styles/globals.css'
 import { NextIntlClientProvider } from 'next-intl'
@@ -21,7 +22,9 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       <body className="bg-white antialiased dark:bg-gray-900">
         <ThemeProvider attribute="class">
           <NextIntlClientProvider messages={messages}>
-            <Layout>{children}</Layout>
+            <ProgressBarProvider>
+              <Layout>{children}</Layout>
+            </ProgressBarProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>
