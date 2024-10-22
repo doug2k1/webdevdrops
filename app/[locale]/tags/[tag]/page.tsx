@@ -4,27 +4,32 @@ import { getAllPostsForTag, getAllTags, getNumPagesForTag } from '@/libs/api'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
 import { Metadata } from 'next'
-import { unstable_setRequestLocale } from 'next-intl/server'
+import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
+import { use } from 'react'
 import { FaTag } from 'react-icons/fa'
 import { generateMetadata as generateMetadataHome } from '../../page'
 
 interface Props {
-  params: { locale: LocaleType; tag: string; page?: string }
+  params: Promise<{ locale: LocaleType; tag: string; page?: string }>
 }
 
-export async function generateMetadata({
-  params: { locale, tag },
-}: Props): Promise<Metadata> {
-  const metadata = await generateMetadataHome({ params: { locale } })
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, tag } = await params
+
+  const metadata = await generateMetadataHome({
+    params: Promise.resolve({ locale }),
+  })
 
   metadata.title = `Tag: ${tag} | Web Dev Drops`
 
   return metadata
 }
 
-export default function TagPage({ params: { locale, tag, page } }: Props) {
-  unstable_setRequestLocale(locale)
+export default function TagPage({ params }: Props) {
+  const { locale, tag, page } = use(params)
+
+  setRequestLocale(locale)
   const numPages = getNumPagesForTag({
     tag,
     language: locale,

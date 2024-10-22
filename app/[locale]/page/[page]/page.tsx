@@ -7,7 +7,7 @@ export const generateMetadata = generateMetadataHome
 
 export default HomePage
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   const params: { locale: string; page: string }[] = []
 
   i18nConfig.locales.forEach((locale) => {

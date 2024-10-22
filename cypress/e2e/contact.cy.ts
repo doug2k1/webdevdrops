@@ -4,7 +4,7 @@ describe('Contact page', () => {
       headers: {
         'content-type': 'text/x-component',
       },
-      body: `0:["$@1",["development",null]]\n1:{"status":"SUCCESS"}\n`,
+      body: `0:{"a":"$@1","f":"","b":"development"}\n1:{"status":"SUCCESS"}\n`,
     }).as('contact')
 
     cy.visit('/contact')

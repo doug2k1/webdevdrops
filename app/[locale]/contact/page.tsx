@@ -6,14 +6,17 @@ import { defaultAppIcons } from '@/libs/consts'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
 import { useTranslations } from 'next-intl'
-import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { use } from 'react'
 import { FaEnvelope } from 'react-icons/fa'
 
 interface Props {
-  params: { locale: LocaleType }
+  params: Promise<{ locale: LocaleType }>
 }
 
-export async function generateMetadata({ params: { locale } }: Props) {
+export async function generateMetadata({ params }: Props) {
+  const { locale } = await params
+
   const t = await getTranslations({ locale })
   const title = `${t('contact')} | Web Dev Drops`
 
@@ -23,8 +26,10 @@ export async function generateMetadata({ params: { locale } }: Props) {
   }
 }
 
-export default function ContactPage({ params: { locale } }: Props) {
-  unstable_setRequestLocale(locale)
+export default function ContactPage({ params }: Props) {
+  const { locale } = use(params)
+
+  setRequestLocale(locale)
   const t = useTranslations()
 
   return (

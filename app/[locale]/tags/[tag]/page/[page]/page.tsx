@@ -7,7 +7,7 @@ export const generateMetadata = generateMetadataTag
 
 export default TagPage
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   const params: { locale: string; tag: string; page: string }[] = []
 
   i18nConfig.locales.forEach((locale) => {
