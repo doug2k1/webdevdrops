@@ -106,7 +106,7 @@ describe('Home page', () => {
       'href',
       '/privacy'
     )
-    cy.findByTestId('lang-selector-ptbr').should('have.attr', 'href', '/')
+    cy.findByTestId('lang-selector-ptbr').should('have.attr', 'href', '/pt-BR')
     cy.findByTestId('lang-selector-en').should('have.attr', 'href', '/en')
   })
 

@@ -2,14 +2,16 @@ import { defaultAppIcons } from '@/libs/consts'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
 import { useTranslations } from 'next-intl'
-import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
-import { ReactNode } from 'react'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { ReactNode, use } from 'react'
 
 interface Props {
-  params: { locale: LocaleType }
+  params: Promise<{ locale: LocaleType }>
 }
 
-export async function generateMetadata({ params: { locale } }: Props) {
+export async function generateMetadata({ params }: Props) {
+  const { locale } = await params
+
   const t = await getTranslations({ locale })
   const title = `${t('privacyPolicy')} | Web Dev Drops`
 
@@ -19,8 +21,10 @@ export async function generateMetadata({ params: { locale } }: Props) {
   }
 }
 
-export default function PrivacyPage({ params: { locale } }: Props) {
-  unstable_setRequestLocale(locale)
+export default function PrivacyPage({ params }: Props) {
+  const { locale } = use(params)
+
+  setRequestLocale(locale)
   const t = useTranslations()
 
   const text = content[locale || 'pt-BR']

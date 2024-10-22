@@ -5,16 +5,17 @@ import { BASE_URL, defaultAppIcons } from '@/libs/consts'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
 import { Metadata } from 'next'
-import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
+import { use } from 'react'
 
 interface Props {
-  params: { locale: LocaleType; page?: string }
+  params: Promise<{ locale: LocaleType; page?: string }>
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+
   const t = await getTranslations({ locale })
   const siteName = 'Web Dev Drops'
   const siteSlogan = t('siteSlogan')
@@ -39,8 +40,10 @@ export async function generateMetadata({
   }
 }
 
-export default function HomePage({ params: { locale, page } }: Props) {
-  unstable_setRequestLocale(locale)
+export default function HomePage({ params }: Props) {
+  const { locale, page } = use(params)
+
+  setRequestLocale(locale)
   const numPages = getNumPages({ language: locale as LocaleType })
   const pageNumber = page ? parseInt(page, 10) : 1
   const posts = getAllPosts({

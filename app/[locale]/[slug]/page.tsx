@@ -12,9 +12,9 @@ import { LocaleType } from '@/libs/i18n/types'
 import '@/styles/highlight-js/atom-one-dark.css'
 import { compile, run, RunOptions } from '@mdx-js/mdx'
 import { Metadata } from 'next'
-import { unstable_setRequestLocale } from 'next-intl/server'
+import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
-import { ClassAttributes, Fragment, ImgHTMLAttributes } from 'react'
+import { ClassAttributes, Fragment, ImgHTMLAttributes, use } from 'react'
 import { FaTag } from 'react-icons/fa'
 import * as runtime from 'react/jsx-runtime'
 import readingTime from 'reading-time'
@@ -37,9 +37,9 @@ const components = {
   a: PostLink,
 }
 
-export async function generateMetadata({
-  params: { slug },
-}: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+
   const post = getPostBySlug({
     slug: slug,
     fields: [
@@ -100,11 +100,13 @@ export async function generateMetadata({
 }
 
 interface Props {
-  params: { locale: LocaleType; slug: string }
+  params: Promise<{ locale: LocaleType; slug: string }>
 }
 
-export default async function PostPage({ params: { locale, slug } }: Props) {
-  unstable_setRequestLocale(locale)
+export default function PostPage({ params }: Props) {
+  const { locale, slug } = use(params)
+
+  setRequestLocale(locale)
   const post = getPostBySlug({
     slug: slug,
     fields: [
@@ -126,13 +128,15 @@ export default async function PostPage({ params: { locale, slug } }: Props) {
 
   const { minutes } = readingTime(post.content || '')
   const code = String(
-    await compile(post.content || '', {
-      outputFormat: 'function-body',
-      rehypePlugins: [rehypeHighlight],
-    })
+    use(
+      compile(post.content || '', {
+        outputFormat: 'function-body',
+        rehypePlugins: [rehypeHighlight],
+      })
+    )
   )
 
-  const { default: MDXContent } = await run(code, { ...runtime } as RunOptions)
+  const { default: MDXContent } = use(run(code, { ...runtime } as RunOptions))
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
