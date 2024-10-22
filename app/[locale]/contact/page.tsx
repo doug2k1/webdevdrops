@@ -2,6 +2,7 @@ import { ContactForm } from '@/components/ContactForm'
 import { ContactFormSubmitButton } from '@/components/ContactFormSubmitButton'
 import { FormInput } from '@/components/FormInput'
 import { FormLabel } from '@/components/FormLabel'
+import { ReCaptchaProvider } from '@/components/ReCaptchaProvider'
 import { defaultAppIcons } from '@/libs/consts'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
@@ -40,22 +41,24 @@ export default function ContactPage({ params }: Props) {
 
       <p className="mb-4">{t('contactIntro')}</p>
 
-      <ContactForm
-        successMessage={t('contactSuccess')}
-        failureMessage={t('contactError')}
-        sendingMessage={t('contactSending')}
-        sendMessage={t('contactSend')}
-        SubmitButton={ContactFormSubmitButton}
-      >
-        <FormLabel id="inputName" label={`${t('contactName')}:`} />
-        <FormInput id="inputName" name="name" type="text" />
+      <ReCaptchaProvider>
+        <ContactForm
+          successMessage={t('contactSuccess')}
+          failureMessage={t('contactError')}
+          sendingMessage={t('contactSending')}
+          sendMessage={t('contactSend')}
+          SubmitButton={ContactFormSubmitButton}
+        >
+          <FormLabel id="inputName" label={`${t('contactName')}:`} />
+          <FormInput id="inputName" name="name" type="text" />
 
-        <FormLabel id="inputEmail" label={`${t('contactEmail')}:`} />
-        <FormInput id="inputEmail" name="email" type="email" />
+          <FormLabel id="inputEmail" label={`${t('contactEmail')}:`} />
+          <FormInput id="inputEmail" name="email" type="email" />
 
-        <FormLabel id="inputMessage" label={`${t('contactMessage')}:`} />
-        <FormInput id="inputMessage" name="message" type="textarea" />
-      </ContactForm>
+          <FormLabel id="inputMessage" label={`${t('contactMessage')}:`} />
+          <FormInput id="inputMessage" name="message" type="textarea" />
+        </ContactForm>
+      </ReCaptchaProvider>
     </div>
   )
 }

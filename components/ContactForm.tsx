@@ -6,10 +6,11 @@ import {
   ComponentProps,
   ComponentType,
   PropsWithChildren,
+  useActionState,
   useEffect,
   useRef,
 } from 'react'
-import { useFormState } from 'react-dom'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { FaCheck, FaExclamationTriangle } from 'react-icons/fa'
 import { ContactFormSubmitButton } from './ContactFormSubmitButton'
 
@@ -31,7 +32,20 @@ export function ContactForm({
   sendMessage,
   SubmitButton,
 }: PropsWithChildren<Props>) {
-  const [formState, formAction] = useFormState(sendContactMessage, initialState)
+  const { executeRecaptcha } = useGoogleReCaptcha()
+
+  const [formState, formAction] = useActionState(
+    async (prevState: ContactFormState, formData: FormData) => {
+      let reCaptchaToken = ''
+
+      if (executeRecaptcha) {
+        reCaptchaToken = await executeRecaptcha('reCaptchaAction')
+      }
+
+      return sendContactMessage(prevState, formData, reCaptchaToken)
+    },
+    initialState
+  )
   const formRef = useRef<HTMLFormElement>(null)
 
   useEffect(() => {

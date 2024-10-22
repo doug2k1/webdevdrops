@@ -13,8 +13,15 @@ const SESInstance = new SES({
 
 export const sendContactMessage = async (
   prevState: ContactFormState,
-  formData: FormData
+  formData: FormData,
+  reCaptchaToken: string
 ): Promise<ContactFormState> => {
+  if (!validateCaptcha(reCaptchaToken)) {
+    return {
+      status: 'ERROR',
+    }
+  }
+
   const to = process.env.CONTACT_TO
   const from = process.env.CONTACT_FROM
 
@@ -48,9 +55,48 @@ export const sendContactMessage = async (
     return {
       status: 'SUCCESS',
     }
-  } catch {
+  } catch (error) {
+    console.error(error)
+
     return {
       status: 'ERROR',
     }
   }
+}
+
+const validateCaptcha = async (reCaptchaToken: string) => {
+  if (!reCaptchaToken) {
+    return false
+  }
+
+  try {
+    if (!process.env.RECAPTCHA_SECRET_KEY) {
+      throw new Error('Missing ReCaptcha secret key')
+    }
+
+    const captchaResponse = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `secret=${encodeURIComponent(
+          process.env.RECAPTCHA_SECRET_KEY
+        )}&response=${encodeURIComponent(reCaptchaToken)}`,
+      }
+    )
+
+    const captchaJson = await captchaResponse.json()
+
+    if (!captchaJson.success || !captchaJson.score || captchaJson.score < 0.5) {
+      return false
+    }
+  } catch (error) {
+    console.error(error)
+
+    return false
+  }
+
+  return true
 }
