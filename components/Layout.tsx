@@ -51,7 +51,7 @@ export function Layout({ children }: PropsWithChildren) {
                 className="m-0"
                 width="250"
                 height="75"
-                src={`/images/webdevdrops-logo-500.png`}
+                src={`/images/webdevdrops-logo-500.svg`}
                 alt="Web Dev Drops"
                 priority
               />
@@ -71,7 +71,7 @@ export function Layout({ children }: PropsWithChildren) {
         <footer className="border-t-4 border-solid border-main bg-gray-700 text-sm text-gray-300">
           <Container className="py-8 text-center">
             <Image
-              src={`/images/webdevdrops-logo-500.png`}
+              src={`/images/webdevdrops-logo-500.svg`}
               alt="Web Dev Drops"
               width="120"
               height="36"
