@@ -10,12 +10,12 @@ export function PostComments({ twitterId }: Props) {
 
   return (
     <section className="mt-12 border-t border-gray-300 p-4 text-center dark:border-gray-600 dark:text-gray-300">
-      <h4 className="mb-4 flex items-center justify-center">
+      <p className="mb-4 flex items-center justify-center">
         <FaComments className="mr-2 text-2xl text-gray-500" />
         <span className="font-bold text-gray-500 dark:text-gray-400">
           {t('comments')}
         </span>
-      </h4>
+      </p>
 
       {twitterId ? (
         <a

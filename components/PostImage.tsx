@@ -6,6 +6,7 @@ interface Props {
   caption?: string
   width?: string | number
   height?: string | number
+  loading?: 'lazy' | 'eager'
 }
 
 export function PostImage({
@@ -14,6 +15,7 @@ export function PostImage({
   caption = '',
   width,
   height,
+  loading,
 }: Props) {
   if (!src) {
     return null
@@ -30,6 +32,8 @@ export function PostImage({
           maxWidth: '100%',
           height: 'auto',
         }}
+        loading={loading}
+        sizes={`(max-width: 768px) 100vw, 620px`}
       />
       {caption ? <figcaption>{caption}</figcaption> : null}
     </figure>
