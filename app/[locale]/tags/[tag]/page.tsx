@@ -34,11 +34,20 @@ export default function TagPage({ params }: Props) {
     tag,
     language: locale,
   })
-  const pageNumber = page ? parseInt(page, 10) : 1
+
+  const pageNumber = parseInt(page || '1', 10)
+
+  console.log({ pageNumber, numPages })
+
+  if (!pageNumber) {
+    return notFound()
+  }
+
   const posts = getAllPostsForTag({
     tag,
     fields: ['title', 'date', 'slug', 'modified', 'coverImage', 'categories'],
     language: locale,
+    page: pageNumber,
   })
 
   if (posts.length === 0) {

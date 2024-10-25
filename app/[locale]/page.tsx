@@ -42,10 +42,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default function HomePage({ params }: Props) {
   const { locale, page } = use(params)
-
   setRequestLocale(locale)
+
+  const pageNumber = parseInt(page || '1', 10)
+
+  if (!pageNumber) {
+    return notFound()
+  }
+
   const numPages = getNumPages({ language: locale as LocaleType })
-  const pageNumber = page ? parseInt(page, 10) : 1
   const posts = getAllPosts({
     page: pageNumber,
     fields: ['title', 'modified', 'date', 'slug', 'coverImage', 'categories'],
