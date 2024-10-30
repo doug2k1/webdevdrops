@@ -30,7 +30,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
           url: `${BASE_URL}/${
             post.language && post.language !== 'pt-BR' ? 'en/' : ''
           }${post.slug}/`,
-          lastModified: post.modified || post.date,
+          lastModified: new Date(
+            post.modified || post.date || '2011-05-30T09:00:00.000Z'
+          ).toISOString(),
           alternates: post.translations && {
             languages: {
               ...Object.entries(post.translations).reduce(
