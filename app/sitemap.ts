@@ -4,7 +4,7 @@ import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
 import { MetadataRoute } from 'next'
 
-const STATIC_PAGES = ['/', '/contact/', '/privacy/']
+const STATIC_PAGES = ['', '/contact', '/privacy']
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts({ fields: ['slug'] })
@@ -29,7 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ({
           url: `${BASE_URL}/${
             post.language && post.language !== 'pt-BR' ? 'en/' : ''
-          }${post.slug}/`,
+          }${post.slug}`,
           lastModified: new Date(
             post.modified || post.date || '2011-05-30T09:00:00.000Z'
           ).toISOString(),
@@ -41,7 +41,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
                     ...acc,
                     [locale]: `${BASE_URL}/${
                       locale === 'pt-BR' ? '' : `${locale}/`
-                    }${slug}/`,
+                    }${slug}`,
                   }
                 },
                 {}
@@ -75,10 +75,6 @@ const generatePaginationPages = () => {
     }
 
     pagesPerLocale[locale] = pages
-
-    // pages.forEach((page) => {
-    //   entries.push()
-    // })
   })
 
   i18nConfig.locales.forEach((locale) => {
@@ -90,7 +86,7 @@ const generatePaginationPages = () => {
       entries.push({
         url: `${BASE_URL}/${
           locale === 'pt-BR' ? '' : `${locale}/`
-        }page/${page}/`,
+        }page/${page}`,
         lastModified: new Date(),
         alternates: {
           languages: Object.entries(otherPagesPerLocale).reduce(
@@ -100,7 +96,7 @@ const generatePaginationPages = () => {
                   ...acc,
                   [locale]: `${BASE_URL}/${
                     locale === 'pt-BR' ? '' : `${locale}/`
-                  }page/${page}/`,
+                  }page/${page}`,
                 }
               }
 
@@ -124,9 +120,7 @@ const generateTagPages = () => {
 
     tags.forEach((tag) => {
       entries.push({
-        url: `${BASE_URL}/${
-          locale === 'pt-BR' ? '' : `${locale}/`
-        }tags/${tag}/`,
+        url: `${BASE_URL}/${locale === 'pt-BR' ? '' : `${locale}/`}tags/${tag}`,
         lastModified: new Date(),
         // TODO: add alternates
         // alternates: {
