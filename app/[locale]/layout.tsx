@@ -5,7 +5,14 @@ import '@/styles/globals.css'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages, setRequestLocale } from 'next-intl/server'
 import { ThemeProvider } from 'next-themes'
+import { Inter } from 'next/font/google'
 import { PropsWithChildren, use } from 'react'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
 
 export default function RootLayout({ children }: PropsWithChildren) {
   const locale = use(getLocale()) as LocaleType
@@ -14,7 +21,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
   const messages = use(getMessages())
 
   return (
-    <html suppressHydrationWarning lang={locale}>
+    <html
+      suppressHydrationWarning
+      lang={locale}
+      className={`${inter.variable} scroll-smooth`}
+    >
       <body className="bg-white antialiased dark:bg-gray-900">
         <ThemeProvider attribute="class">
           <NextIntlClientProvider messages={messages}>

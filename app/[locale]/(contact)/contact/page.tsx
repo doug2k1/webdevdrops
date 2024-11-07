@@ -1,5 +1,3 @@
-import { ContactForm } from '@/components/ContactForm'
-import { ContactFormSubmitButton } from '@/components/ContactFormSubmitButton'
 import { FormInput } from '@/components/FormInput'
 import { FormLabel } from '@/components/FormLabel'
 import { ReCaptchaProvider } from '@/components/ReCaptchaProvider'
@@ -10,6 +8,8 @@ import { useTranslations } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { use } from 'react'
 import { FaEnvelope } from 'react-icons/fa'
+import { ContactForm } from '../_components/ContactForm'
+import { ContactFormSubmitButton } from '../_components/ContactFormSubmitButton'
 
 interface Props {
   params: Promise<{ locale: LocaleType }>

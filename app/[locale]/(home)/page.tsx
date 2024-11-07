@@ -1,5 +1,4 @@
 import { Pagination } from '@/components/Pagination'
-import { PostList } from '@/components/PostList'
 import { getAllPosts, getNumPages } from '@/libs/api'
 import { BASE_URL, defaultAppIcons } from '@/libs/consts'
 import { i18nConfig } from '@/libs/i18n/config'
@@ -8,6 +7,7 @@ import { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { use } from 'react'
+import { PostList } from './_components/PostList'
 
 interface Props {
   params: Promise<{ locale: LocaleType; page?: string }>

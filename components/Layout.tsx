@@ -68,7 +68,7 @@ export function Layout({ children }: PropsWithChildren) {
           <main className="mb-8 flex-1">{children}</main>
         </Container>
 
-        <footer className="border-t-4 border-solid border-main bg-gray-700 text-sm text-gray-300">
+        <footer className="border-t-4 border-solid border-main bg-gray-700 pb-8 text-sm text-gray-300">
           <Container className="py-8 text-center">
             <Image
               src={`/images/webdevdrops-logo-500.svg`}

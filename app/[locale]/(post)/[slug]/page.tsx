@@ -1,9 +1,3 @@
-import { PostAd } from '@/components/PostAd'
-import { PostComments } from '@/components/PostComments'
-import { PostI18nLinks } from '@/components/PostI18nLinks'
-import { PostImage } from '@/components/PostImage'
-import { PostInfo } from '@/components/PostInfo'
-import { PostLink } from '@/components/PostLink'
 import { getAllPosts, getPostBySlug } from '@/libs/api'
 import { BASE_URL, defaultAppIcons } from '@/libs/consts'
 import { i18nConfig } from '@/libs/i18n/config'
@@ -19,6 +13,14 @@ import { FaTag } from 'react-icons/fa'
 import * as runtime from 'react/jsx-runtime'
 import readingTime from 'reading-time'
 import rehypeHighlight from 'rehype-highlight'
+import rehypeSlug from 'rehype-slug'
+import { PostAd } from '../_components/PostAd'
+import { PostComments } from '../_components/PostComments'
+import { PostI18nLinks } from '../_components/PostI18nLinks'
+import { PostImage } from '../_components/PostImage'
+import { PostInfo } from '../_components/PostInfo'
+import { PostLink } from '../_components/PostLink'
+import { TableOfContents } from '../_components/TableOfContents'
 
 const components = {
   PostImage,
@@ -131,7 +133,7 @@ export default function PostPage({ params }: Props) {
     use(
       compile(post.content || '', {
         outputFormat: 'function-body',
-        rehypePlugins: [rehypeHighlight],
+        rehypePlugins: [rehypeHighlight, rehypeSlug],
       })
     )
   )
@@ -153,37 +155,45 @@ export default function PostPage({ params }: Props) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <article className="prose mx-auto dark:prose-dark">
-          <h1>{post.title}</h1>
+        <article className="prose mx-auto max-w-[calc(42rem+13rem)] pr-0 dark:prose-dark md:pr-52">
+          <header>
+            <h1>{post.title}</h1>
 
-          <PostInfo
-            modifiedDate={post.modified || post.date!}
-            readingMinutes={minutes}
-          />
+            <PostInfo
+              modifiedDate={post.modified || post.date!}
+              readingMinutes={minutes}
+            />
 
-          <PostI18nLinks translations={post.translations} />
+            <PostI18nLinks translations={post.translations} />
+          </header>
 
-          <MDXContent components={components} />
+          <TableOfContents />
 
-          {post.tags!.length > 0 ? (
-            <div data-testid="post-tags">
-              <p>
-                <FaTag className="inline text-gray-500" />{' '}
-                <span className="font-bold text-gray-500">Tags:</span>{' '}
-                {post.tags!.map((tag, index) => (
-                  <Fragment key={tag}>
-                    <Link href={`/tags/${tag}`} passHref>
-                      {tag}
-                    </Link>
+          <section id="postContents">
+            <MDXContent components={components} />
+          </section>
 
-                    {index < post.tags!.length - 1 ? (
-                      <span className="mx-2 text-gray-500">|</span>
-                    ) : null}
-                  </Fragment>
-                ))}
-              </p>
-            </div>
-          ) : null}
+          <footer>
+            {post.tags!.length > 0 ? (
+              <div data-testid="post-tags">
+                <p>
+                  <FaTag className="inline text-gray-500" />{' '}
+                  <span className="font-bold text-gray-500">Tags:</span>{' '}
+                  {post.tags!.map((tag, index) => (
+                    <Fragment key={tag}>
+                      <Link href={`/tags/${tag}`} passHref>
+                        {tag}
+                      </Link>
+
+                      {index < post.tags!.length - 1 ? (
+                        <span className="mx-2 text-gray-500">|</span>
+                      ) : null}
+                    </Fragment>
+                  ))}
+                </p>
+              </div>
+            ) : null}
+          </footer>
         </article>
       </div>
       <PostComments twitterId={post.twitterPost} />

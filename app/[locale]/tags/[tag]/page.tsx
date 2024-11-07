@@ -8,7 +8,7 @@ import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { use } from 'react'
 import { FaTag } from 'react-icons/fa'
-import { generateMetadata as generateMetadataHome } from '../../page'
+import { generateMetadata as generateMetadataHome } from '../../(home)/page'
 
 interface Props {
   params: Promise<{ locale: LocaleType; tag: string; page?: string }>

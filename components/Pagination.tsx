@@ -1,8 +1,7 @@
+import { cn } from '@/libs/cn'
 import { Link } from '@/libs/i18n/routing'
-import { clsx } from 'clsx/lite'
 import { useTranslations } from 'next-intl'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
-import { twMerge } from 'tailwind-merge'
 
 interface Props {
   page: number
@@ -13,12 +12,10 @@ interface Props {
 export function Pagination({ page = 1, total, basePath = '' }: Props) {
   const t = useTranslations()
   const wrapperBaseClasses = 'flex items-center mt-8'
-  const wrapperClasses = twMerge(
-    clsx(
-      wrapperBaseClasses,
-      page > 1 && page < total && 'justify-between',
-      page === 1 && 'justify-end'
-    )
+  const wrapperClasses = cn(
+    wrapperBaseClasses,
+    page > 1 && page < total && 'justify-between',
+    page === 1 && 'justify-end'
   )
 
   const linkClasses =
