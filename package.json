@@ -14,7 +14,7 @@
     "test:e2e:run": "npm run build && start-server-and-test start http://localhost:3000 cy:run"
   },
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.682.0",
+    "@aws-sdk/client-ses": "^3.687.0",
     "@mdx-js/mdx": "^3.1.0",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
