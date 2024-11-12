@@ -1,6 +1,5 @@
 'use client'
 
-import { sendContactMessage } from '@/actions/sendContactMessage'
 import { ContactFormState } from '@/types/contact'
 import {
   ComponentProps,
@@ -12,6 +11,7 @@ import {
 } from 'react'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { FaCheck, FaExclamationTriangle } from 'react-icons/fa'
+import { sendContactMessage } from '../_actions/sendContactMessage'
 import { ContactFormSubmitButton } from './ContactFormSubmitButton'
 
 const initialState: ContactFormState = { status: 'INITIAL' }

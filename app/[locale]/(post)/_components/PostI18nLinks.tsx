@@ -3,7 +3,7 @@
 import { Link } from '@/libs/i18n/routing'
 import { LocaleType } from '@/libs/i18n/types'
 import { FaLanguage } from 'react-icons/fa'
-import { PostTranslations } from '../types/post'
+import { PostTranslations } from '../../../../types/post'
 
 const labels: Record<LocaleType, string> = {
   'pt-BR': 'Leia em Português',

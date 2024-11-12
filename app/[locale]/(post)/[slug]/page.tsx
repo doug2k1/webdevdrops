@@ -1,9 +1,3 @@
-import { PostAd } from '@/components/PostAd'
-import { PostComments } from '@/components/PostComments'
-import { PostI18nLinks } from '@/components/PostI18nLinks'
-import { PostImage } from '@/components/PostImage'
-import { PostInfo } from '@/components/PostInfo'
-import { PostLink } from '@/components/PostLink'
 import { getAllPosts, getPostBySlug } from '@/libs/api'
 import { BASE_URL, defaultAppIcons } from '@/libs/consts'
 import { i18nConfig } from '@/libs/i18n/config'
@@ -19,6 +13,12 @@ import { FaTag } from 'react-icons/fa'
 import * as runtime from 'react/jsx-runtime'
 import readingTime from 'reading-time'
 import rehypeHighlight from 'rehype-highlight'
+import { PostAd } from '../_components/PostAd'
+import { PostComments } from '../_components/PostComments'
+import { PostI18nLinks } from '../_components/PostI18nLinks'
+import { PostImage } from '../_components/PostImage'
+import { PostInfo } from '../_components/PostInfo'
+import { PostLink } from '../_components/PostLink'
 
 const components = {
   PostImage,
@@ -153,7 +153,7 @@ export default function PostPage({ params }: Props) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <article className="prose mx-auto dark:prose-dark">
+        <article className="prose mx-auto max-w-2xl dark:prose-dark">
           <h1>{post.title}</h1>
 
           <PostInfo

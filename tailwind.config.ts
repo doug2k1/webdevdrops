@@ -16,41 +16,11 @@ const config: Config = {
       typography: ({ theme }: { theme: (key: string) => string }) => ({
         DEFAULT: {
           css: {
-            fontSize: '1.1rem',
-            lineHeight: '1.6',
-            h1: {
-              fontSize: '2.6em',
-            },
-            h2: {
-              fontSize: '2em',
-            },
-            h3: {
-              fontSize: '1.5em',
-            },
             a: {
               color: theme('colors.main'),
               '&:hover': {
                 color: theme('colors.gray.800'),
               },
-            },
-            strong: {
-              color: 'inherit',
-            },
-            'pre code': {
-              background: 'transparent',
-              fontSize: '0.85em',
-            },
-            code: {
-              padding: '2px 4px',
-              fontWeight: 400,
-              backgroundColor: 'rgba(0, 0, 0, 0.05)',
-              borderRadius: '4px',
-            },
-            'code::before': {
-              content: '',
-            },
-            'code::after': {
-              content: '',
             },
             figure: {
               display: 'flex',
