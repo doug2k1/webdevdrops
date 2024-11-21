@@ -20,11 +20,6 @@ const config = [
       'plugin:tailwindcss/recommended'
     )
   ),
-  {
-    rules: {
-      'func-style': ['warn', 'expression', { allowArrowFunctions: true }],
-    },
-  },
 ]
 
 export default config
