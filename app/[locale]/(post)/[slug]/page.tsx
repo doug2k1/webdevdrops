@@ -63,7 +63,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     (prev: Record<string, string>, [locale, path]) => {
       prev[locale] = `${BASE_URL}/${
         locale === i18nConfig.defaultLocale ? '' : `${locale}/`
-      }${path}/`
+      }${path}`
 
       return prev
     },
