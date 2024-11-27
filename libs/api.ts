@@ -55,7 +55,7 @@ export function getPostBySlug({
           data.language && data.language !== i18nConfig.defaultLocale
             ? `${data.language}/`
             : ''
-        post.link = `${BASE_URL}/${lang}${slug}/`
+        post.link = `${BASE_URL}/${lang}${slug}`
         break
       case 'date':
         // adjust time zone

@@ -1,6 +1,6 @@
 describe('Post page', () => {
   it('renders the post content', () => {
-    cy.visit('/node-js-enviando-emails-amazon-ses/')
+    cy.visit('/node-js-enviando-emails-amazon-ses')
 
     cy.get('h1').contains('Node.js: Enviando E-mails com Amazon SES')
     cy.findByTestId('post-info').contains('Douglas Matoso')
@@ -11,7 +11,7 @@ describe('Post page', () => {
   })
 
   it('renders post metadata', () => {
-    cy.visit('/node-js-enviando-emails-amazon-ses/')
+    cy.visit('/node-js-enviando-emails-amazon-ses')
 
     cy.title().should(
       'eq',
@@ -20,7 +20,7 @@ describe('Post page', () => {
     cy.assertMeta('og:type', 'article')
     cy.assertMeta(
       'og:url',
-      'https://www.webdevdrops.com/node-js-enviando-emails-amazon-ses/'
+      'https://www.webdevdrops.com/node-js-enviando-emails-amazon-ses'
     )
     cy.assertMeta(
       'og:image',
@@ -31,7 +31,7 @@ describe('Post page', () => {
   })
 
   it('renders multi-language posts', () => {
-    cy.visit('/como-acessar-camera-com-javascript/')
+    cy.visit('/como-acessar-camera-com-javascript')
     cy.findByText(/Read in English/).click()
 
     cy.url().should(
