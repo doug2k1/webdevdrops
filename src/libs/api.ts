@@ -6,7 +6,7 @@ import path from 'path'
 import { Post, PostKey } from '../types/post'
 import { BASE_URL } from './consts'
 
-const postsDirectory = path.resolve(process.cwd(), 'posts')
+const postsDirectory = path.resolve(process.cwd(), 'src/posts')
 
 export const PAGE_SIZE = 15
 
