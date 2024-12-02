@@ -1,6 +1,6 @@
-import { getAllTags, getNumPagesForTag } from '@/libs/api'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
+import { getAllTags, getNumPagesForTag } from '@/libs/posts/api'
 import TagPage, { generateMetadata as generateMetadataTag } from '../../page'
 
 export const generateMetadata = generateMetadataTag

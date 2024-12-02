@@ -1,5 +1,3 @@
-export const BASE_URL = 'https://www.webdevdrops.com'
-
 export const defaultAppIcons = [
   {
     url: '/images/cropped-logo-wdd-transp-32x32.png',

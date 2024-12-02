@@ -1,6 +1,6 @@
-import { getNumPages } from '@/libs/api'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
+import { getNumPages } from '@/libs/posts/api'
 import HomePage, { generateMetadata as generateMetadataHome } from '../../page'
 
 export const generateMetadata = generateMetadataHome

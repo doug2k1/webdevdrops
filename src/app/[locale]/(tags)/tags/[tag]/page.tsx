@@ -1,8 +1,8 @@
 import { Pagination } from '@/components/Pagination'
 import { PostList } from '@/components/PostList'
-import { getAllPostsForTag, getAllTags, getNumPagesForTag } from '@/libs/api'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
+import { getAllTags, getNumPagesForTag, getPostsByTag } from '@/libs/posts/api'
 import { Metadata } from 'next'
 import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
@@ -41,7 +41,7 @@ export default function TagPage({ params }: Props) {
     return notFound()
   }
 
-  const posts = getAllPostsForTag({
+  const posts = getPostsByTag({
     tag,
     fields: ['title', 'date', 'slug', 'modified', 'coverImage', 'categories'],
     language: locale,

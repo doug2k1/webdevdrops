@@ -1,4 +1,4 @@
-import { categoryMetadata } from '@/libs/categoryMetadata'
+import { categoryMetadata } from '@/consts/category'
 
 interface Props {
   category: string

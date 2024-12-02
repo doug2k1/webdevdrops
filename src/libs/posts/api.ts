@@ -1,10 +1,10 @@
+import { BASE_URL } from '@/consts/urls'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
+import { Post, PostKey } from '@/types/post'
 import fs from 'fs'
 import matter from 'gray-matter'
 import path from 'path'
-import { Post, PostKey } from '../types/post'
-import { BASE_URL } from './consts'
 
 const postsDirectory = path.resolve(process.cwd(), 'src/posts')
 
@@ -161,7 +161,7 @@ export function getNumPagesForTag({
   return Math.ceil((posts.length + 1) / PAGE_SIZE)
 }
 
-export function getAllPostsForTag({
+export function getPostsByTag({
   tag,
   fields = [],
   page = 1,

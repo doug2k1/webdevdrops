@@ -1,7 +1,7 @@
-import { getAllPosts, getAllTags, getNumPages } from '@/libs/api'
-import { BASE_URL } from '@/libs/consts'
+import { BASE_URL } from '@/consts/urls'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
+import { getAllPosts, getAllTags, getNumPages } from '@/libs/posts/api'
 import { MetadataRoute } from 'next'
 
 const STATIC_PAGES = ['', '/contact', '/privacy']

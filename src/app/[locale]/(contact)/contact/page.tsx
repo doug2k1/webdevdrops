@@ -1,7 +1,7 @@
 import { FormInput } from '@/components/FormInput'
 import { FormLabel } from '@/components/FormLabel'
 import { ReCaptchaProvider } from '@/components/ReCaptchaProvider'
-import { defaultAppIcons } from '@/libs/consts'
+import { defaultAppIcons } from '@/consts/icons'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
 import { useTranslations } from 'next-intl'

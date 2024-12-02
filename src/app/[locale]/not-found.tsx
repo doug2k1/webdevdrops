@@ -1,6 +1,6 @@
 'use client'
 
-import { defaultAppIcons } from '@/libs/consts'
+import { defaultAppIcons } from '@/consts/icons'
 import { LocaleType } from '@/libs/i18n/types'
 import { Metadata } from 'next'
 import { useTranslations } from 'next-intl'
