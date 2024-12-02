@@ -38,7 +38,7 @@ The blog has a contact form that can be used to send messages to the blog owner.
 
 ### Tests
 
-The project has integration tests written with [Cypress](https://www.cypress.io/). The tests cover the main user flows, like navigating to the home page, reading a post, and changing the language.
+The project has end-to-end (E2E) tests written with [Cypress](https://www.cypress.io/). The tests cover the main user flows, like navigating to the home page, reading a post, and changing the language.
 
 > TODO: Add unit tests.
 
@@ -64,7 +64,7 @@ npm run dev
 
 ### Running Tests
 
-Build the app and run the integration tests with Cypress
+Build the app and run the E2E tests with Cypress
 
 ```bash
 npm run test:e2e:run
@@ -112,7 +112,7 @@ Images and other files related to the post should be stored in the `public/<post
 
 The project uses [GitHub Actions](https://docs.github.com/en/actions) for continuous integration.
 
-The CI pipeline builds the app and runs integration tests on every PR and push to the `main` branch.
+The CI pipeline builds the app and runs E2E tests on every PR and push to the `main` branch.
 
 ## Deployment
 

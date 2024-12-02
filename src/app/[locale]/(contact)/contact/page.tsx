@@ -4,9 +4,7 @@ import { ReCaptchaProvider } from '@/components/ReCaptchaProvider'
 import { defaultAppIcons } from '@/consts/icons'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
-import { useTranslations } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { use } from 'react'
 import { FaEnvelope } from 'react-icons/fa'
 import { ContactForm } from '../_components/ContactForm'
 import { ContactFormSubmitButton } from '../_components/ContactFormSubmitButton'
@@ -27,11 +25,11 @@ export async function generateMetadata({ params }: Props) {
   }
 }
 
-export default function ContactPage({ params }: Props) {
-  const { locale } = use(params)
+export default async function ContactPage({ params }: Props) {
+  const { locale } = await params
 
   setRequestLocale(locale)
-  const t = useTranslations()
+  const t = await getTranslations({ locale })
 
   return (
     <div className="dark:text-gray-300">

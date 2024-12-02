@@ -8,7 +8,6 @@ import { getAllPosts, getNumPages } from '@/libs/posts/api'
 import { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
-import { use } from 'react'
 
 interface Props {
   params: Promise<{ locale: LocaleType; page?: string }>
@@ -41,11 +40,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function HomePage({ params }: Props) {
-  const { locale, page } = use(params)
-  setRequestLocale(locale)
-
+export default async function HomePage({ params }: Props) {
+  const { locale, page } = await params
   const pageNumber = parseInt(page || '1', 10)
+
+  setRequestLocale(locale)
 
   if (!pageNumber) {
     return notFound()

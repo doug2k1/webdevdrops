@@ -6,7 +6,6 @@ import { getAllTags, getNumPagesForTag, getPostsByTag } from '@/libs/posts/api'
 import { Metadata } from 'next'
 import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
-import { use } from 'react'
 import { FaTag } from 'react-icons/fa'
 import { generateMetadata as generateMetadataHome } from '../../../(home)/page'
 
@@ -26,8 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return metadata
 }
 
-export default function TagPage({ params }: Props) {
-  const { locale, tag, page } = use(params)
+export default async function TagPage({ params }: Props) {
+  const { locale, tag, page } = await params
 
   setRequestLocale(locale)
   const numPages = getNumPagesForTag({

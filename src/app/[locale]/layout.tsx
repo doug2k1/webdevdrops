@@ -6,18 +6,18 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages, setRequestLocale } from 'next-intl/server'
 import { ThemeProvider } from 'next-themes'
 import { Inter } from 'next/font/google'
-import { PropsWithChildren, use } from 'react'
+import { PropsWithChildren } from 'react'
 
 const interFont = Inter({
   subsets: ['latin'],
   display: 'swap',
 })
 
-export default function RootLayout({ children }: PropsWithChildren) {
-  const locale = use(getLocale()) as LocaleType
+export default async function RootLayout({ children }: PropsWithChildren) {
+  const locale = (await getLocale()) as LocaleType
   setRequestLocale(locale)
   // provides messages to client side
-  const messages = use(getMessages())
+  const messages = await getMessages()
 
   return (
     <html

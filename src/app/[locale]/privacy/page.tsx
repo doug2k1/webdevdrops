@@ -1,9 +1,8 @@
 import { defaultAppIcons } from '@/consts/icons'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
-import { useTranslations } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { ReactNode, use } from 'react'
+import { ReactNode } from 'react'
 
 interface Props {
   params: Promise<{ locale: LocaleType }>
@@ -21,11 +20,11 @@ export async function generateMetadata({ params }: Props) {
   }
 }
 
-export default function PrivacyPage({ params }: Props) {
-  const { locale } = use(params)
+export default async function PrivacyPage({ params }: Props) {
+  const { locale } = await params
 
   setRequestLocale(locale)
-  const t = useTranslations()
+  const t = await getTranslations({ locale })
 
   const text = content[locale || 'pt-BR']
 

@@ -9,7 +9,7 @@ import { compile, run, RunOptions } from '@mdx-js/mdx'
 import { Metadata } from 'next'
 import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
-import { ClassAttributes, Fragment, ImgHTMLAttributes, use } from 'react'
+import { ClassAttributes, Fragment, ImgHTMLAttributes } from 'react'
 import { FaTag } from 'react-icons/fa'
 import * as runtime from 'react/jsx-runtime'
 import readingTime from 'reading-time'
@@ -104,8 +104,8 @@ interface Props {
   params: Promise<{ locale: LocaleType; slug: string }>
 }
 
-export default function PostPage({ params }: Props) {
-  const { locale, slug } = use(params)
+export default async function PostPage({ params }: Props) {
+  const { locale, slug } = await params
 
   setRequestLocale(locale)
   const post = getPostBySlug({
@@ -129,15 +129,13 @@ export default function PostPage({ params }: Props) {
 
   const { minutes } = readingTime(post.content || '')
   const code = String(
-    use(
-      compile(post.content || '', {
-        outputFormat: 'function-body',
-        rehypePlugins: [rehypeHighlight],
-      })
-    )
+    await compile(post.content || '', {
+      outputFormat: 'function-body',
+      rehypePlugins: [rehypeHighlight],
+    })
   )
 
-  const { default: MDXContent } = use(run(code, { ...runtime } as RunOptions))
+  const { default: MDXContent } = await run(code, { ...runtime } as RunOptions)
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
