@@ -24,7 +24,7 @@
   "themeSystem": "Tema automático (sistema)",
   "nextPage": "Próxima página",
   "prevPage": "Página anterior",
-  "noPostsForTag": "Nenhum post com a tag {tag}",
   "share": "Compartilhe!",
-  "postListItemAlt": "Imagem illustrativa para o post"
+  "postListItemAlt": "Imagem illustrativa para o post",
+  "paginationTitle": "Página {page}"
 }

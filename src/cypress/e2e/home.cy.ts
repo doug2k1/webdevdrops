@@ -43,7 +43,7 @@ describe('Home page', () => {
     cy.assertMeta('og:site_name', 'Web Dev Drops')
     cy.assertMeta(
       'og:image',
-      'https://www.webdevdrops.com/images/webdevdrops-logo-500.png'
+      `${Cypress.config('baseUrl')}/images/webdevdrops-logo-500.png`
     )
     cy.get('head meta[name="twitter:card"]').should(
       'have.attr',

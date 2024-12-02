@@ -20,11 +20,13 @@ describe('Post page', () => {
     cy.assertMeta('og:type', 'article')
     cy.assertMeta(
       'og:url',
-      'https://www.webdevdrops.com/node-js-enviando-emails-amazon-ses'
+      `${Cypress.config('baseUrl')}/node-js-enviando-emails-amazon-ses`
     )
     cy.assertMeta(
       'og:image',
-      'https://www.webdevdrops.com/node-js-enviando-emails-amazon-ses/images/nodejs-email-amazon-ses.jpg'
+      `${Cypress.config(
+        'baseUrl'
+      )}/node-js-enviando-emails-amazon-ses/images/nodejs-email-amazon-ses.jpg`
     )
     cy.assertMeta('og:image:width', '1280')
     cy.assertMeta('og:image:height', '720')

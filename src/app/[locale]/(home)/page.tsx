@@ -1,43 +1,13 @@
 import { Pagination } from '@/components/Pagination'
 import { PostList } from '@/components/PostList'
-import { defaultAppIcons } from '@/consts/icons'
-import { BASE_URL } from '@/consts/urls'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
 import { getAllPosts, getNumPages } from '@/libs/posts/api'
-import { Metadata } from 'next'
-import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 
 interface Props {
   params: Promise<{ locale: LocaleType; page?: string }>
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await params
-
-  const t = await getTranslations({ locale })
-  const siteName = 'Web Dev Drops'
-  const siteSlogan = t('siteSlogan')
-  const title = `${siteName} | ${siteSlogan}`
-  const description = siteSlogan
-  const image = `${BASE_URL}/images/webdevdrops-logo-500.png`
-
-  return {
-    title,
-    description,
-    openGraph: {
-      locale,
-      title,
-      description,
-      siteName,
-      images: [{ url: image, alt: siteName, width: 500, height: 150 }],
-    },
-    twitter: {
-      card: 'summary',
-    },
-    icons: defaultAppIcons,
-  }
 }
 
 export default async function HomePage({ params }: Props) {

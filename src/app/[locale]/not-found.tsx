@@ -1,6 +1,5 @@
 'use client'
 
-import { defaultAppIcons } from '@/consts/icons'
 import { LocaleType } from '@/libs/i18n/types'
 import { Metadata } from 'next'
 import { useTranslations } from 'next-intl'
@@ -17,11 +16,9 @@ export async function generateMetadata({
   params: { locale },
 }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale })
-  const title = `${t('pageNotFound')} | Web Dev Drops`
 
   return {
-    title,
-    icons: defaultAppIcons,
+    title: t('pageNotFound'),
   }
 }
 

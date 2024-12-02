@@ -1,7 +1,6 @@
 import { FormInput } from '@/components/FormInput'
 import { FormLabel } from '@/components/FormLabel'
 import { ReCaptchaProvider } from '@/components/ReCaptchaProvider'
-import { defaultAppIcons } from '@/consts/icons'
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
@@ -17,11 +16,9 @@ export async function generateMetadata({ params }: Props) {
   const { locale } = await params
 
   const t = await getTranslations({ locale })
-  const title = `${t('contact')} | Web Dev Drops`
 
   return {
-    title,
-    icons: defaultAppIcons,
+    title: t('contact'),
   }
 }
 

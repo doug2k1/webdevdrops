@@ -7,22 +7,17 @@ import { Metadata } from 'next'
 import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { FaTag } from 'react-icons/fa'
-import { generateMetadata as generateMetadataHome } from '../../../(home)/page'
 
 interface Props {
   params: Promise<{ locale: LocaleType; tag: string; page?: string }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale, tag } = await params
+  const { tag } = await params
 
-  const metadata = await generateMetadataHome({
-    params: Promise.resolve({ locale }),
-  })
-
-  metadata.title = `Tag: ${tag} | Web Dev Drops`
-
-  return metadata
+  return {
+    title: `Tag: ${tag}`,
+  }
 }
 
 export default async function TagPage({ params }: Props) {

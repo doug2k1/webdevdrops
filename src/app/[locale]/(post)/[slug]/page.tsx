@@ -1,4 +1,3 @@
-import { defaultAppIcons } from '@/consts/icons'
 import { BASE_URL } from '@/consts/urls'
 import { i18nConfig } from '@/libs/i18n/config'
 import { Link } from '@/libs/i18n/routing'
@@ -59,7 +58,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {}
   }
 
-  const title = `${post.title} | Web Dev Drops`
   const languages = Object.entries(post.translations || {}).reduce(
     (prev: Record<string, string>, [locale, path]) => {
       prev[locale] = `${BASE_URL}/${
@@ -72,7 +70,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   )
 
   return {
-    title,
+    title: post.title,
     alternates: {
       canonical: post.link,
       languages,
@@ -80,7 +78,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       type: 'article',
       url: post.link,
-      title,
       images: post.coverImage
         ? [
             {
@@ -96,7 +93,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       creator: '@webdevdrops',
       site: '@webdevdrops',
     },
-    icons: defaultAppIcons,
   }
 }
 

@@ -1,9 +1,24 @@
 import { i18nConfig } from '@/libs/i18n/config'
 import { LocaleType } from '@/libs/i18n/types'
 import { getNumPages } from '@/libs/posts/api'
-import HomePage, { generateMetadata as generateMetadataHome } from '../../page'
+import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
+import HomePage from '../../page'
 
-export const generateMetadata = generateMetadataHome
+interface Props {
+  params: Promise<{ locale: LocaleType; page?: string }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, page } = await params
+  const pageNumber = parseInt(page || '1', 10)
+
+  const t = await getTranslations({ locale })
+
+  return {
+    title: t('paginationTitle', { page: pageNumber }),
+  }
+}
 
 export default HomePage
 

@@ -24,7 +24,7 @@
   "themeSystem": "Auto theme (system)",
   "nextPage": "Next page",
   "prevPage": "Previous page",
-  "noPostsForTag": "No posts with the tag {tag}",
   "share": "Share!",
-  "postListItemAlt": "Illustrative image for the post"
+  "postListItemAlt": "Illustrative image for the post",
+  "paginationTitle": "Page {page}"
 }
