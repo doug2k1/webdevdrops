@@ -1,0 +1,140 @@
+---
+title: 'Setting Up Git and GitHub on WSL'
+date: '2024-12-04'
+tags:
+  - 'wsl'
+  - 'windows'
+  - 'git'
+  - 'github'
+coverImage: '/wsl-git-github/images/wsl-git-github.jpg'
+language: en
+---
+
+Following up on our [WSL setup guide](/wsl-get-started-linux-on-windows), let's dive into configuring **Git** and **GitHub** on your fresh **WSL** installation. I'll walk you through the process with some practical tips I've learned along the way.
+
+<PostImage
+  src="/wsl-git-github/images/wsl-git-github.jpg"
+  width="2560"
+  height="1440"
+  alt="Windows desktop with terminal and Git and GitHub logos"
+/>
+
+## Why Configure Git on WSL?
+
+If you're using WSL for development, setting up Git directly in your Linux environment makes sense. It keeps your development workflow consistent and lets you use Linux-specific tools seamlessly with Git.
+
+## Let's Get Started! 🚀
+
+Note: all commands below should be run in your Linux terminal in WSL.
+
+### Step 1: Install Git on WSL
+
+First, let's make sure Git is installed and up-to-date:
+
+```bash
+sudo apt update
+sudo apt install git
+```
+
+Verify the installation:
+
+```bash
+git --version
+```
+
+### Step 2: Configure Your Identity
+
+Git needs to know who you are for commit attribution. Let's set that up:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+```
+
+Pro tip: Use the same email associated with your GitHub account!
+
+### Step 3: Set Up GitHub Authentication with SSH 🔑
+
+1. Generate an SSH key:
+
+```bash
+ssh-keygen -t ed25519 -C "your.email@example.com"
+```
+
+2. Start the SSH agent:
+
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
+
+3. Copy your public key:
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+
+4. Add the key to GitHub:
+   - Go to GitHub → Settings → SSH and GPG keys ([https://github.com/settings/keys](https://github.com/settings/keys))
+   - Click "New SSH key"
+   - Paste your public key and give it a memorable title
+
+<PostImage
+  src="/wsl-git-github/images/github-ssh-keys.png"
+  width="2553"
+  height="1288"
+  alt="Screenshot of GitHub SSH keys settings"
+/>
+
+5. Test your connection:
+
+```bash
+ssh -T git@github.com
+```
+
+You should see a success message like "Hi username! You've successfully authenticated..."
+
+### Step 4: Create Your First Repository
+
+Let's test our setup:
+
+```bash
+# Create and enter a new directory
+mkdir my-test-repo
+cd my-test-repo
+
+# Initialize git
+git init
+
+# Create a test file
+echo "# My Test Repo" > README.md
+
+# Stage and commit
+git add README.md
+git commit -m "Initial commit"
+```
+
+### Step 5: Connect to GitHub
+
+Now, let's push your repository to GitHub:
+
+1. Create a new repository on GitHub
+2. Connect your local repo:
+
+```bash
+git remote add origin git@github.com:username/my-test-repo.git
+git branch -M main
+git push -u origin main
+```
+
+You should see your README file on GitHub at  
+https://github.com/username/my-test-repo
+
+## Wrapping Up
+
+You're now ready to use Git and GitHub professionally in your WSL environment!
+
+Additional resources:
+
+- [GitHub's SSH key guide](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
+- [Git documentation](https://git-scm.com/doc)

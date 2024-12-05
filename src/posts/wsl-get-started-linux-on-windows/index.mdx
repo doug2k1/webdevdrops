@@ -1,0 +1,138 @@
+---
+title: 'Getting Started with WSL: Your Gateway to Linux on Windows'
+date: '2024-12-04'
+tags:
+  - 'wsl'
+  - 'windows'
+coverImage: '/wsl-get-started-linux-on-windows/images/wsl-post-cover.jpg'
+language: en
+---
+
+Hey there! 👋
+
+Today, I'm going to walk you through setting up **Windows Subsystem for Linux (WSL)** - a game-changer for developers who want the best of both worlds. WSL is an incredibly powerful tool that brings the **Linux** command line to your **Windows** machine, without the hassle of dual-booting or virtual machines
+
+<PostImage
+  src="/wsl-get-started-linux-on-windows/images/wsl-post-cover.jpg"
+  width="2560"
+  height="1440"
+  alt="Windows desktop with terminal and Ubuntu and Windows logos"
+/>
+
+## Prerequisites
+
+Before we dive in, make sure you have:
+
+- Windows 10 version 2004 or higher (Build 19041+) or Windows 11
+- Administrator access to your machine
+
+## Let's Get Started! 🚀
+
+### Step 1: Install the Terminal app
+
+First things first - let's install a decent terminal app.
+
+[**Terminal**](https://apps.microsoft.com/detail/9n0dx20hk701) is a free app from Microsoft. It's a modern replacement for the classic Command Prompt, and it's perfect for working with WSL.
+
+### Step 2: Enable WSL
+
+Using your new Terminal app, open **PowerShell** as Administrator and run this command:
+
+```powershell
+wsl --install
+```
+
+This command does several things:
+
+- Enables the WSL and Virtual Machine Platform features
+- Downloads and installs the latest Linux kernel
+- Sets WSL 2 as the default version
+- Installs Ubuntu (the default Linux distribution)
+
+Once the installation is complete, you'll be prompted to restart your machine.
+
+### Step 3: Set Up Your Linux User Account
+
+After restarting, launch the Linux terminal. You can do this by searching for "Ubuntu" in the Start menu, or through the dropdown menu in the Terminal app.
+
+<PostImage
+  src="/wsl-get-started-linux-on-windows/images/windows-terminal-app.png"
+  width="2171"
+  height="1355"
+  alt="Windows Terminal app"
+  caption="Windows Terminal app running Linux terminal"
+/>
+
+When Ubuntu first launches, you'll need to:
+
+1. Enter a username (doesn't have to match your Windows username)
+2. Create and confirm a password
+
+Don't panic if you don't see the password as you type - that's normal in Linux!
+
+This account will be the Linux administrator (root) account. **Make sure to remember the password**, as you'll need it for commands that require elevated permissions (`sudo`).
+
+## Troubleshooting 🔧
+
+Running into issues? Here are some common fixes (run the commands below in PowerShell):
+
+**WSL Not Installing?**
+
+```powershell
+wsl --update
+```
+
+**Need to Switch WSL Versions?**
+
+```powershell
+wsl --set-version Ubuntu 2
+```
+
+**Want to See What's Running?**
+
+```powershell
+wsl --list -v
+```
+
+## Common Questions 🤔
+
+**Where are my Linux files stored?**
+
+WSL stores your Linux files in a hidden folder within your Windows user profile. You can access them in the Windows File Explorer by entering the path:
+
+```
+\\wsl$\Ubuntu
+```
+
+For instance, your Linux home folder, where you will work most of the time, is located at:
+
+```
+\\wsl$\Ubuntu\home\YourUsername
+```
+
+⚠️ It's advised to use the Linux terminal to navigate and work with your files, as the Windows File Explorer might not handle Linux file permissions correctly.
+
+**How to access my Windows files from Linux?**
+
+Your Windows drives are mounted under `/mnt/`. For example:
+
+```bash
+cd /mnt/c/Users/YourUsername/Documents
+```
+
+## Wrapping Up
+
+WSL is an incredibly powerful tool that brings the Linux command line to your Windows machine. Whether you're a web developer, system administrator, or just curious about Linux, WSL provides a fantastic way to explore and work with Linux tools while keeping your Windows workflow intact.
+
+Remember, the best way to learn is by doing. Don't be afraid to experiment and try new things in your WSL environment!
+
+[Learn more about WSL on Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/)
+
+## What's Next?
+
+Check out our other guides:
+
+- [Setting Up Git and GitHub on WSL](/wsl-git-github)
+- Node.js with n version manager
+- VSCode Integration
+- Docker
