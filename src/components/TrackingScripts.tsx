@@ -7,15 +7,11 @@ export function TrackingScripts() {
 
   return (
     <>
-      <Script src="/js/gtm.js" />
-      <noscript>
-        <iframe
-          src="https://www.googletagmanager.com/ns.html?id=GTM-KQPDQCS"
-          height="0"
-          width="0"
-          className="invisible hidden"
-        ></iframe>
-      </noscript>
+      <Script
+        src="https://cloud.umami.is/script.js"
+        data-website-id="c9e4b240-da8a-4f0e-8b15-a4946642731b"
+        defer
+      />
     </>
   )
 }
